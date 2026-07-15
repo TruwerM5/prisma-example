@@ -45,7 +45,17 @@ export { Prisma }
  */
 export type User = Prisma.UserModel
 /**
- * Model Post
+ * Model Product
  * 
  */
-export type Post = Prisma.PostModel
+export type Product = Prisma.ProductModel
+/**
+ * Model ProductDetails
+ * 
+ */
+export type ProductDetails = Prisma.ProductDetailsModel
+/**
+ * Model Order
+ * 
+ */
+export type Order = Prisma.OrderModel

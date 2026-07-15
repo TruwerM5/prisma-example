@@ -52,7 +52,9 @@ export const AnyNull = runtime.AnyNull
 
 export const ModelName = {
   User: 'User',
-  Post: 'Post'
+  Product: 'Product',
+  ProductDetails: 'ProductDetails',
+  Order: 'Order'
 } as const
 
 export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -74,21 +76,43 @@ export type TransactionIsolationLevel = (typeof TransactionIsolationLevel)[keyof
 export const UserScalarFieldEnum = {
   userId: 'userId',
   email: 'email',
-  name: 'name'
+  password: 'password',
+  name: 'name',
+  status: 'status',
+  role: 'role'
 } as const
 
 export type UserScalarFieldEnum = (typeof UserScalarFieldEnum)[keyof typeof UserScalarFieldEnum]
 
 
-export const PostScalarFieldEnum = {
-  postId: 'postId',
-  title: 'title',
-  content: 'content',
-  published: 'published',
-  authorId: 'authorId'
+export const ProductScalarFieldEnum = {
+  productId: 'productId',
+  name: 'name'
 } as const
 
-export type PostScalarFieldEnum = (typeof PostScalarFieldEnum)[keyof typeof PostScalarFieldEnum]
+export type ProductScalarFieldEnum = (typeof ProductScalarFieldEnum)[keyof typeof ProductScalarFieldEnum]
+
+
+export const ProductDetailsScalarFieldEnum = {
+  productDetailId: 'productDetailId',
+  price: 'price',
+  color: 'color',
+  size: 'size',
+  images: 'images',
+  description: 'description',
+  category: 'category'
+} as const
+
+export type ProductDetailsScalarFieldEnum = (typeof ProductDetailsScalarFieldEnum)[keyof typeof ProductDetailsScalarFieldEnum]
+
+
+export const OrderScalarFieldEnum = {
+  orderId: 'orderId',
+  userId: 'userId',
+  status: 'status'
+} as const
+
+export type OrderScalarFieldEnum = (typeof OrderScalarFieldEnum)[keyof typeof OrderScalarFieldEnum]
 
 
 export const SortOrder = {
