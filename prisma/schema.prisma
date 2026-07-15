@@ -15,16 +15,66 @@ datasource db {
 
 model User {
   userId Int @id @default(autoincrement()) @map("user_id")
-  email String @unique
-  name String?
-  posts Post[]
+  email String @unique @db.VarChar(30)
+  password String @db.VarChar(30)
+  name String @db.VarChar(30)
+  status UserStatus @default(active)
+  role Role @default(user)
+  orders Order[]
+
+  @@map("users")
 }
 
-model Post {
-  postId Int @id @default(autoincrement()) @map("post_id")
-  title String
-  content String?
-  published Boolean? @default(false)
-  author User? @relation(fields: [authorId], references: [userId])
-  authorId Int?
+enum Role {
+  user
+  seller
+  admin
+}
+
+enum UserStatus {
+  active
+  blocked
+}
+
+model Product {
+  productId Int @id @default(autoincrement()) @map("product_id")
+  name String @db.VarChar(30) @unique
+  orders Order[] @relation("products_in_order")
+  productDetails ProductDetails?
+  @@map("products")
+}
+
+model ProductDetails {
+  productDetailId Int @unique
+  product Product @relation(fields: [productDetailId], references: [productId])
+  price Float
+  color String?
+  size String?
+  images String[]
+  description String?
+  category ProductCategory?
+
+  @@map("product_details")
+}
+
+enum ProductCategory {
+  gadget
+  clothes
+}
+
+model Order {
+  orderId Int @id @default(autoincrement()) @map("order_id")
+  userId Int @map("user_id")
+  user User @relation(fields: [userId], references: [userId])
+  status OrderStatus @default(unpaid)
+  products Product[] @relation("products_in_order")
+
+  @@map("orders")
+}
+
+enum OrderStatus {
+  unpaid
+  paid
+  refund
+  part_refund
 }
