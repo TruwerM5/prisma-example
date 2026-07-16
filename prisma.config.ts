@@ -2,13 +2,14 @@
 // npm install --save-dev prisma dotenv
 import "dotenv/config";
 import { defineConfig } from "prisma/config";
-
+const { env } = process;
+const URL = `postgres://${env.POSTGRES_USER}:${env.POSTGRES_PASSWORD}@localhost:5433/${env.POSTGRES_DB}`;
 export default defineConfig({
   schema: "prisma/schema.prisma",
   migrations: {
     path: "prisma/migrations",
   },
   datasource: {
-    url: process.env["DATABASE_URL"],
+    url: URL,
   },
 });
