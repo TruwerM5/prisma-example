@@ -3,11 +3,14 @@ import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { RedisSerivce } from './redis/index.service';
 import { UserModule } from './user/user.module';
-import { PostModule } from './post/post.module';
 import { PrismaService } from './prisma.service';
+import { AuthModule } from './auth/auth.module';
 
 @Module({
-  imports: [UserModule, PostModule],
+  imports: [
+    UserModule,
+    AuthModule, 
+  ],
   controllers: [AppController],
   providers: [AppService, RedisSerivce, PrismaService],
 })
