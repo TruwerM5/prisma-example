@@ -16,7 +16,7 @@ datasource db {
 model User {
   userId Int @id @default(autoincrement()) @map("user_id")
   email String @unique @db.VarChar(30)
-  password String @db.VarChar(30)
+  password String @db.VarChar(100)
   name String @db.VarChar(30)
   status UserStatus @default(active)
   role Role @default(user)

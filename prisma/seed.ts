@@ -2,6 +2,7 @@ const { env } = process;
 import { Pool } from "pg";
 import { PrismaPg } from "@prisma/adapter-pg";
 import { PrismaClient } from "src/generated/prisma/client";
+import { hash, genSalt } from "bcrypt";
 
 const connectionString = `postgres://${env.POSTGRES_USER}:${env.POSTGRES_PASSWORD}@localhost:5433/${env.POSTGRES_DB}`;
 const pool = new Pool({ connectionString });
@@ -9,23 +10,27 @@ const adapter = new PrismaPg(pool);
 const prisma = new PrismaClient({ adapter });
 
 async function main() {
+    const salt = await genSalt();
+    const alicePassword = await hash('secret', salt);
+
     const alice = await prisma.user.upsert({
-        where: {email: "alice@prisma.io"},
+        where: { email: "alice@prisma.io" },
         update: {},
         create: {
             email: "alice@prisma.io",
             name: "Alice",
-            password: "secret",
+            password: alicePassword,
         },
     });
+    const bobPassword = await hash('secret', salt);
 
     const bob = await prisma.user.upsert({
-        where: {email: 'bob@prisma.io'},
+        where: { email: 'bob@prisma.io' },
         update: {},
         create: {
             email: "bob@prisma.io",
             name: "Bob",
-            password: "secret",
+            password: bobPassword,
         },
     });
 
