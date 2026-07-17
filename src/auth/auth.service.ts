@@ -23,7 +23,7 @@ export class AuthService {
 
             const { password, ...rest } = newUser;
             return rest;
-        } catch(err) {
+        } catch(err: any) {
             if(err.code === 'P2002') {
                 throw new ConflictException('User already exists');
             }
