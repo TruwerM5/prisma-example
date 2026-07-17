@@ -6,7 +6,6 @@ export class AppService {
   constructor(private readonly redisService: RedisSerivce) {}
 
   async getHello(): Promise<string> {
-
     await this.redisService.set('user:1', 'John');
     return 'Hello World';
   }
