@@ -1,4 +1,4 @@
-import { Controller, Post, Body, HttpCode, Res } from '@nestjs/common';
+import { Controller, Post, Body, HttpCode, Res, BadRequestException, Req } from '@nestjs/common';
 import { AuthService } from './auth.service';
 import { GetUserDto } from './dto/get-user.dto';
 import { LoginDto } from './dto/login.dto';
@@ -30,5 +30,22 @@ export class AuthController {
   @Post('signup')
   signUp(@Body() credentials: SignUpDto): Promise<GetUserDto | null> {
     return this.authService.createUser(credentials);
+  }
+
+  @Post('logout')
+  @HttpCode(200)
+  logout(
+    @Res({ passthrough: true }) response: Response,
+  ): { success: boolean; } {
+    try {
+      response.clearCookie('jwt', {
+        httpOnly: true,
+        sameSite: 'lax',
+        path: '/',
+      });
+      return { success: true };
+    } catch(err) {
+      throw new BadRequestException();
+    }
   }
 }
