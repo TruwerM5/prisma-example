@@ -8,6 +8,7 @@ const connectionString = `postgres://${env.POSTGRES_USER}:${env.POSTGRES_PASSWOR
 const pool = new Pool({ connectionString });
 const adapter = new PrismaPg(pool);
 const prisma = new PrismaClient({ adapter });
+import { seedProducts } from './seeds/products.seed';
 
 async function main() {
     const salt = await genSalt();
@@ -15,7 +16,9 @@ async function main() {
 
     const alice = await prisma.user.upsert({
         where: { email: "alice@prisma.io" },
-        update: {},
+        update: {
+            role: 'seller',
+        },
         create: {
             email: "alice@prisma.io",
             name: "Alice",
@@ -35,6 +38,9 @@ async function main() {
     });
 
     console.log({ alice, bob });
+
+    const products = await seedProducts(prisma);
+    console.log(products);
 }
 
 main()
