@@ -29,8 +29,7 @@ export const ProductCategory = {
   books: 'books',
 } as const;
 
-export type ProductCategory =
-  (typeof ProductCategory)[keyof typeof ProductCategory];
+export type ProductCategory = (typeof ProductCategory)[keyof typeof ProductCategory];
 
 export const OrderStatus = {
   unpaid: 'unpaid',

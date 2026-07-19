@@ -22,15 +22,9 @@ export type * from './prismaNamespace.js';
 export const Decimal = runtime.Decimal;
 
 export const NullTypes = {
-  DbNull: runtime.NullTypes.DbNull as new (
-    secret: never,
-  ) => typeof runtime.DbNull,
-  JsonNull: runtime.NullTypes.JsonNull as new (
-    secret: never,
-  ) => typeof runtime.JsonNull,
-  AnyNull: runtime.NullTypes.AnyNull as new (
-    secret: never,
-  ) => typeof runtime.AnyNull,
+  DbNull: runtime.NullTypes.DbNull as new (secret: never) => typeof runtime.DbNull,
+  JsonNull: runtime.NullTypes.JsonNull as new (secret: never) => typeof runtime.JsonNull,
+  AnyNull: runtime.NullTypes.AnyNull as new (secret: never) => typeof runtime.AnyNull,
 };
 /**
  * Helper for filtering JSON entries that have `null` on the database (empty on the db)
@@ -73,8 +67,7 @@ export const TransactionIsolationLevel = runtime.makeStrictEnum({
   Serializable: 'Serializable',
 } as const);
 
-export type TransactionIsolationLevel =
-  (typeof TransactionIsolationLevel)[keyof typeof TransactionIsolationLevel];
+export type TransactionIsolationLevel = (typeof TransactionIsolationLevel)[keyof typeof TransactionIsolationLevel];
 
 export const UserScalarFieldEnum = {
   userId: 'userId',
@@ -85,8 +78,7 @@ export const UserScalarFieldEnum = {
   role: 'role',
 } as const;
 
-export type UserScalarFieldEnum =
-  (typeof UserScalarFieldEnum)[keyof typeof UserScalarFieldEnum];
+export type UserScalarFieldEnum = (typeof UserScalarFieldEnum)[keyof typeof UserScalarFieldEnum];
 
 export const ProductScalarFieldEnum = {
   productId: 'productId',
@@ -94,8 +86,7 @@ export const ProductScalarFieldEnum = {
   sellerId: 'sellerId',
 } as const;
 
-export type ProductScalarFieldEnum =
-  (typeof ProductScalarFieldEnum)[keyof typeof ProductScalarFieldEnum];
+export type ProductScalarFieldEnum = (typeof ProductScalarFieldEnum)[keyof typeof ProductScalarFieldEnum];
 
 export const ProductDetailsScalarFieldEnum = {
   productId: 'productId',
@@ -117,8 +108,7 @@ export const OrderScalarFieldEnum = {
   status: 'status',
 } as const;
 
-export type OrderScalarFieldEnum =
-  (typeof OrderScalarFieldEnum)[keyof typeof OrderScalarFieldEnum];
+export type OrderScalarFieldEnum = (typeof OrderScalarFieldEnum)[keyof typeof OrderScalarFieldEnum];
 
 export const SortOrder = {
   asc: 'asc',

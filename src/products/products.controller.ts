@@ -1,12 +1,4 @@
-import {
-  Body,
-  Get,
-  Param,
-  ParseIntPipe,
-  Post,
-  Req,
-  UseGuards,
-} from '@nestjs/common';
+import { Body, Get, Param, ParseIntPipe, Post, Req, UseGuards } from '@nestjs/common';
 import { Controller } from '@nestjs/common';
 import { ProductsService } from './products.service';
 import { Product as ProductModel } from 'src/generated/prisma/client';

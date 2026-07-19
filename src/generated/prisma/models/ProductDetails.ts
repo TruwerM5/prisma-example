@@ -15,8 +15,7 @@ import type * as Prisma from '../internal/prismaNamespace.js';
  * Model ProductDetails
  *
  */
-export type ProductDetailsModel =
-  runtime.Types.Result.DefaultSelection<Prisma.$ProductDetailsPayload>;
+export type ProductDetailsModel = runtime.Types.Result.DefaultSelection<Prisma.$ProductDetailsPayload>;
 
 export type AggregateProductDetails = {
   _count: ProductDetailsCountAggregateOutputType | null;
@@ -111,8 +110,7 @@ export type ProductDetailsCountAggregateInputType = {
 };
 
 export type ProductDetailsAggregateArgs<
-  ExtArgs extends runtime.Types.Extensions.InternalArgs =
-    runtime.Types.Extensions.DefaultArgs,
+  ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs,
 > = {
   /**
    * Filter which ProductDetails to aggregate.
@@ -123,9 +121,7 @@ export type ProductDetailsAggregateArgs<
    *
    * Determine the order of ProductDetails to fetch.
    */
-  orderBy?:
-    | Prisma.ProductDetailsOrderByWithRelationInput
-    | Prisma.ProductDetailsOrderByWithRelationInput[];
+  orderBy?: Prisma.ProductDetailsOrderByWithRelationInput | Prisma.ProductDetailsOrderByWithRelationInput[];
   /**
    * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
    *
@@ -176,9 +172,7 @@ export type ProductDetailsAggregateArgs<
   _max?: ProductDetailsMaxAggregateInputType;
 };
 
-export type GetProductDetailsAggregateType<
-  T extends ProductDetailsAggregateArgs,
-> = {
+export type GetProductDetailsAggregateType<T extends ProductDetailsAggregateArgs> = {
   [P in keyof T & keyof AggregateProductDetails]: P extends '_count' | 'count'
     ? T[P] extends true
       ? number
@@ -187,16 +181,11 @@ export type GetProductDetailsAggregateType<
 };
 
 export type ProductDetailsGroupByArgs<
-  ExtArgs extends runtime.Types.Extensions.InternalArgs =
-    runtime.Types.Extensions.DefaultArgs,
+  ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs,
 > = {
   where?: Prisma.ProductDetailsWhereInput;
-  orderBy?:
-    | Prisma.ProductDetailsOrderByWithAggregationInput
-    | Prisma.ProductDetailsOrderByWithAggregationInput[];
-  by:
-    | Prisma.ProductDetailsScalarFieldEnum[]
-    | Prisma.ProductDetailsScalarFieldEnum;
+  orderBy?: Prisma.ProductDetailsOrderByWithAggregationInput | Prisma.ProductDetailsOrderByWithAggregationInput[];
+  by: Prisma.ProductDetailsScalarFieldEnum[] | Prisma.ProductDetailsScalarFieldEnum;
   having?: Prisma.ProductDetailsScalarWhereWithAggregatesInput;
   take?: number;
   skip?: number;
@@ -223,9 +212,7 @@ export type ProductDetailsGroupByOutputType = {
   _max: ProductDetailsMaxAggregateOutputType | null;
 };
 
-export type GetProductDetailsGroupByPayload<
-  T extends ProductDetailsGroupByArgs,
-> = Prisma.PrismaPromise<
+export type GetProductDetailsGroupByPayload<T extends ProductDetailsGroupByArgs> = Prisma.PrismaPromise<
   Array<
     Prisma.PickEnumerable<ProductDetailsGroupByOutputType, T['by']> & {
       [P in keyof T & keyof ProductDetailsGroupByOutputType]: P extends '_count'
@@ -242,25 +229,14 @@ export type ProductDetailsWhereInput = {
   OR?: Prisma.ProductDetailsWhereInput[];
   NOT?: Prisma.ProductDetailsWhereInput | Prisma.ProductDetailsWhereInput[];
   productId?: Prisma.IntFilter<'ProductDetails'> | number;
-  price?:
-    | Prisma.DecimalFilter<'ProductDetails'>
-    | runtime.Decimal
-    | runtime.DecimalJsLike
-    | number
-    | string;
+  price?: Prisma.DecimalFilter<'ProductDetails'> | runtime.Decimal | runtime.DecimalJsLike | number | string;
   color?: Prisma.StringNullableFilter<'ProductDetails'> | string | null;
   size?: Prisma.StringNullableFilter<'ProductDetails'> | string | null;
   author?: Prisma.StringNullableFilter<'ProductDetails'> | string | null;
   images?: Prisma.StringNullableListFilter<'ProductDetails'>;
   description?: Prisma.StringNullableFilter<'ProductDetails'> | string | null;
-  category?:
-    | Prisma.EnumProductCategoryNullableFilter<'ProductDetails'>
-    | $Enums.ProductCategory
-    | null;
-  product?: Prisma.XOR<
-    Prisma.ProductScalarRelationFilter,
-    Prisma.ProductWhereInput
-  >;
+  category?: Prisma.EnumProductCategoryNullableFilter<'ProductDetails'> | $Enums.ProductCategory | null;
+  product?: Prisma.XOR<Prisma.ProductScalarRelationFilter, Prisma.ProductWhereInput>;
 };
 
 export type ProductDetailsOrderByWithRelationInput = {
@@ -281,25 +257,14 @@ export type ProductDetailsWhereUniqueInput = Prisma.AtLeast<
     AND?: Prisma.ProductDetailsWhereInput | Prisma.ProductDetailsWhereInput[];
     OR?: Prisma.ProductDetailsWhereInput[];
     NOT?: Prisma.ProductDetailsWhereInput | Prisma.ProductDetailsWhereInput[];
-    price?:
-      | Prisma.DecimalFilter<'ProductDetails'>
-      | runtime.Decimal
-      | runtime.DecimalJsLike
-      | number
-      | string;
+    price?: Prisma.DecimalFilter<'ProductDetails'> | runtime.Decimal | runtime.DecimalJsLike | number | string;
     color?: Prisma.StringNullableFilter<'ProductDetails'> | string | null;
     size?: Prisma.StringNullableFilter<'ProductDetails'> | string | null;
     author?: Prisma.StringNullableFilter<'ProductDetails'> | string | null;
     images?: Prisma.StringNullableListFilter<'ProductDetails'>;
     description?: Prisma.StringNullableFilter<'ProductDetails'> | string | null;
-    category?:
-      | Prisma.EnumProductCategoryNullableFilter<'ProductDetails'>
-      | $Enums.ProductCategory
-      | null;
-    product?: Prisma.XOR<
-      Prisma.ProductScalarRelationFilter,
-      Prisma.ProductWhereInput
-    >;
+    category?: Prisma.EnumProductCategoryNullableFilter<'ProductDetails'> | $Enums.ProductCategory | null;
+    product?: Prisma.XOR<Prisma.ProductScalarRelationFilter, Prisma.ProductWhereInput>;
   },
   'productId'
 >;
@@ -321,33 +286,18 @@ export type ProductDetailsOrderByWithAggregationInput = {
 };
 
 export type ProductDetailsScalarWhereWithAggregatesInput = {
-  AND?:
-    | Prisma.ProductDetailsScalarWhereWithAggregatesInput
-    | Prisma.ProductDetailsScalarWhereWithAggregatesInput[];
+  AND?: Prisma.ProductDetailsScalarWhereWithAggregatesInput | Prisma.ProductDetailsScalarWhereWithAggregatesInput[];
   OR?: Prisma.ProductDetailsScalarWhereWithAggregatesInput[];
-  NOT?:
-    | Prisma.ProductDetailsScalarWhereWithAggregatesInput
-    | Prisma.ProductDetailsScalarWhereWithAggregatesInput[];
+  NOT?: Prisma.ProductDetailsScalarWhereWithAggregatesInput | Prisma.ProductDetailsScalarWhereWithAggregatesInput[];
   productId?: Prisma.IntWithAggregatesFilter<'ProductDetails'> | number;
   price?:
-    | Prisma.DecimalWithAggregatesFilter<'ProductDetails'>
-    | runtime.Decimal
-    | runtime.DecimalJsLike
-    | number
-    | string;
-  color?:
-    Prisma.StringNullableWithAggregatesFilter<'ProductDetails'> | string | null;
-  size?:
-    Prisma.StringNullableWithAggregatesFilter<'ProductDetails'> | string | null;
-  author?:
-    Prisma.StringNullableWithAggregatesFilter<'ProductDetails'> | string | null;
+    Prisma.DecimalWithAggregatesFilter<'ProductDetails'> | runtime.Decimal | runtime.DecimalJsLike | number | string;
+  color?: Prisma.StringNullableWithAggregatesFilter<'ProductDetails'> | string | null;
+  size?: Prisma.StringNullableWithAggregatesFilter<'ProductDetails'> | string | null;
+  author?: Prisma.StringNullableWithAggregatesFilter<'ProductDetails'> | string | null;
   images?: Prisma.StringNullableListFilter<'ProductDetails'>;
-  description?:
-    Prisma.StringNullableWithAggregatesFilter<'ProductDetails'> | string | null;
-  category?:
-    | Prisma.EnumProductCategoryNullableWithAggregatesFilter<'ProductDetails'>
-    | $Enums.ProductCategory
-    | null;
+  description?: Prisma.StringNullableWithAggregatesFilter<'ProductDetails'> | string | null;
+  category?: Prisma.EnumProductCategoryNullableWithAggregatesFilter<'ProductDetails'> | $Enums.ProductCategory | null;
 };
 
 export type ProductDetailsCreateInput = {
@@ -373,41 +323,25 @@ export type ProductDetailsUncheckedCreateInput = {
 };
 
 export type ProductDetailsUpdateInput = {
-  price?:
-    | Prisma.DecimalFieldUpdateOperationsInput
-    | runtime.Decimal
-    | runtime.DecimalJsLike
-    | number
-    | string;
+  price?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string;
   color?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
   size?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
   author?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
   images?: Prisma.ProductDetailsUpdateimagesInput | string[];
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
-  category?:
-    | Prisma.NullableEnumProductCategoryFieldUpdateOperationsInput
-    | $Enums.ProductCategory
-    | null;
+  category?: Prisma.NullableEnumProductCategoryFieldUpdateOperationsInput | $Enums.ProductCategory | null;
   product?: Prisma.ProductUpdateOneRequiredWithoutProductDetailsNestedInput;
 };
 
 export type ProductDetailsUncheckedUpdateInput = {
   productId?: Prisma.IntFieldUpdateOperationsInput | number;
-  price?:
-    | Prisma.DecimalFieldUpdateOperationsInput
-    | runtime.Decimal
-    | runtime.DecimalJsLike
-    | number
-    | string;
+  price?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string;
   color?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
   size?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
   author?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
   images?: Prisma.ProductDetailsUpdateimagesInput | string[];
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
-  category?:
-    | Prisma.NullableEnumProductCategoryFieldUpdateOperationsInput
-    | $Enums.ProductCategory
-    | null;
+  category?: Prisma.NullableEnumProductCategoryFieldUpdateOperationsInput | $Enums.ProductCategory | null;
 };
 
 export type ProductDetailsCreateManyInput = {
@@ -422,40 +356,24 @@ export type ProductDetailsCreateManyInput = {
 };
 
 export type ProductDetailsUpdateManyMutationInput = {
-  price?:
-    | Prisma.DecimalFieldUpdateOperationsInput
-    | runtime.Decimal
-    | runtime.DecimalJsLike
-    | number
-    | string;
+  price?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string;
   color?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
   size?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
   author?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
   images?: Prisma.ProductDetailsUpdateimagesInput | string[];
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
-  category?:
-    | Prisma.NullableEnumProductCategoryFieldUpdateOperationsInput
-    | $Enums.ProductCategory
-    | null;
+  category?: Prisma.NullableEnumProductCategoryFieldUpdateOperationsInput | $Enums.ProductCategory | null;
 };
 
 export type ProductDetailsUncheckedUpdateManyInput = {
   productId?: Prisma.IntFieldUpdateOperationsInput | number;
-  price?:
-    | Prisma.DecimalFieldUpdateOperationsInput
-    | runtime.Decimal
-    | runtime.DecimalJsLike
-    | number
-    | string;
+  price?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string;
   color?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
   size?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
   author?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
   images?: Prisma.ProductDetailsUpdateimagesInput | string[];
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
-  category?:
-    | Prisma.NullableEnumProductCategoryFieldUpdateOperationsInput
-    | $Enums.ProductCategory
-    | null;
+  category?: Prisma.NullableEnumProductCategoryFieldUpdateOperationsInput | $Enums.ProductCategory | null;
 };
 
 export type ProductDetailsNullableScalarRelationFilter = {
@@ -642,44 +560,27 @@ export type ProductDetailsUpdateToOneWithWhereWithoutProductInput = {
 };
 
 export type ProductDetailsUpdateWithoutProductInput = {
-  price?:
-    | Prisma.DecimalFieldUpdateOperationsInput
-    | runtime.Decimal
-    | runtime.DecimalJsLike
-    | number
-    | string;
+  price?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string;
   color?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
   size?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
   author?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
   images?: Prisma.ProductDetailsUpdateimagesInput | string[];
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
-  category?:
-    | Prisma.NullableEnumProductCategoryFieldUpdateOperationsInput
-    | $Enums.ProductCategory
-    | null;
+  category?: Prisma.NullableEnumProductCategoryFieldUpdateOperationsInput | $Enums.ProductCategory | null;
 };
 
 export type ProductDetailsUncheckedUpdateWithoutProductInput = {
-  price?:
-    | Prisma.DecimalFieldUpdateOperationsInput
-    | runtime.Decimal
-    | runtime.DecimalJsLike
-    | number
-    | string;
+  price?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string;
   color?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
   size?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
   author?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
   images?: Prisma.ProductDetailsUpdateimagesInput | string[];
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
-  category?:
-    | Prisma.NullableEnumProductCategoryFieldUpdateOperationsInput
-    | $Enums.ProductCategory
-    | null;
+  category?: Prisma.NullableEnumProductCategoryFieldUpdateOperationsInput | $Enums.ProductCategory | null;
 };
 
 export type ProductDetailsSelect<
-  ExtArgs extends runtime.Types.Extensions.InternalArgs =
-    runtime.Types.Extensions.DefaultArgs,
+  ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs,
 > = runtime.Types.Extensions.GetSelect<
   {
     productId?: boolean;
@@ -696,8 +597,7 @@ export type ProductDetailsSelect<
 >;
 
 export type ProductDetailsSelectCreateManyAndReturn<
-  ExtArgs extends runtime.Types.Extensions.InternalArgs =
-    runtime.Types.Extensions.DefaultArgs,
+  ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs,
 > = runtime.Types.Extensions.GetSelect<
   {
     productId?: boolean;
@@ -714,8 +614,7 @@ export type ProductDetailsSelectCreateManyAndReturn<
 >;
 
 export type ProductDetailsSelectUpdateManyAndReturn<
-  ExtArgs extends runtime.Types.Extensions.InternalArgs =
-    runtime.Types.Extensions.DefaultArgs,
+  ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs,
 > = runtime.Types.Extensions.GetSelect<
   {
     productId?: boolean;
@@ -743,41 +642,29 @@ export type ProductDetailsSelectScalar = {
 };
 
 export type ProductDetailsOmit<
-  ExtArgs extends runtime.Types.Extensions.InternalArgs =
-    runtime.Types.Extensions.DefaultArgs,
+  ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs,
 > = runtime.Types.Extensions.GetOmit<
-  | 'productId'
-  | 'price'
-  | 'color'
-  | 'size'
-  | 'author'
-  | 'images'
-  | 'description'
-  | 'category',
+  'productId' | 'price' | 'color' | 'size' | 'author' | 'images' | 'description' | 'category',
   ExtArgs['result']['productDetails']
 >;
 export type ProductDetailsInclude<
-  ExtArgs extends runtime.Types.Extensions.InternalArgs =
-    runtime.Types.Extensions.DefaultArgs,
+  ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs,
 > = {
   product?: boolean | Prisma.ProductDefaultArgs<ExtArgs>;
 };
 export type ProductDetailsIncludeCreateManyAndReturn<
-  ExtArgs extends runtime.Types.Extensions.InternalArgs =
-    runtime.Types.Extensions.DefaultArgs,
+  ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs,
 > = {
   product?: boolean | Prisma.ProductDefaultArgs<ExtArgs>;
 };
 export type ProductDetailsIncludeUpdateManyAndReturn<
-  ExtArgs extends runtime.Types.Extensions.InternalArgs =
-    runtime.Types.Extensions.DefaultArgs,
+  ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs,
 > = {
   product?: boolean | Prisma.ProductDefaultArgs<ExtArgs>;
 };
 
 export type $ProductDetailsPayload<
-  ExtArgs extends runtime.Types.Extensions.InternalArgs =
-    runtime.Types.Extensions.DefaultArgs,
+  ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs,
 > = {
   name: 'ProductDetails';
   objects: {
@@ -799,28 +686,24 @@ export type $ProductDetailsPayload<
   composites: {};
 };
 
-export type ProductDetailsGetPayload<
-  S extends boolean | null | undefined | ProductDetailsDefaultArgs,
-> = runtime.Types.Result.GetResult<Prisma.$ProductDetailsPayload, S>;
+export type ProductDetailsGetPayload<S extends boolean | null | undefined | ProductDetailsDefaultArgs> =
+  runtime.Types.Result.GetResult<Prisma.$ProductDetailsPayload, S>;
 
 export type ProductDetailsCountArgs<
-  ExtArgs extends runtime.Types.Extensions.InternalArgs =
-    runtime.Types.Extensions.DefaultArgs,
-> = Omit<
-  ProductDetailsFindManyArgs,
-  'select' | 'include' | 'distinct' | 'omit'
-> & {
+  ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs,
+> = Omit<ProductDetailsFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
   select?: ProductDetailsCountAggregateInputType | true;
 };
 
 export interface ProductDetailsDelegate<
-  ExtArgs extends runtime.Types.Extensions.InternalArgs =
-    runtime.Types.Extensions.DefaultArgs,
+  ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs,
   GlobalOmitOptions = {},
 > {
   [K: symbol]: {
     types: Prisma.TypeMap<ExtArgs>['model']['ProductDetails'];
-    meta: { name: 'ProductDetails' };
+    meta: {
+      name: 'ProductDetails';
+    };
   };
   /**
    * Find zero or one ProductDetails that matches the filter.
@@ -836,12 +719,7 @@ export interface ProductDetailsDelegate<
   findUnique<T extends ProductDetailsFindUniqueArgs>(
     args: Prisma.SelectSubset<T, ProductDetailsFindUniqueArgs<ExtArgs>>,
   ): Prisma.Prisma__ProductDetailsClient<
-    runtime.Types.Result.GetResult<
-      Prisma.$ProductDetailsPayload<ExtArgs>,
-      T,
-      'findUnique',
-      GlobalOmitOptions
-    > | null,
+    runtime.Types.Result.GetResult<Prisma.$ProductDetailsPayload<ExtArgs>, T, 'findUnique', GlobalOmitOptions> | null,
     null,
     ExtArgs,
     GlobalOmitOptions
@@ -862,12 +740,7 @@ export interface ProductDetailsDelegate<
   findUniqueOrThrow<T extends ProductDetailsFindUniqueOrThrowArgs>(
     args: Prisma.SelectSubset<T, ProductDetailsFindUniqueOrThrowArgs<ExtArgs>>,
   ): Prisma.Prisma__ProductDetailsClient<
-    runtime.Types.Result.GetResult<
-      Prisma.$ProductDetailsPayload<ExtArgs>,
-      T,
-      'findUniqueOrThrow',
-      GlobalOmitOptions
-    >,
+    runtime.Types.Result.GetResult<Prisma.$ProductDetailsPayload<ExtArgs>, T, 'findUniqueOrThrow', GlobalOmitOptions>,
     never,
     ExtArgs,
     GlobalOmitOptions
@@ -889,12 +762,7 @@ export interface ProductDetailsDelegate<
   findFirst<T extends ProductDetailsFindFirstArgs>(
     args?: Prisma.SelectSubset<T, ProductDetailsFindFirstArgs<ExtArgs>>,
   ): Prisma.Prisma__ProductDetailsClient<
-    runtime.Types.Result.GetResult<
-      Prisma.$ProductDetailsPayload<ExtArgs>,
-      T,
-      'findFirst',
-      GlobalOmitOptions
-    > | null,
+    runtime.Types.Result.GetResult<Prisma.$ProductDetailsPayload<ExtArgs>, T, 'findFirst', GlobalOmitOptions> | null,
     null,
     ExtArgs,
     GlobalOmitOptions
@@ -917,12 +785,7 @@ export interface ProductDetailsDelegate<
   findFirstOrThrow<T extends ProductDetailsFindFirstOrThrowArgs>(
     args?: Prisma.SelectSubset<T, ProductDetailsFindFirstOrThrowArgs<ExtArgs>>,
   ): Prisma.Prisma__ProductDetailsClient<
-    runtime.Types.Result.GetResult<
-      Prisma.$ProductDetailsPayload<ExtArgs>,
-      T,
-      'findFirstOrThrow',
-      GlobalOmitOptions
-    >,
+    runtime.Types.Result.GetResult<Prisma.$ProductDetailsPayload<ExtArgs>, T, 'findFirstOrThrow', GlobalOmitOptions>,
     never,
     ExtArgs,
     GlobalOmitOptions
@@ -947,12 +810,7 @@ export interface ProductDetailsDelegate<
   findMany<T extends ProductDetailsFindManyArgs>(
     args?: Prisma.SelectSubset<T, ProductDetailsFindManyArgs<ExtArgs>>,
   ): Prisma.PrismaPromise<
-    runtime.Types.Result.GetResult<
-      Prisma.$ProductDetailsPayload<ExtArgs>,
-      T,
-      'findMany',
-      GlobalOmitOptions
-    >
+    runtime.Types.Result.GetResult<Prisma.$ProductDetailsPayload<ExtArgs>, T, 'findMany', GlobalOmitOptions>
   >;
 
   /**
@@ -970,12 +828,7 @@ export interface ProductDetailsDelegate<
   create<T extends ProductDetailsCreateArgs>(
     args: Prisma.SelectSubset<T, ProductDetailsCreateArgs<ExtArgs>>,
   ): Prisma.Prisma__ProductDetailsClient<
-    runtime.Types.Result.GetResult<
-      Prisma.$ProductDetailsPayload<ExtArgs>,
-      T,
-      'create',
-      GlobalOmitOptions
-    >,
+    runtime.Types.Result.GetResult<Prisma.$ProductDetailsPayload<ExtArgs>, T, 'create', GlobalOmitOptions>,
     never,
     ExtArgs,
     GlobalOmitOptions
@@ -1020,17 +873,9 @@ export interface ProductDetailsDelegate<
    *
    */
   createManyAndReturn<T extends ProductDetailsCreateManyAndReturnArgs>(
-    args?: Prisma.SelectSubset<
-      T,
-      ProductDetailsCreateManyAndReturnArgs<ExtArgs>
-    >,
+    args?: Prisma.SelectSubset<T, ProductDetailsCreateManyAndReturnArgs<ExtArgs>>,
   ): Prisma.PrismaPromise<
-    runtime.Types.Result.GetResult<
-      Prisma.$ProductDetailsPayload<ExtArgs>,
-      T,
-      'createManyAndReturn',
-      GlobalOmitOptions
-    >
+    runtime.Types.Result.GetResult<Prisma.$ProductDetailsPayload<ExtArgs>, T, 'createManyAndReturn', GlobalOmitOptions>
   >;
 
   /**
@@ -1048,12 +893,7 @@ export interface ProductDetailsDelegate<
   delete<T extends ProductDetailsDeleteArgs>(
     args: Prisma.SelectSubset<T, ProductDetailsDeleteArgs<ExtArgs>>,
   ): Prisma.Prisma__ProductDetailsClient<
-    runtime.Types.Result.GetResult<
-      Prisma.$ProductDetailsPayload<ExtArgs>,
-      T,
-      'delete',
-      GlobalOmitOptions
-    >,
+    runtime.Types.Result.GetResult<Prisma.$ProductDetailsPayload<ExtArgs>, T, 'delete', GlobalOmitOptions>,
     never,
     ExtArgs,
     GlobalOmitOptions
@@ -1077,12 +917,7 @@ export interface ProductDetailsDelegate<
   update<T extends ProductDetailsUpdateArgs>(
     args: Prisma.SelectSubset<T, ProductDetailsUpdateArgs<ExtArgs>>,
   ): Prisma.Prisma__ProductDetailsClient<
-    runtime.Types.Result.GetResult<
-      Prisma.$ProductDetailsPayload<ExtArgs>,
-      T,
-      'update',
-      GlobalOmitOptions
-    >,
+    runtime.Types.Result.GetResult<Prisma.$ProductDetailsPayload<ExtArgs>, T, 'update', GlobalOmitOptions>,
     never,
     ExtArgs,
     GlobalOmitOptions
@@ -1154,17 +989,9 @@ export interface ProductDetailsDelegate<
    *
    */
   updateManyAndReturn<T extends ProductDetailsUpdateManyAndReturnArgs>(
-    args: Prisma.SelectSubset<
-      T,
-      ProductDetailsUpdateManyAndReturnArgs<ExtArgs>
-    >,
+    args: Prisma.SelectSubset<T, ProductDetailsUpdateManyAndReturnArgs<ExtArgs>>,
   ): Prisma.PrismaPromise<
-    runtime.Types.Result.GetResult<
-      Prisma.$ProductDetailsPayload<ExtArgs>,
-      T,
-      'updateManyAndReturn',
-      GlobalOmitOptions
-    >
+    runtime.Types.Result.GetResult<Prisma.$ProductDetailsPayload<ExtArgs>, T, 'updateManyAndReturn', GlobalOmitOptions>
   >;
 
   /**
@@ -1187,12 +1014,7 @@ export interface ProductDetailsDelegate<
   upsert<T extends ProductDetailsUpsertArgs>(
     args: Prisma.SelectSubset<T, ProductDetailsUpsertArgs<ExtArgs>>,
   ): Prisma.Prisma__ProductDetailsClient<
-    runtime.Types.Result.GetResult<
-      Prisma.$ProductDetailsPayload<ExtArgs>,
-      T,
-      'upsert',
-      GlobalOmitOptions
-    >,
+    runtime.Types.Result.GetResult<Prisma.$ProductDetailsPayload<ExtArgs>, T, 'upsert', GlobalOmitOptions>,
     never,
     ExtArgs,
     GlobalOmitOptions
@@ -1217,10 +1039,7 @@ export interface ProductDetailsDelegate<
     T extends runtime.Types.Utils.Record<'select', any>
       ? T['select'] extends true
         ? number
-        : Prisma.GetScalarType<
-            T['select'],
-            ProductDetailsCountAggregateOutputType
-          >
+        : Prisma.GetScalarType<T['select'], ProductDetailsCountAggregateOutputType>
       : number
   >;
 
@@ -1272,16 +1091,15 @@ export interface ProductDetailsDelegate<
    **/
   groupBy<
     T extends ProductDetailsGroupByArgs,
-    HasSelectOrTake extends Prisma.Or<
-      Prisma.Extends<'skip', Prisma.Keys<T>>,
-      Prisma.Extends<'take', Prisma.Keys<T>>
-    >,
+    HasSelectOrTake extends Prisma.Or<Prisma.Extends<'skip', Prisma.Keys<T>>, Prisma.Extends<'take', Prisma.Keys<T>>>,
     OrderByArg extends (Prisma.True extends HasSelectOrTake
-      ? { orderBy: ProductDetailsGroupByArgs['orderBy'] }
-      : { orderBy?: ProductDetailsGroupByArgs['orderBy'] }),
-    OrderFields extends Prisma.ExcludeUnderscoreKeys<
-      Prisma.Keys<Prisma.MaybeTupleToUnion<T['orderBy']>>
-    >,
+      ? {
+          orderBy: ProductDetailsGroupByArgs['orderBy'];
+        }
+      : {
+          orderBy?: ProductDetailsGroupByArgs['orderBy'];
+        }),
+    OrderFields extends Prisma.ExcludeUnderscoreKeys<Prisma.Keys<Prisma.MaybeTupleToUnion<T['orderBy']>>>,
     ByFields extends Prisma.MaybeTupleToUnion<T['by']>,
     ByValid extends Prisma.Has<ByFields, OrderFields>,
     HavingFields extends Prisma.GetHavingFields<T['having']>,
@@ -1295,12 +1113,7 @@ export interface ProductDetailsDelegate<
               ? never
               : P extends string
                 ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
-                : [
-                    Error,
-                    'Field ',
-                    P,
-                    ` in "having" needs to be provided in "by"`,
-                  ];
+                : [Error, 'Field ', P, ` in "having" needs to be provided in "by"`];
           }[HavingFields]
         : 'take' extends Prisma.Keys<T>
           ? 'orderBy' extends Prisma.Keys<T>
@@ -1330,11 +1143,8 @@ export interface ProductDetailsDelegate<
                     : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`;
                 }[OrderFields]),
   >(
-    args: Prisma.SubsetIntersection<T, ProductDetailsGroupByArgs, OrderByArg> &
-      InputErrors,
-  ): {} extends InputErrors
-    ? GetProductDetailsGroupByPayload<T>
-    : Prisma.PrismaPromise<InputErrors>;
+    args: Prisma.SubsetIntersection<T, ProductDetailsGroupByArgs, OrderByArg> & InputErrors,
+  ): {} extends InputErrors ? GetProductDetailsGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>;
   /**
    * Fields of the ProductDetails model
    */
@@ -1350,21 +1160,14 @@ export interface ProductDetailsDelegate<
 export interface Prisma__ProductDetailsClient<
   T,
   Null = never,
-  ExtArgs extends runtime.Types.Extensions.InternalArgs =
-    runtime.Types.Extensions.DefaultArgs,
+  ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs,
   GlobalOmitOptions = {},
 > extends Prisma.PrismaPromise<T> {
   readonly [Symbol.toStringTag]: 'PrismaPromise';
   product<T extends Prisma.ProductDefaultArgs<ExtArgs> = {}>(
     args?: Prisma.Subset<T, Prisma.ProductDefaultArgs<ExtArgs>>,
   ): Prisma.Prisma__ProductClient<
-    | runtime.Types.Result.GetResult<
-        Prisma.$ProductPayload<ExtArgs>,
-        T,
-        'findUniqueOrThrow',
-        GlobalOmitOptions
-      >
-    | Null,
+    runtime.Types.Result.GetResult<Prisma.$ProductPayload<ExtArgs>, T, 'findUniqueOrThrow', GlobalOmitOptions> | Null,
     Null,
     ExtArgs,
     GlobalOmitOptions
@@ -1376,10 +1179,8 @@ export interface Prisma__ProductDetailsClient<
    * @returns A Promise for the completion of which ever callback is executed.
    */
   then<TResult1 = T, TResult2 = never>(
-    onfulfilled?:
-      ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null,
-    onrejected?:
-      ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null,
+    onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null,
+    onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null,
   ): runtime.Types.Utils.JsPromise<TResult1 | TResult2>;
   /**
    * Attaches a callback for only the rejection of the Promise.
@@ -1387,8 +1188,7 @@ export interface Prisma__ProductDetailsClient<
    * @returns A Promise for the completion of the callback.
    */
   catch<TResult = never>(
-    onrejected?:
-      ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null,
+    onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null,
   ): runtime.Types.Utils.JsPromise<T | TResult>;
   /**
    * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
@@ -1396,9 +1196,7 @@ export interface Prisma__ProductDetailsClient<
    * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
    * @returns A Promise for the completion of the callback.
    */
-  finally(
-    onfinally?: (() => void) | undefined | null,
-  ): runtime.Types.Utils.JsPromise<T>;
+  finally(onfinally?: (() => void) | undefined | null): runtime.Types.Utils.JsPromise<T>;
 }
 
 /**
@@ -1420,8 +1218,7 @@ export interface ProductDetailsFieldRefs {
  * ProductDetails findUnique
  */
 export type ProductDetailsFindUniqueArgs<
-  ExtArgs extends runtime.Types.Extensions.InternalArgs =
-    runtime.Types.Extensions.DefaultArgs,
+  ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs,
 > = {
   /**
    * Select specific fields to fetch from the ProductDetails
@@ -1445,8 +1242,7 @@ export type ProductDetailsFindUniqueArgs<
  * ProductDetails findUniqueOrThrow
  */
 export type ProductDetailsFindUniqueOrThrowArgs<
-  ExtArgs extends runtime.Types.Extensions.InternalArgs =
-    runtime.Types.Extensions.DefaultArgs,
+  ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs,
 > = {
   /**
    * Select specific fields to fetch from the ProductDetails
@@ -1470,8 +1266,7 @@ export type ProductDetailsFindUniqueOrThrowArgs<
  * ProductDetails findFirst
  */
 export type ProductDetailsFindFirstArgs<
-  ExtArgs extends runtime.Types.Extensions.InternalArgs =
-    runtime.Types.Extensions.DefaultArgs,
+  ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs,
 > = {
   /**
    * Select specific fields to fetch from the ProductDetails
@@ -1494,9 +1289,7 @@ export type ProductDetailsFindFirstArgs<
    *
    * Determine the order of ProductDetails to fetch.
    */
-  orderBy?:
-    | Prisma.ProductDetailsOrderByWithRelationInput
-    | Prisma.ProductDetailsOrderByWithRelationInput[];
+  orderBy?: Prisma.ProductDetailsOrderByWithRelationInput | Prisma.ProductDetailsOrderByWithRelationInput[];
   /**
    * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
    *
@@ -1520,17 +1313,14 @@ export type ProductDetailsFindFirstArgs<
    *
    * Filter by unique combinations of ProductDetails.
    */
-  distinct?:
-    | Prisma.ProductDetailsScalarFieldEnum
-    | Prisma.ProductDetailsScalarFieldEnum[];
+  distinct?: Prisma.ProductDetailsScalarFieldEnum | Prisma.ProductDetailsScalarFieldEnum[];
 };
 
 /**
  * ProductDetails findFirstOrThrow
  */
 export type ProductDetailsFindFirstOrThrowArgs<
-  ExtArgs extends runtime.Types.Extensions.InternalArgs =
-    runtime.Types.Extensions.DefaultArgs,
+  ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs,
 > = {
   /**
    * Select specific fields to fetch from the ProductDetails
@@ -1553,9 +1343,7 @@ export type ProductDetailsFindFirstOrThrowArgs<
    *
    * Determine the order of ProductDetails to fetch.
    */
-  orderBy?:
-    | Prisma.ProductDetailsOrderByWithRelationInput
-    | Prisma.ProductDetailsOrderByWithRelationInput[];
+  orderBy?: Prisma.ProductDetailsOrderByWithRelationInput | Prisma.ProductDetailsOrderByWithRelationInput[];
   /**
    * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
    *
@@ -1579,17 +1367,14 @@ export type ProductDetailsFindFirstOrThrowArgs<
    *
    * Filter by unique combinations of ProductDetails.
    */
-  distinct?:
-    | Prisma.ProductDetailsScalarFieldEnum
-    | Prisma.ProductDetailsScalarFieldEnum[];
+  distinct?: Prisma.ProductDetailsScalarFieldEnum | Prisma.ProductDetailsScalarFieldEnum[];
 };
 
 /**
  * ProductDetails findMany
  */
 export type ProductDetailsFindManyArgs<
-  ExtArgs extends runtime.Types.Extensions.InternalArgs =
-    runtime.Types.Extensions.DefaultArgs,
+  ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs,
 > = {
   /**
    * Select specific fields to fetch from the ProductDetails
@@ -1612,9 +1397,7 @@ export type ProductDetailsFindManyArgs<
    *
    * Determine the order of ProductDetails to fetch.
    */
-  orderBy?:
-    | Prisma.ProductDetailsOrderByWithRelationInput
-    | Prisma.ProductDetailsOrderByWithRelationInput[];
+  orderBy?: Prisma.ProductDetailsOrderByWithRelationInput | Prisma.ProductDetailsOrderByWithRelationInput[];
   /**
    * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
    *
@@ -1638,17 +1421,14 @@ export type ProductDetailsFindManyArgs<
    *
    * Filter by unique combinations of ProductDetails.
    */
-  distinct?:
-    | Prisma.ProductDetailsScalarFieldEnum
-    | Prisma.ProductDetailsScalarFieldEnum[];
+  distinct?: Prisma.ProductDetailsScalarFieldEnum | Prisma.ProductDetailsScalarFieldEnum[];
 };
 
 /**
  * ProductDetails create
  */
 export type ProductDetailsCreateArgs<
-  ExtArgs extends runtime.Types.Extensions.InternalArgs =
-    runtime.Types.Extensions.DefaultArgs,
+  ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs,
 > = {
   /**
    * Select specific fields to fetch from the ProductDetails
@@ -1665,25 +1445,19 @@ export type ProductDetailsCreateArgs<
   /**
    * The data needed to create a ProductDetails.
    */
-  data: Prisma.XOR<
-    Prisma.ProductDetailsCreateInput,
-    Prisma.ProductDetailsUncheckedCreateInput
-  >;
+  data: Prisma.XOR<Prisma.ProductDetailsCreateInput, Prisma.ProductDetailsUncheckedCreateInput>;
 };
 
 /**
  * ProductDetails createMany
  */
 export type ProductDetailsCreateManyArgs<
-  ExtArgs extends runtime.Types.Extensions.InternalArgs =
-    runtime.Types.Extensions.DefaultArgs,
+  ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs,
 > = {
   /**
    * The data used to create many ProductDetails.
    */
-  data:
-    | Prisma.ProductDetailsCreateManyInput
-    | Prisma.ProductDetailsCreateManyInput[];
+  data: Prisma.ProductDetailsCreateManyInput | Prisma.ProductDetailsCreateManyInput[];
   skipDuplicates?: boolean;
 };
 
@@ -1691,8 +1465,7 @@ export type ProductDetailsCreateManyArgs<
  * ProductDetails createManyAndReturn
  */
 export type ProductDetailsCreateManyAndReturnArgs<
-  ExtArgs extends runtime.Types.Extensions.InternalArgs =
-    runtime.Types.Extensions.DefaultArgs,
+  ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs,
 > = {
   /**
    * Select specific fields to fetch from the ProductDetails
@@ -1705,9 +1478,7 @@ export type ProductDetailsCreateManyAndReturnArgs<
   /**
    * The data used to create many ProductDetails.
    */
-  data:
-    | Prisma.ProductDetailsCreateManyInput
-    | Prisma.ProductDetailsCreateManyInput[];
+  data: Prisma.ProductDetailsCreateManyInput | Prisma.ProductDetailsCreateManyInput[];
   skipDuplicates?: boolean;
   /**
    * Choose, which related nodes to fetch as well
@@ -1719,8 +1490,7 @@ export type ProductDetailsCreateManyAndReturnArgs<
  * ProductDetails update
  */
 export type ProductDetailsUpdateArgs<
-  ExtArgs extends runtime.Types.Extensions.InternalArgs =
-    runtime.Types.Extensions.DefaultArgs,
+  ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs,
 > = {
   /**
    * Select specific fields to fetch from the ProductDetails
@@ -1737,10 +1507,7 @@ export type ProductDetailsUpdateArgs<
   /**
    * The data needed to update a ProductDetails.
    */
-  data: Prisma.XOR<
-    Prisma.ProductDetailsUpdateInput,
-    Prisma.ProductDetailsUncheckedUpdateInput
-  >;
+  data: Prisma.XOR<Prisma.ProductDetailsUpdateInput, Prisma.ProductDetailsUncheckedUpdateInput>;
   /**
    * Choose, which ProductDetails to update.
    */
@@ -1751,16 +1518,12 @@ export type ProductDetailsUpdateArgs<
  * ProductDetails updateMany
  */
 export type ProductDetailsUpdateManyArgs<
-  ExtArgs extends runtime.Types.Extensions.InternalArgs =
-    runtime.Types.Extensions.DefaultArgs,
+  ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs,
 > = {
   /**
    * The data used to update ProductDetails.
    */
-  data: Prisma.XOR<
-    Prisma.ProductDetailsUpdateManyMutationInput,
-    Prisma.ProductDetailsUncheckedUpdateManyInput
-  >;
+  data: Prisma.XOR<Prisma.ProductDetailsUpdateManyMutationInput, Prisma.ProductDetailsUncheckedUpdateManyInput>;
   /**
    * Filter which ProductDetails to update
    */
@@ -1775,8 +1538,7 @@ export type ProductDetailsUpdateManyArgs<
  * ProductDetails updateManyAndReturn
  */
 export type ProductDetailsUpdateManyAndReturnArgs<
-  ExtArgs extends runtime.Types.Extensions.InternalArgs =
-    runtime.Types.Extensions.DefaultArgs,
+  ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs,
 > = {
   /**
    * Select specific fields to fetch from the ProductDetails
@@ -1789,10 +1551,7 @@ export type ProductDetailsUpdateManyAndReturnArgs<
   /**
    * The data used to update ProductDetails.
    */
-  data: Prisma.XOR<
-    Prisma.ProductDetailsUpdateManyMutationInput,
-    Prisma.ProductDetailsUncheckedUpdateManyInput
-  >;
+  data: Prisma.XOR<Prisma.ProductDetailsUpdateManyMutationInput, Prisma.ProductDetailsUncheckedUpdateManyInput>;
   /**
    * Filter which ProductDetails to update
    */
@@ -1811,8 +1570,7 @@ export type ProductDetailsUpdateManyAndReturnArgs<
  * ProductDetails upsert
  */
 export type ProductDetailsUpsertArgs<
-  ExtArgs extends runtime.Types.Extensions.InternalArgs =
-    runtime.Types.Extensions.DefaultArgs,
+  ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs,
 > = {
   /**
    * Select specific fields to fetch from the ProductDetails
@@ -1833,25 +1591,18 @@ export type ProductDetailsUpsertArgs<
   /**
    * In case the ProductDetails found by the `where` argument doesn't exist, create a new ProductDetails with this data.
    */
-  create: Prisma.XOR<
-    Prisma.ProductDetailsCreateInput,
-    Prisma.ProductDetailsUncheckedCreateInput
-  >;
+  create: Prisma.XOR<Prisma.ProductDetailsCreateInput, Prisma.ProductDetailsUncheckedCreateInput>;
   /**
    * In case the ProductDetails was found with the provided `where` argument, update it with this data.
    */
-  update: Prisma.XOR<
-    Prisma.ProductDetailsUpdateInput,
-    Prisma.ProductDetailsUncheckedUpdateInput
-  >;
+  update: Prisma.XOR<Prisma.ProductDetailsUpdateInput, Prisma.ProductDetailsUncheckedUpdateInput>;
 };
 
 /**
  * ProductDetails delete
  */
 export type ProductDetailsDeleteArgs<
-  ExtArgs extends runtime.Types.Extensions.InternalArgs =
-    runtime.Types.Extensions.DefaultArgs,
+  ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs,
 > = {
   /**
    * Select specific fields to fetch from the ProductDetails
@@ -1875,8 +1626,7 @@ export type ProductDetailsDeleteArgs<
  * ProductDetails deleteMany
  */
 export type ProductDetailsDeleteManyArgs<
-  ExtArgs extends runtime.Types.Extensions.InternalArgs =
-    runtime.Types.Extensions.DefaultArgs,
+  ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs,
 > = {
   /**
    * Filter which ProductDetails to delete
@@ -1892,8 +1642,7 @@ export type ProductDetailsDeleteManyArgs<
  * ProductDetails without action
  */
 export type ProductDetailsDefaultArgs<
-  ExtArgs extends runtime.Types.Extensions.InternalArgs =
-    runtime.Types.Extensions.DefaultArgs,
+  ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs,
 > = {
   /**
    * Select specific fields to fetch from the ProductDetails
