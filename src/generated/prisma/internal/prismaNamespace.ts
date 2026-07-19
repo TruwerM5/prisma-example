@@ -805,7 +805,7 @@ export type ProductScalarFieldEnum =
   (typeof ProductScalarFieldEnum)[keyof typeof ProductScalarFieldEnum];
 
 export const ProductDetailsScalarFieldEnum = {
-  productDetailId: 'productDetailId',
+  productId: 'productId',
   price: 'price',
   color: 'color',
   size: 'size',
@@ -917,19 +917,19 @@ export type ListEnumRoleFieldRefInput<$PrismaModel> = FieldRefInputType<
 >;
 
 /**
- * Reference to a field of type 'Float'
+ * Reference to a field of type 'Decimal'
  */
-export type FloatFieldRefInput<$PrismaModel> = FieldRefInputType<
+export type DecimalFieldRefInput<$PrismaModel> = FieldRefInputType<
   $PrismaModel,
-  'Float'
+  'Decimal'
 >;
 
 /**
- * Reference to a field of type 'Float[]'
+ * Reference to a field of type 'Decimal[]'
  */
-export type ListFloatFieldRefInput<$PrismaModel> = FieldRefInputType<
+export type ListDecimalFieldRefInput<$PrismaModel> = FieldRefInputType<
   $PrismaModel,
-  'Float[]'
+  'Decimal[]'
 >;
 
 /**
@@ -960,6 +960,22 @@ export type EnumOrderStatusFieldRefInput<$PrismaModel> = FieldRefInputType<
 export type ListEnumOrderStatusFieldRefInput<$PrismaModel> = FieldRefInputType<
   $PrismaModel,
   'OrderStatus[]'
+>;
+
+/**
+ * Reference to a field of type 'Float'
+ */
+export type FloatFieldRefInput<$PrismaModel> = FieldRefInputType<
+  $PrismaModel,
+  'Float'
+>;
+
+/**
+ * Reference to a field of type 'Float[]'
+ */
+export type ListFloatFieldRefInput<$PrismaModel> = FieldRefInputType<
+  $PrismaModel,
+  'Float[]'
 >;
 
 /**

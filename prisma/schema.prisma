@@ -21,7 +21,7 @@ model User {
   status UserStatus @default(active)
   role Role @default(user)
   orders Order[]
-  products Product[]
+  productsForSale Product[]
   @@map("users")
 }
 
@@ -38,19 +38,20 @@ enum UserStatus {
 
 model Product {
   productId Int @id @default(autoincrement()) @map("product_id")
-  name String @db.VarChar(30) @unique
+  name String @db.VarChar(150)
   orders Order[] @relation("products_in_order")
   sellerId Int @map("seller_id")
   seller User @relation(fields: [sellerId], references: [userId])
   productDetails ProductDetails?
 
+  @@unique([sellerId, name])
   @@map("products")
 }
 
 model ProductDetails {
-  productDetailId Int @unique @map("product_detail_id")
-  product Product @relation(fields: [productDetailId], references: [productId])
-  price Float
+  productId Int @id @map("product_id")
+  product Product @relation(fields: [productId], references: [productId])
+  price Decimal @db.Decimal(10, 2)
   color String?
   size String?
   author String?

@@ -27,18 +27,18 @@ export type AggregateProductDetails = {
 };
 
 export type ProductDetailsAvgAggregateOutputType = {
-  productDetailId: number | null;
-  price: number | null;
+  productId: number | null;
+  price: runtime.Decimal | null;
 };
 
 export type ProductDetailsSumAggregateOutputType = {
-  productDetailId: number | null;
-  price: number | null;
+  productId: number | null;
+  price: runtime.Decimal | null;
 };
 
 export type ProductDetailsMinAggregateOutputType = {
-  productDetailId: number | null;
-  price: number | null;
+  productId: number | null;
+  price: runtime.Decimal | null;
   color: string | null;
   size: string | null;
   author: string | null;
@@ -47,8 +47,8 @@ export type ProductDetailsMinAggregateOutputType = {
 };
 
 export type ProductDetailsMaxAggregateOutputType = {
-  productDetailId: number | null;
-  price: number | null;
+  productId: number | null;
+  price: runtime.Decimal | null;
   color: string | null;
   size: string | null;
   author: string | null;
@@ -57,7 +57,7 @@ export type ProductDetailsMaxAggregateOutputType = {
 };
 
 export type ProductDetailsCountAggregateOutputType = {
-  productDetailId: number;
+  productId: number;
   price: number;
   color: number;
   size: number;
@@ -69,17 +69,17 @@ export type ProductDetailsCountAggregateOutputType = {
 };
 
 export type ProductDetailsAvgAggregateInputType = {
-  productDetailId?: true;
+  productId?: true;
   price?: true;
 };
 
 export type ProductDetailsSumAggregateInputType = {
-  productDetailId?: true;
+  productId?: true;
   price?: true;
 };
 
 export type ProductDetailsMinAggregateInputType = {
-  productDetailId?: true;
+  productId?: true;
   price?: true;
   color?: true;
   size?: true;
@@ -89,7 +89,7 @@ export type ProductDetailsMinAggregateInputType = {
 };
 
 export type ProductDetailsMaxAggregateInputType = {
-  productDetailId?: true;
+  productId?: true;
   price?: true;
   color?: true;
   size?: true;
@@ -99,7 +99,7 @@ export type ProductDetailsMaxAggregateInputType = {
 };
 
 export type ProductDetailsCountAggregateInputType = {
-  productDetailId?: true;
+  productId?: true;
   price?: true;
   color?: true;
   size?: true;
@@ -208,8 +208,8 @@ export type ProductDetailsGroupByArgs<
 };
 
 export type ProductDetailsGroupByOutputType = {
-  productDetailId: number;
-  price: number;
+  productId: number;
+  price: runtime.Decimal;
   color: string | null;
   size: string | null;
   author: string | null;
@@ -241,8 +241,13 @@ export type ProductDetailsWhereInput = {
   AND?: Prisma.ProductDetailsWhereInput | Prisma.ProductDetailsWhereInput[];
   OR?: Prisma.ProductDetailsWhereInput[];
   NOT?: Prisma.ProductDetailsWhereInput | Prisma.ProductDetailsWhereInput[];
-  productDetailId?: Prisma.IntFilter<'ProductDetails'> | number;
-  price?: Prisma.FloatFilter<'ProductDetails'> | number;
+  productId?: Prisma.IntFilter<'ProductDetails'> | number;
+  price?:
+    | Prisma.DecimalFilter<'ProductDetails'>
+    | runtime.Decimal
+    | runtime.DecimalJsLike
+    | number
+    | string;
   color?: Prisma.StringNullableFilter<'ProductDetails'> | string | null;
   size?: Prisma.StringNullableFilter<'ProductDetails'> | string | null;
   author?: Prisma.StringNullableFilter<'ProductDetails'> | string | null;
@@ -259,7 +264,7 @@ export type ProductDetailsWhereInput = {
 };
 
 export type ProductDetailsOrderByWithRelationInput = {
-  productDetailId?: Prisma.SortOrder;
+  productId?: Prisma.SortOrder;
   price?: Prisma.SortOrder;
   color?: Prisma.SortOrderInput | Prisma.SortOrder;
   size?: Prisma.SortOrderInput | Prisma.SortOrder;
@@ -272,11 +277,16 @@ export type ProductDetailsOrderByWithRelationInput = {
 
 export type ProductDetailsWhereUniqueInput = Prisma.AtLeast<
   {
-    productDetailId?: number;
+    productId?: number;
     AND?: Prisma.ProductDetailsWhereInput | Prisma.ProductDetailsWhereInput[];
     OR?: Prisma.ProductDetailsWhereInput[];
     NOT?: Prisma.ProductDetailsWhereInput | Prisma.ProductDetailsWhereInput[];
-    price?: Prisma.FloatFilter<'ProductDetails'> | number;
+    price?:
+      | Prisma.DecimalFilter<'ProductDetails'>
+      | runtime.Decimal
+      | runtime.DecimalJsLike
+      | number
+      | string;
     color?: Prisma.StringNullableFilter<'ProductDetails'> | string | null;
     size?: Prisma.StringNullableFilter<'ProductDetails'> | string | null;
     author?: Prisma.StringNullableFilter<'ProductDetails'> | string | null;
@@ -291,11 +301,11 @@ export type ProductDetailsWhereUniqueInput = Prisma.AtLeast<
       Prisma.ProductWhereInput
     >;
   },
-  'productDetailId'
+  'productId'
 >;
 
 export type ProductDetailsOrderByWithAggregationInput = {
-  productDetailId?: Prisma.SortOrder;
+  productId?: Prisma.SortOrder;
   price?: Prisma.SortOrder;
   color?: Prisma.SortOrderInput | Prisma.SortOrder;
   size?: Prisma.SortOrderInput | Prisma.SortOrder;
@@ -318,8 +328,13 @@ export type ProductDetailsScalarWhereWithAggregatesInput = {
   NOT?:
     | Prisma.ProductDetailsScalarWhereWithAggregatesInput
     | Prisma.ProductDetailsScalarWhereWithAggregatesInput[];
-  productDetailId?: Prisma.IntWithAggregatesFilter<'ProductDetails'> | number;
-  price?: Prisma.FloatWithAggregatesFilter<'ProductDetails'> | number;
+  productId?: Prisma.IntWithAggregatesFilter<'ProductDetails'> | number;
+  price?:
+    | Prisma.DecimalWithAggregatesFilter<'ProductDetails'>
+    | runtime.Decimal
+    | runtime.DecimalJsLike
+    | number
+    | string;
   color?:
     Prisma.StringNullableWithAggregatesFilter<'ProductDetails'> | string | null;
   size?:
@@ -336,7 +351,7 @@ export type ProductDetailsScalarWhereWithAggregatesInput = {
 };
 
 export type ProductDetailsCreateInput = {
-  price: number;
+  price: runtime.Decimal | runtime.DecimalJsLike | number | string;
   color?: string | null;
   size?: string | null;
   author?: string | null;
@@ -347,8 +362,8 @@ export type ProductDetailsCreateInput = {
 };
 
 export type ProductDetailsUncheckedCreateInput = {
-  productDetailId: number;
-  price: number;
+  productId: number;
+  price: runtime.Decimal | runtime.DecimalJsLike | number | string;
   color?: string | null;
   size?: string | null;
   author?: string | null;
@@ -358,7 +373,12 @@ export type ProductDetailsUncheckedCreateInput = {
 };
 
 export type ProductDetailsUpdateInput = {
-  price?: Prisma.FloatFieldUpdateOperationsInput | number;
+  price?:
+    | Prisma.DecimalFieldUpdateOperationsInput
+    | runtime.Decimal
+    | runtime.DecimalJsLike
+    | number
+    | string;
   color?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
   size?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
   author?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
@@ -372,8 +392,13 @@ export type ProductDetailsUpdateInput = {
 };
 
 export type ProductDetailsUncheckedUpdateInput = {
-  productDetailId?: Prisma.IntFieldUpdateOperationsInput | number;
-  price?: Prisma.FloatFieldUpdateOperationsInput | number;
+  productId?: Prisma.IntFieldUpdateOperationsInput | number;
+  price?:
+    | Prisma.DecimalFieldUpdateOperationsInput
+    | runtime.Decimal
+    | runtime.DecimalJsLike
+    | number
+    | string;
   color?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
   size?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
   author?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
@@ -386,8 +411,8 @@ export type ProductDetailsUncheckedUpdateInput = {
 };
 
 export type ProductDetailsCreateManyInput = {
-  productDetailId: number;
-  price: number;
+  productId: number;
+  price: runtime.Decimal | runtime.DecimalJsLike | number | string;
   color?: string | null;
   size?: string | null;
   author?: string | null;
@@ -397,7 +422,12 @@ export type ProductDetailsCreateManyInput = {
 };
 
 export type ProductDetailsUpdateManyMutationInput = {
-  price?: Prisma.FloatFieldUpdateOperationsInput | number;
+  price?:
+    | Prisma.DecimalFieldUpdateOperationsInput
+    | runtime.Decimal
+    | runtime.DecimalJsLike
+    | number
+    | string;
   color?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
   size?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
   author?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
@@ -410,8 +440,13 @@ export type ProductDetailsUpdateManyMutationInput = {
 };
 
 export type ProductDetailsUncheckedUpdateManyInput = {
-  productDetailId?: Prisma.IntFieldUpdateOperationsInput | number;
-  price?: Prisma.FloatFieldUpdateOperationsInput | number;
+  productId?: Prisma.IntFieldUpdateOperationsInput | number;
+  price?:
+    | Prisma.DecimalFieldUpdateOperationsInput
+    | runtime.Decimal
+    | runtime.DecimalJsLike
+    | number
+    | string;
   color?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
   size?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
   author?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
@@ -437,7 +472,7 @@ export type StringNullableListFilter<$PrismaModel = never> = {
 };
 
 export type ProductDetailsCountOrderByAggregateInput = {
-  productDetailId?: Prisma.SortOrder;
+  productId?: Prisma.SortOrder;
   price?: Prisma.SortOrder;
   color?: Prisma.SortOrder;
   size?: Prisma.SortOrder;
@@ -448,12 +483,12 @@ export type ProductDetailsCountOrderByAggregateInput = {
 };
 
 export type ProductDetailsAvgOrderByAggregateInput = {
-  productDetailId?: Prisma.SortOrder;
+  productId?: Prisma.SortOrder;
   price?: Prisma.SortOrder;
 };
 
 export type ProductDetailsMaxOrderByAggregateInput = {
-  productDetailId?: Prisma.SortOrder;
+  productId?: Prisma.SortOrder;
   price?: Prisma.SortOrder;
   color?: Prisma.SortOrder;
   size?: Prisma.SortOrder;
@@ -463,7 +498,7 @@ export type ProductDetailsMaxOrderByAggregateInput = {
 };
 
 export type ProductDetailsMinOrderByAggregateInput = {
-  productDetailId?: Prisma.SortOrder;
+  productId?: Prisma.SortOrder;
   price?: Prisma.SortOrder;
   color?: Prisma.SortOrder;
   size?: Prisma.SortOrder;
@@ -473,7 +508,7 @@ export type ProductDetailsMinOrderByAggregateInput = {
 };
 
 export type ProductDetailsSumOrderByAggregateInput = {
-  productDetailId?: Prisma.SortOrder;
+  productId?: Prisma.SortOrder;
   price?: Prisma.SortOrder;
 };
 
@@ -537,12 +572,12 @@ export type ProductDetailsCreateimagesInput = {
   set: string[];
 };
 
-export type FloatFieldUpdateOperationsInput = {
-  set?: number;
-  increment?: number;
-  decrement?: number;
-  multiply?: number;
-  divide?: number;
+export type DecimalFieldUpdateOperationsInput = {
+  set?: runtime.Decimal | runtime.DecimalJsLike | number | string;
+  increment?: runtime.Decimal | runtime.DecimalJsLike | number | string;
+  decrement?: runtime.Decimal | runtime.DecimalJsLike | number | string;
+  multiply?: runtime.Decimal | runtime.DecimalJsLike | number | string;
+  divide?: runtime.Decimal | runtime.DecimalJsLike | number | string;
 };
 
 export type NullableStringFieldUpdateOperationsInput = {
@@ -559,7 +594,7 @@ export type NullableEnumProductCategoryFieldUpdateOperationsInput = {
 };
 
 export type ProductDetailsCreateWithoutProductInput = {
-  price: number;
+  price: runtime.Decimal | runtime.DecimalJsLike | number | string;
   color?: string | null;
   size?: string | null;
   author?: string | null;
@@ -569,7 +604,7 @@ export type ProductDetailsCreateWithoutProductInput = {
 };
 
 export type ProductDetailsUncheckedCreateWithoutProductInput = {
-  price: number;
+  price: runtime.Decimal | runtime.DecimalJsLike | number | string;
   color?: string | null;
   size?: string | null;
   author?: string | null;
@@ -607,7 +642,12 @@ export type ProductDetailsUpdateToOneWithWhereWithoutProductInput = {
 };
 
 export type ProductDetailsUpdateWithoutProductInput = {
-  price?: Prisma.FloatFieldUpdateOperationsInput | number;
+  price?:
+    | Prisma.DecimalFieldUpdateOperationsInput
+    | runtime.Decimal
+    | runtime.DecimalJsLike
+    | number
+    | string;
   color?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
   size?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
   author?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
@@ -620,7 +660,12 @@ export type ProductDetailsUpdateWithoutProductInput = {
 };
 
 export type ProductDetailsUncheckedUpdateWithoutProductInput = {
-  price?: Prisma.FloatFieldUpdateOperationsInput | number;
+  price?:
+    | Prisma.DecimalFieldUpdateOperationsInput
+    | runtime.Decimal
+    | runtime.DecimalJsLike
+    | number
+    | string;
   color?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
   size?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
   author?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
@@ -637,7 +682,7 @@ export type ProductDetailsSelect<
     runtime.Types.Extensions.DefaultArgs,
 > = runtime.Types.Extensions.GetSelect<
   {
-    productDetailId?: boolean;
+    productId?: boolean;
     price?: boolean;
     color?: boolean;
     size?: boolean;
@@ -655,7 +700,7 @@ export type ProductDetailsSelectCreateManyAndReturn<
     runtime.Types.Extensions.DefaultArgs,
 > = runtime.Types.Extensions.GetSelect<
   {
-    productDetailId?: boolean;
+    productId?: boolean;
     price?: boolean;
     color?: boolean;
     size?: boolean;
@@ -673,7 +718,7 @@ export type ProductDetailsSelectUpdateManyAndReturn<
     runtime.Types.Extensions.DefaultArgs,
 > = runtime.Types.Extensions.GetSelect<
   {
-    productDetailId?: boolean;
+    productId?: boolean;
     price?: boolean;
     color?: boolean;
     size?: boolean;
@@ -687,7 +732,7 @@ export type ProductDetailsSelectUpdateManyAndReturn<
 >;
 
 export type ProductDetailsSelectScalar = {
-  productDetailId?: boolean;
+  productId?: boolean;
   price?: boolean;
   color?: boolean;
   size?: boolean;
@@ -701,7 +746,7 @@ export type ProductDetailsOmit<
   ExtArgs extends runtime.Types.Extensions.InternalArgs =
     runtime.Types.Extensions.DefaultArgs,
 > = runtime.Types.Extensions.GetOmit<
-  | 'productDetailId'
+  | 'productId'
   | 'price'
   | 'color'
   | 'size'
@@ -740,8 +785,8 @@ export type $ProductDetailsPayload<
   };
   scalars: runtime.Types.Extensions.GetPayloadResult<
     {
-      productDetailId: number;
-      price: number;
+      productId: number;
+      price: runtime.Decimal;
       color: string | null;
       size: string | null;
       author: string | null;
@@ -895,8 +940,8 @@ export interface ProductDetailsDelegate<
    * // Get first 10 ProductDetails
    * const productDetails = await prisma.productDetails.findMany({ take: 10 })
    *
-   * // Only select the `productDetailId`
-   * const productDetailsWithProductDetailIdOnly = await prisma.productDetails.findMany({ select: { productDetailId: true } })
+   * // Only select the `productId`
+   * const productDetailsWithProductIdOnly = await prisma.productDetails.findMany({ select: { productId: true } })
    *
    */
   findMany<T extends ProductDetailsFindManyArgs>(
@@ -963,9 +1008,9 @@ export interface ProductDetailsDelegate<
    *   ]
    * })
    *
-   * // Create many ProductDetails and only return the `productDetailId`
-   * const productDetailsWithProductDetailIdOnly = await prisma.productDetails.createManyAndReturn({
-   *   select: { productDetailId: true },
+   * // Create many ProductDetails and only return the `productId`
+   * const productDetailsWithProductIdOnly = await prisma.productDetails.createManyAndReturn({
+   *   select: { productId: true },
    *   data: [
    *     // ... provide data here
    *   ]
@@ -1094,9 +1139,9 @@ export interface ProductDetailsDelegate<
    *   ]
    * })
    *
-   * // Update zero or more ProductDetails and only return the `productDetailId`
-   * const productDetailsWithProductDetailIdOnly = await prisma.productDetails.updateManyAndReturn({
-   *   select: { productDetailId: true },
+   * // Update zero or more ProductDetails and only return the `productId`
+   * const productDetailsWithProductIdOnly = await prisma.productDetails.updateManyAndReturn({
+   *   select: { productId: true },
    *   where: {
    *     // ... provide filter here
    *   },
@@ -1360,8 +1405,8 @@ export interface Prisma__ProductDetailsClient<
  * Fields of the ProductDetails model
  */
 export interface ProductDetailsFieldRefs {
-  readonly productDetailId: Prisma.FieldRef<'ProductDetails', 'Int'>;
-  readonly price: Prisma.FieldRef<'ProductDetails', 'Float'>;
+  readonly productId: Prisma.FieldRef<'ProductDetails', 'Int'>;
+  readonly price: Prisma.FieldRef<'ProductDetails', 'Decimal'>;
   readonly color: Prisma.FieldRef<'ProductDetails', 'String'>;
   readonly size: Prisma.FieldRef<'ProductDetails', 'String'>;
   readonly author: Prisma.FieldRef<'ProductDetails', 'String'>;

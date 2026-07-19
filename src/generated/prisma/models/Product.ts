@@ -228,10 +228,11 @@ export type ProductOrderByWithRelationInput = {
 export type ProductWhereUniqueInput = Prisma.AtLeast<
   {
     productId?: number;
-    name?: string;
+    sellerId_name?: Prisma.ProductSellerIdNameCompoundUniqueInput;
     AND?: Prisma.ProductWhereInput | Prisma.ProductWhereInput[];
     OR?: Prisma.ProductWhereInput[];
     NOT?: Prisma.ProductWhereInput | Prisma.ProductWhereInput[];
+    name?: Prisma.StringFilter<'Product'> | string;
     sellerId?: Prisma.IntFilter<'Product'> | number;
     orders?: Prisma.OrderListRelationFilter;
     seller?: Prisma.XOR<Prisma.UserScalarRelationFilter, Prisma.UserWhereInput>;
@@ -240,7 +241,7 @@ export type ProductWhereUniqueInput = Prisma.AtLeast<
       Prisma.ProductDetailsWhereInput
     > | null;
   },
-  'productId' | 'name'
+  'productId' | 'sellerId_name'
 >;
 
 export type ProductOrderByWithAggregationInput = {
@@ -270,7 +271,7 @@ export type ProductScalarWhereWithAggregatesInput = {
 export type ProductCreateInput = {
   name: string;
   orders?: Prisma.OrderCreateNestedManyWithoutProductsInput;
-  seller: Prisma.UserCreateNestedOneWithoutProductsInput;
+  seller: Prisma.UserCreateNestedOneWithoutProductsForSaleInput;
   productDetails?: Prisma.ProductDetailsCreateNestedOneWithoutProductInput;
 };
 
@@ -285,7 +286,7 @@ export type ProductUncheckedCreateInput = {
 export type ProductUpdateInput = {
   name?: Prisma.StringFieldUpdateOperationsInput | string;
   orders?: Prisma.OrderUpdateManyWithoutProductsNestedInput;
-  seller?: Prisma.UserUpdateOneRequiredWithoutProductsNestedInput;
+  seller?: Prisma.UserUpdateOneRequiredWithoutProductsForSaleNestedInput;
   productDetails?: Prisma.ProductDetailsUpdateOneWithoutProductNestedInput;
 };
 
@@ -321,6 +322,11 @@ export type ProductListRelationFilter = {
 
 export type ProductOrderByRelationAggregateInput = {
   _count?: Prisma.SortOrder;
+};
+
+export type ProductSellerIdNameCompoundUniqueInput = {
+  sellerId: number;
+  name: string;
 };
 
 export type ProductCountOrderByAggregateInput = {
@@ -625,7 +631,7 @@ export type ProductScalarWhereInput = {
 export type ProductCreateWithoutProductDetailsInput = {
   name: string;
   orders?: Prisma.OrderCreateNestedManyWithoutProductsInput;
-  seller: Prisma.UserCreateNestedOneWithoutProductsInput;
+  seller: Prisma.UserCreateNestedOneWithoutProductsForSaleInput;
 };
 
 export type ProductUncheckedCreateWithoutProductDetailsInput = {
@@ -666,7 +672,7 @@ export type ProductUpdateToOneWithWhereWithoutProductDetailsInput = {
 export type ProductUpdateWithoutProductDetailsInput = {
   name?: Prisma.StringFieldUpdateOperationsInput | string;
   orders?: Prisma.OrderUpdateManyWithoutProductsNestedInput;
-  seller?: Prisma.UserUpdateOneRequiredWithoutProductsNestedInput;
+  seller?: Prisma.UserUpdateOneRequiredWithoutProductsForSaleNestedInput;
 };
 
 export type ProductUncheckedUpdateWithoutProductDetailsInput = {
@@ -678,7 +684,7 @@ export type ProductUncheckedUpdateWithoutProductDetailsInput = {
 
 export type ProductCreateWithoutOrdersInput = {
   name: string;
-  seller: Prisma.UserCreateNestedOneWithoutProductsInput;
+  seller: Prisma.UserCreateNestedOneWithoutProductsForSaleInput;
   productDetails?: Prisma.ProductDetailsCreateNestedOneWithoutProductInput;
 };
 
@@ -750,7 +756,7 @@ export type ProductUncheckedUpdateManyWithoutSellerInput = {
 
 export type ProductUpdateWithoutOrdersInput = {
   name?: Prisma.StringFieldUpdateOperationsInput | string;
-  seller?: Prisma.UserUpdateOneRequiredWithoutProductsNestedInput;
+  seller?: Prisma.UserUpdateOneRequiredWithoutProductsForSaleNestedInput;
   productDetails?: Prisma.ProductDetailsUpdateOneWithoutProductNestedInput;
 };
 
