@@ -24,8 +24,9 @@ export const UserStatus = {
 export type UserStatus = (typeof UserStatus)[keyof typeof UserStatus];
 
 export const ProductCategory = {
-  gadget: 'gadget',
+  gadgets: 'gadgets',
   clothes: 'clothes',
+  books: 'books',
 } as const;
 
 export type ProductCategory =
