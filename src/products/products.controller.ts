@@ -11,7 +11,11 @@ import { Controller } from '@nestjs/common';
 import { ProductsService } from './products.service';
 import { Product as ProductModel } from 'src/generated/prisma/client';
 import { CreateProductDto } from './dto/create-product.dto';
-import { AuthGuard } from 'src/auth/auth.guard';
+import { AuthGuard } from 'src/guards/auth.guard';
+import { Roles } from 'src/roles.decorator';
+import { Role } from 'src/generated/prisma/client';
+import { RolesGuard } from 'src/guards/roles.guard';
+import type { AuthenticatedRequest } from 'types';
 
 @Controller('products')
 export class ProductsController {
@@ -20,6 +24,16 @@ export class ProductsController {
   @Get()
   listProducts(): Promise<ProductModel[]> {
     return this.productsService.getAllProducts();
+  }
+
+  @UseGuards(AuthGuard, RolesGuard)
+  @Roles(Role.seller)
+  @Get('my-products')
+  getSellersProducts(
+    @Req() request: AuthenticatedRequest,
+  ) {
+    const sellerId = request.user.userId;
+    return this.productsService.getProductsBySeller(sellerId);
   }
 
   @Get(':id')

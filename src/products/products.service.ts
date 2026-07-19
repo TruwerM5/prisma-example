@@ -25,6 +25,15 @@ export class ProductsService {
         return product;
     }
 
+    async getProductsBySeller(sellerId: number): Promise<Product[]> {
+        return await this.prisma.product.findMany({
+            where: {
+                sellerId
+            },
+            include: { productDetails: true },
+        });
+    }
+
     async createProduct(product: CreateProductDto): Promise<Product> {
         try {
             const { sellerId, ...rest } = product;

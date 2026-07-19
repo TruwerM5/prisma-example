@@ -12,7 +12,7 @@ import {
 } from '@nestjs/common';
 import { UserService } from './user.service';
 import { User as UserModel, Prisma } from 'src/generated/prisma/client';
-import { AuthGuard } from 'src/auth/auth.guard';
+import { AuthGuard } from 'src/guards/auth.guard';
 @Controller('user')
 export class UserController {
   constructor(private readonly userService: UserService) {}
