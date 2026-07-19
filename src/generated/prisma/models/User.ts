@@ -228,6 +228,7 @@ export type UserWhereInput = {
   status?: Prisma.EnumUserStatusFilter<'User'> | $Enums.UserStatus;
   role?: Prisma.EnumRoleFilter<'User'> | $Enums.Role;
   orders?: Prisma.OrderListRelationFilter;
+  products?: Prisma.ProductListRelationFilter;
 };
 
 export type UserOrderByWithRelationInput = {
@@ -238,6 +239,7 @@ export type UserOrderByWithRelationInput = {
   status?: Prisma.SortOrder;
   role?: Prisma.SortOrder;
   orders?: Prisma.OrderOrderByRelationAggregateInput;
+  products?: Prisma.ProductOrderByRelationAggregateInput;
 };
 
 export type UserWhereUniqueInput = Prisma.AtLeast<
@@ -252,6 +254,7 @@ export type UserWhereUniqueInput = Prisma.AtLeast<
     status?: Prisma.EnumUserStatusFilter<'User'> | $Enums.UserStatus;
     role?: Prisma.EnumRoleFilter<'User'> | $Enums.Role;
     orders?: Prisma.OrderListRelationFilter;
+    products?: Prisma.ProductListRelationFilter;
   },
   'userId' | 'email'
 >;
@@ -294,6 +297,7 @@ export type UserCreateInput = {
   status?: $Enums.UserStatus;
   role?: $Enums.Role;
   orders?: Prisma.OrderCreateNestedManyWithoutUserInput;
+  products?: Prisma.ProductCreateNestedManyWithoutSellerInput;
 };
 
 export type UserUncheckedCreateInput = {
@@ -304,6 +308,7 @@ export type UserUncheckedCreateInput = {
   status?: $Enums.UserStatus;
   role?: $Enums.Role;
   orders?: Prisma.OrderUncheckedCreateNestedManyWithoutUserInput;
+  products?: Prisma.ProductUncheckedCreateNestedManyWithoutSellerInput;
 };
 
 export type UserUpdateInput = {
@@ -313,6 +318,7 @@ export type UserUpdateInput = {
   status?: Prisma.EnumUserStatusFieldUpdateOperationsInput | $Enums.UserStatus;
   role?: Prisma.EnumRoleFieldUpdateOperationsInput | $Enums.Role;
   orders?: Prisma.OrderUpdateManyWithoutUserNestedInput;
+  products?: Prisma.ProductUpdateManyWithoutSellerNestedInput;
 };
 
 export type UserUncheckedUpdateInput = {
@@ -323,6 +329,7 @@ export type UserUncheckedUpdateInput = {
   status?: Prisma.EnumUserStatusFieldUpdateOperationsInput | $Enums.UserStatus;
   role?: Prisma.EnumRoleFieldUpdateOperationsInput | $Enums.Role;
   orders?: Prisma.OrderUncheckedUpdateManyWithoutUserNestedInput;
+  products?: Prisma.ProductUncheckedUpdateManyWithoutSellerNestedInput;
 };
 
 export type UserCreateManyInput = {
@@ -411,6 +418,32 @@ export type IntFieldUpdateOperationsInput = {
   divide?: number;
 };
 
+export type UserCreateNestedOneWithoutProductsInput = {
+  create?: Prisma.XOR<
+    Prisma.UserCreateWithoutProductsInput,
+    Prisma.UserUncheckedCreateWithoutProductsInput
+  >;
+  connectOrCreate?: Prisma.UserCreateOrConnectWithoutProductsInput;
+  connect?: Prisma.UserWhereUniqueInput;
+};
+
+export type UserUpdateOneRequiredWithoutProductsNestedInput = {
+  create?: Prisma.XOR<
+    Prisma.UserCreateWithoutProductsInput,
+    Prisma.UserUncheckedCreateWithoutProductsInput
+  >;
+  connectOrCreate?: Prisma.UserCreateOrConnectWithoutProductsInput;
+  upsert?: Prisma.UserUpsertWithoutProductsInput;
+  connect?: Prisma.UserWhereUniqueInput;
+  update?: Prisma.XOR<
+    Prisma.XOR<
+      Prisma.UserUpdateToOneWithWhereWithoutProductsInput,
+      Prisma.UserUpdateWithoutProductsInput
+    >,
+    Prisma.UserUncheckedUpdateWithoutProductsInput
+  >;
+};
+
 export type UserCreateNestedOneWithoutOrdersInput = {
   create?: Prisma.XOR<
     Prisma.UserCreateWithoutOrdersInput,
@@ -437,12 +470,79 @@ export type UserUpdateOneRequiredWithoutOrdersNestedInput = {
   >;
 };
 
+export type UserCreateWithoutProductsInput = {
+  email: string;
+  password: string;
+  name: string;
+  status?: $Enums.UserStatus;
+  role?: $Enums.Role;
+  orders?: Prisma.OrderCreateNestedManyWithoutUserInput;
+};
+
+export type UserUncheckedCreateWithoutProductsInput = {
+  userId?: number;
+  email: string;
+  password: string;
+  name: string;
+  status?: $Enums.UserStatus;
+  role?: $Enums.Role;
+  orders?: Prisma.OrderUncheckedCreateNestedManyWithoutUserInput;
+};
+
+export type UserCreateOrConnectWithoutProductsInput = {
+  where: Prisma.UserWhereUniqueInput;
+  create: Prisma.XOR<
+    Prisma.UserCreateWithoutProductsInput,
+    Prisma.UserUncheckedCreateWithoutProductsInput
+  >;
+};
+
+export type UserUpsertWithoutProductsInput = {
+  update: Prisma.XOR<
+    Prisma.UserUpdateWithoutProductsInput,
+    Prisma.UserUncheckedUpdateWithoutProductsInput
+  >;
+  create: Prisma.XOR<
+    Prisma.UserCreateWithoutProductsInput,
+    Prisma.UserUncheckedCreateWithoutProductsInput
+  >;
+  where?: Prisma.UserWhereInput;
+};
+
+export type UserUpdateToOneWithWhereWithoutProductsInput = {
+  where?: Prisma.UserWhereInput;
+  data: Prisma.XOR<
+    Prisma.UserUpdateWithoutProductsInput,
+    Prisma.UserUncheckedUpdateWithoutProductsInput
+  >;
+};
+
+export type UserUpdateWithoutProductsInput = {
+  email?: Prisma.StringFieldUpdateOperationsInput | string;
+  password?: Prisma.StringFieldUpdateOperationsInput | string;
+  name?: Prisma.StringFieldUpdateOperationsInput | string;
+  status?: Prisma.EnumUserStatusFieldUpdateOperationsInput | $Enums.UserStatus;
+  role?: Prisma.EnumRoleFieldUpdateOperationsInput | $Enums.Role;
+  orders?: Prisma.OrderUpdateManyWithoutUserNestedInput;
+};
+
+export type UserUncheckedUpdateWithoutProductsInput = {
+  userId?: Prisma.IntFieldUpdateOperationsInput | number;
+  email?: Prisma.StringFieldUpdateOperationsInput | string;
+  password?: Prisma.StringFieldUpdateOperationsInput | string;
+  name?: Prisma.StringFieldUpdateOperationsInput | string;
+  status?: Prisma.EnumUserStatusFieldUpdateOperationsInput | $Enums.UserStatus;
+  role?: Prisma.EnumRoleFieldUpdateOperationsInput | $Enums.Role;
+  orders?: Prisma.OrderUncheckedUpdateManyWithoutUserNestedInput;
+};
+
 export type UserCreateWithoutOrdersInput = {
   email: string;
   password: string;
   name: string;
   status?: $Enums.UserStatus;
   role?: $Enums.Role;
+  products?: Prisma.ProductCreateNestedManyWithoutSellerInput;
 };
 
 export type UserUncheckedCreateWithoutOrdersInput = {
@@ -452,6 +552,7 @@ export type UserUncheckedCreateWithoutOrdersInput = {
   name: string;
   status?: $Enums.UserStatus;
   role?: $Enums.Role;
+  products?: Prisma.ProductUncheckedCreateNestedManyWithoutSellerInput;
 };
 
 export type UserCreateOrConnectWithoutOrdersInput = {
@@ -488,6 +589,7 @@ export type UserUpdateWithoutOrdersInput = {
   name?: Prisma.StringFieldUpdateOperationsInput | string;
   status?: Prisma.EnumUserStatusFieldUpdateOperationsInput | $Enums.UserStatus;
   role?: Prisma.EnumRoleFieldUpdateOperationsInput | $Enums.Role;
+  products?: Prisma.ProductUpdateManyWithoutSellerNestedInput;
 };
 
 export type UserUncheckedUpdateWithoutOrdersInput = {
@@ -497,6 +599,7 @@ export type UserUncheckedUpdateWithoutOrdersInput = {
   name?: Prisma.StringFieldUpdateOperationsInput | string;
   status?: Prisma.EnumUserStatusFieldUpdateOperationsInput | $Enums.UserStatus;
   role?: Prisma.EnumRoleFieldUpdateOperationsInput | $Enums.Role;
+  products?: Prisma.ProductUncheckedUpdateManyWithoutSellerNestedInput;
 };
 
 /**
@@ -505,6 +608,7 @@ export type UserUncheckedUpdateWithoutOrdersInput = {
 
 export type UserCountOutputType = {
   orders: number;
+  products: number;
 };
 
 export type UserCountOutputTypeSelect<
@@ -512,6 +616,7 @@ export type UserCountOutputTypeSelect<
     runtime.Types.Extensions.DefaultArgs,
 > = {
   orders?: boolean | UserCountOutputTypeCountOrdersArgs;
+  products?: boolean | UserCountOutputTypeCountProductsArgs;
 };
 
 /**
@@ -537,6 +642,16 @@ export type UserCountOutputTypeCountOrdersArgs<
   where?: Prisma.OrderWhereInput;
 };
 
+/**
+ * UserCountOutputType without action
+ */
+export type UserCountOutputTypeCountProductsArgs<
+  ExtArgs extends runtime.Types.Extensions.InternalArgs =
+    runtime.Types.Extensions.DefaultArgs,
+> = {
+  where?: Prisma.ProductWhereInput;
+};
+
 export type UserSelect<
   ExtArgs extends runtime.Types.Extensions.InternalArgs =
     runtime.Types.Extensions.DefaultArgs,
@@ -549,6 +664,7 @@ export type UserSelect<
     status?: boolean;
     role?: boolean;
     orders?: boolean | Prisma.User$ordersArgs<ExtArgs>;
+    products?: boolean | Prisma.User$productsArgs<ExtArgs>;
     _count?: boolean | Prisma.UserCountOutputTypeDefaultArgs<ExtArgs>;
   },
   ExtArgs['result']['user']
@@ -605,6 +721,7 @@ export type UserInclude<
     runtime.Types.Extensions.DefaultArgs,
 > = {
   orders?: boolean | Prisma.User$ordersArgs<ExtArgs>;
+  products?: boolean | Prisma.User$productsArgs<ExtArgs>;
   _count?: boolean | Prisma.UserCountOutputTypeDefaultArgs<ExtArgs>;
 };
 export type UserIncludeCreateManyAndReturn<
@@ -623,6 +740,7 @@ export type $UserPayload<
   name: 'User';
   objects: {
     orders: Prisma.$OrderPayload<ExtArgs>[];
+    products: Prisma.$ProductPayload<ExtArgs>[];
   };
   scalars: runtime.Types.Extensions.GetPayloadResult<
     {
@@ -1193,6 +1311,17 @@ export interface Prisma__UserClient<
       >
     | Null
   >;
+  products<T extends Prisma.User$productsArgs<ExtArgs> = {}>(
+    args?: Prisma.Subset<T, Prisma.User$productsArgs<ExtArgs>>,
+  ): Prisma.PrismaPromise<
+    | runtime.Types.Result.GetResult<
+        Prisma.$ProductPayload<ExtArgs>,
+        T,
+        'findMany',
+        GlobalOmitOptions
+      >
+    | Null
+  >;
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
    * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -1704,6 +1833,35 @@ export type User$ordersArgs<
   take?: number;
   skip?: number;
   distinct?: Prisma.OrderScalarFieldEnum | Prisma.OrderScalarFieldEnum[];
+};
+
+/**
+ * User.products
+ */
+export type User$productsArgs<
+  ExtArgs extends runtime.Types.Extensions.InternalArgs =
+    runtime.Types.Extensions.DefaultArgs,
+> = {
+  /**
+   * Select specific fields to fetch from the Product
+   */
+  select?: Prisma.ProductSelect<ExtArgs> | null;
+  /**
+   * Omit specific fields from the Product
+   */
+  omit?: Prisma.ProductOmit<ExtArgs> | null;
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.ProductInclude<ExtArgs> | null;
+  where?: Prisma.ProductWhereInput;
+  orderBy?:
+    | Prisma.ProductOrderByWithRelationInput
+    | Prisma.ProductOrderByWithRelationInput[];
+  cursor?: Prisma.ProductWhereUniqueInput;
+  take?: number;
+  skip?: number;
+  distinct?: Prisma.ProductScalarFieldEnum | Prisma.ProductScalarFieldEnum[];
 };
 
 /**

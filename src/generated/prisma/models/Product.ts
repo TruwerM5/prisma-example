@@ -28,49 +28,59 @@ export type AggregateProduct = {
 
 export type ProductAvgAggregateOutputType = {
   productId: number | null;
+  sellerId: number | null;
 };
 
 export type ProductSumAggregateOutputType = {
   productId: number | null;
+  sellerId: number | null;
 };
 
 export type ProductMinAggregateOutputType = {
   productId: number | null;
   name: string | null;
+  sellerId: number | null;
 };
 
 export type ProductMaxAggregateOutputType = {
   productId: number | null;
   name: string | null;
+  sellerId: number | null;
 };
 
 export type ProductCountAggregateOutputType = {
   productId: number;
   name: number;
+  sellerId: number;
   _all: number;
 };
 
 export type ProductAvgAggregateInputType = {
   productId?: true;
+  sellerId?: true;
 };
 
 export type ProductSumAggregateInputType = {
   productId?: true;
+  sellerId?: true;
 };
 
 export type ProductMinAggregateInputType = {
   productId?: true;
   name?: true;
+  sellerId?: true;
 };
 
 export type ProductMaxAggregateInputType = {
   productId?: true;
   name?: true;
+  sellerId?: true;
 };
 
 export type ProductCountAggregateInputType = {
   productId?: true;
   name?: true;
+  sellerId?: true;
   _all?: true;
 };
 
@@ -170,6 +180,7 @@ export type ProductGroupByArgs<
 export type ProductGroupByOutputType = {
   productId: number;
   name: string;
+  sellerId: number;
   _count: ProductCountAggregateOutputType | null;
   _avg: ProductAvgAggregateOutputType | null;
   _sum: ProductSumAggregateOutputType | null;
@@ -196,7 +207,9 @@ export type ProductWhereInput = {
   NOT?: Prisma.ProductWhereInput | Prisma.ProductWhereInput[];
   productId?: Prisma.IntFilter<'Product'> | number;
   name?: Prisma.StringFilter<'Product'> | string;
+  sellerId?: Prisma.IntFilter<'Product'> | number;
   orders?: Prisma.OrderListRelationFilter;
+  seller?: Prisma.XOR<Prisma.UserScalarRelationFilter, Prisma.UserWhereInput>;
   productDetails?: Prisma.XOR<
     Prisma.ProductDetailsNullableScalarRelationFilter,
     Prisma.ProductDetailsWhereInput
@@ -206,7 +219,9 @@ export type ProductWhereInput = {
 export type ProductOrderByWithRelationInput = {
   productId?: Prisma.SortOrder;
   name?: Prisma.SortOrder;
+  sellerId?: Prisma.SortOrder;
   orders?: Prisma.OrderOrderByRelationAggregateInput;
+  seller?: Prisma.UserOrderByWithRelationInput;
   productDetails?: Prisma.ProductDetailsOrderByWithRelationInput;
 };
 
@@ -217,7 +232,9 @@ export type ProductWhereUniqueInput = Prisma.AtLeast<
     AND?: Prisma.ProductWhereInput | Prisma.ProductWhereInput[];
     OR?: Prisma.ProductWhereInput[];
     NOT?: Prisma.ProductWhereInput | Prisma.ProductWhereInput[];
+    sellerId?: Prisma.IntFilter<'Product'> | number;
     orders?: Prisma.OrderListRelationFilter;
+    seller?: Prisma.XOR<Prisma.UserScalarRelationFilter, Prisma.UserWhereInput>;
     productDetails?: Prisma.XOR<
       Prisma.ProductDetailsNullableScalarRelationFilter,
       Prisma.ProductDetailsWhereInput
@@ -229,6 +246,7 @@ export type ProductWhereUniqueInput = Prisma.AtLeast<
 export type ProductOrderByWithAggregationInput = {
   productId?: Prisma.SortOrder;
   name?: Prisma.SortOrder;
+  sellerId?: Prisma.SortOrder;
   _count?: Prisma.ProductCountOrderByAggregateInput;
   _avg?: Prisma.ProductAvgOrderByAggregateInput;
   _max?: Prisma.ProductMaxOrderByAggregateInput;
@@ -246,17 +264,20 @@ export type ProductScalarWhereWithAggregatesInput = {
     | Prisma.ProductScalarWhereWithAggregatesInput[];
   productId?: Prisma.IntWithAggregatesFilter<'Product'> | number;
   name?: Prisma.StringWithAggregatesFilter<'Product'> | string;
+  sellerId?: Prisma.IntWithAggregatesFilter<'Product'> | number;
 };
 
 export type ProductCreateInput = {
   name: string;
   orders?: Prisma.OrderCreateNestedManyWithoutProductsInput;
+  seller: Prisma.UserCreateNestedOneWithoutProductsInput;
   productDetails?: Prisma.ProductDetailsCreateNestedOneWithoutProductInput;
 };
 
 export type ProductUncheckedCreateInput = {
   productId?: number;
   name: string;
+  sellerId: number;
   orders?: Prisma.OrderUncheckedCreateNestedManyWithoutProductsInput;
   productDetails?: Prisma.ProductDetailsUncheckedCreateNestedOneWithoutProductInput;
 };
@@ -264,12 +285,14 @@ export type ProductUncheckedCreateInput = {
 export type ProductUpdateInput = {
   name?: Prisma.StringFieldUpdateOperationsInput | string;
   orders?: Prisma.OrderUpdateManyWithoutProductsNestedInput;
+  seller?: Prisma.UserUpdateOneRequiredWithoutProductsNestedInput;
   productDetails?: Prisma.ProductDetailsUpdateOneWithoutProductNestedInput;
 };
 
 export type ProductUncheckedUpdateInput = {
   productId?: Prisma.IntFieldUpdateOperationsInput | number;
   name?: Prisma.StringFieldUpdateOperationsInput | string;
+  sellerId?: Prisma.IntFieldUpdateOperationsInput | number;
   orders?: Prisma.OrderUncheckedUpdateManyWithoutProductsNestedInput;
   productDetails?: Prisma.ProductDetailsUncheckedUpdateOneWithoutProductNestedInput;
 };
@@ -277,6 +300,7 @@ export type ProductUncheckedUpdateInput = {
 export type ProductCreateManyInput = {
   productId?: number;
   name: string;
+  sellerId: number;
 };
 
 export type ProductUpdateManyMutationInput = {
@@ -286,34 +310,7 @@ export type ProductUpdateManyMutationInput = {
 export type ProductUncheckedUpdateManyInput = {
   productId?: Prisma.IntFieldUpdateOperationsInput | number;
   name?: Prisma.StringFieldUpdateOperationsInput | string;
-};
-
-export type ProductCountOrderByAggregateInput = {
-  productId?: Prisma.SortOrder;
-  name?: Prisma.SortOrder;
-};
-
-export type ProductAvgOrderByAggregateInput = {
-  productId?: Prisma.SortOrder;
-};
-
-export type ProductMaxOrderByAggregateInput = {
-  productId?: Prisma.SortOrder;
-  name?: Prisma.SortOrder;
-};
-
-export type ProductMinOrderByAggregateInput = {
-  productId?: Prisma.SortOrder;
-  name?: Prisma.SortOrder;
-};
-
-export type ProductSumOrderByAggregateInput = {
-  productId?: Prisma.SortOrder;
-};
-
-export type ProductScalarRelationFilter = {
-  is?: Prisma.ProductWhereInput;
-  isNot?: Prisma.ProductWhereInput;
+  sellerId?: Prisma.IntFieldUpdateOperationsInput | number;
 };
 
 export type ProductListRelationFilter = {
@@ -324,6 +321,129 @@ export type ProductListRelationFilter = {
 
 export type ProductOrderByRelationAggregateInput = {
   _count?: Prisma.SortOrder;
+};
+
+export type ProductCountOrderByAggregateInput = {
+  productId?: Prisma.SortOrder;
+  name?: Prisma.SortOrder;
+  sellerId?: Prisma.SortOrder;
+};
+
+export type ProductAvgOrderByAggregateInput = {
+  productId?: Prisma.SortOrder;
+  sellerId?: Prisma.SortOrder;
+};
+
+export type ProductMaxOrderByAggregateInput = {
+  productId?: Prisma.SortOrder;
+  name?: Prisma.SortOrder;
+  sellerId?: Prisma.SortOrder;
+};
+
+export type ProductMinOrderByAggregateInput = {
+  productId?: Prisma.SortOrder;
+  name?: Prisma.SortOrder;
+  sellerId?: Prisma.SortOrder;
+};
+
+export type ProductSumOrderByAggregateInput = {
+  productId?: Prisma.SortOrder;
+  sellerId?: Prisma.SortOrder;
+};
+
+export type ProductScalarRelationFilter = {
+  is?: Prisma.ProductWhereInput;
+  isNot?: Prisma.ProductWhereInput;
+};
+
+export type ProductCreateNestedManyWithoutSellerInput = {
+  create?:
+    | Prisma.XOR<
+        Prisma.ProductCreateWithoutSellerInput,
+        Prisma.ProductUncheckedCreateWithoutSellerInput
+      >
+    | Prisma.ProductCreateWithoutSellerInput[]
+    | Prisma.ProductUncheckedCreateWithoutSellerInput[];
+  connectOrCreate?:
+    | Prisma.ProductCreateOrConnectWithoutSellerInput
+    | Prisma.ProductCreateOrConnectWithoutSellerInput[];
+  createMany?: Prisma.ProductCreateManySellerInputEnvelope;
+  connect?: Prisma.ProductWhereUniqueInput | Prisma.ProductWhereUniqueInput[];
+};
+
+export type ProductUncheckedCreateNestedManyWithoutSellerInput = {
+  create?:
+    | Prisma.XOR<
+        Prisma.ProductCreateWithoutSellerInput,
+        Prisma.ProductUncheckedCreateWithoutSellerInput
+      >
+    | Prisma.ProductCreateWithoutSellerInput[]
+    | Prisma.ProductUncheckedCreateWithoutSellerInput[];
+  connectOrCreate?:
+    | Prisma.ProductCreateOrConnectWithoutSellerInput
+    | Prisma.ProductCreateOrConnectWithoutSellerInput[];
+  createMany?: Prisma.ProductCreateManySellerInputEnvelope;
+  connect?: Prisma.ProductWhereUniqueInput | Prisma.ProductWhereUniqueInput[];
+};
+
+export type ProductUpdateManyWithoutSellerNestedInput = {
+  create?:
+    | Prisma.XOR<
+        Prisma.ProductCreateWithoutSellerInput,
+        Prisma.ProductUncheckedCreateWithoutSellerInput
+      >
+    | Prisma.ProductCreateWithoutSellerInput[]
+    | Prisma.ProductUncheckedCreateWithoutSellerInput[];
+  connectOrCreate?:
+    | Prisma.ProductCreateOrConnectWithoutSellerInput
+    | Prisma.ProductCreateOrConnectWithoutSellerInput[];
+  upsert?:
+    | Prisma.ProductUpsertWithWhereUniqueWithoutSellerInput
+    | Prisma.ProductUpsertWithWhereUniqueWithoutSellerInput[];
+  createMany?: Prisma.ProductCreateManySellerInputEnvelope;
+  set?: Prisma.ProductWhereUniqueInput | Prisma.ProductWhereUniqueInput[];
+  disconnect?:
+    Prisma.ProductWhereUniqueInput | Prisma.ProductWhereUniqueInput[];
+  delete?: Prisma.ProductWhereUniqueInput | Prisma.ProductWhereUniqueInput[];
+  connect?: Prisma.ProductWhereUniqueInput | Prisma.ProductWhereUniqueInput[];
+  update?:
+    | Prisma.ProductUpdateWithWhereUniqueWithoutSellerInput
+    | Prisma.ProductUpdateWithWhereUniqueWithoutSellerInput[];
+  updateMany?:
+    | Prisma.ProductUpdateManyWithWhereWithoutSellerInput
+    | Prisma.ProductUpdateManyWithWhereWithoutSellerInput[];
+  deleteMany?:
+    Prisma.ProductScalarWhereInput | Prisma.ProductScalarWhereInput[];
+};
+
+export type ProductUncheckedUpdateManyWithoutSellerNestedInput = {
+  create?:
+    | Prisma.XOR<
+        Prisma.ProductCreateWithoutSellerInput,
+        Prisma.ProductUncheckedCreateWithoutSellerInput
+      >
+    | Prisma.ProductCreateWithoutSellerInput[]
+    | Prisma.ProductUncheckedCreateWithoutSellerInput[];
+  connectOrCreate?:
+    | Prisma.ProductCreateOrConnectWithoutSellerInput
+    | Prisma.ProductCreateOrConnectWithoutSellerInput[];
+  upsert?:
+    | Prisma.ProductUpsertWithWhereUniqueWithoutSellerInput
+    | Prisma.ProductUpsertWithWhereUniqueWithoutSellerInput[];
+  createMany?: Prisma.ProductCreateManySellerInputEnvelope;
+  set?: Prisma.ProductWhereUniqueInput | Prisma.ProductWhereUniqueInput[];
+  disconnect?:
+    Prisma.ProductWhereUniqueInput | Prisma.ProductWhereUniqueInput[];
+  delete?: Prisma.ProductWhereUniqueInput | Prisma.ProductWhereUniqueInput[];
+  connect?: Prisma.ProductWhereUniqueInput | Prisma.ProductWhereUniqueInput[];
+  update?:
+    | Prisma.ProductUpdateWithWhereUniqueWithoutSellerInput
+    | Prisma.ProductUpdateWithWhereUniqueWithoutSellerInput[];
+  updateMany?:
+    | Prisma.ProductUpdateManyWithWhereWithoutSellerInput
+    | Prisma.ProductUpdateManyWithWhereWithoutSellerInput[];
+  deleteMany?:
+    Prisma.ProductScalarWhereInput | Prisma.ProductScalarWhereInput[];
 };
 
 export type ProductCreateNestedOneWithoutProductDetailsInput = {
@@ -438,14 +558,80 @@ export type ProductUncheckedUpdateManyWithoutOrdersNestedInput = {
     Prisma.ProductScalarWhereInput | Prisma.ProductScalarWhereInput[];
 };
 
+export type ProductCreateWithoutSellerInput = {
+  name: string;
+  orders?: Prisma.OrderCreateNestedManyWithoutProductsInput;
+  productDetails?: Prisma.ProductDetailsCreateNestedOneWithoutProductInput;
+};
+
+export type ProductUncheckedCreateWithoutSellerInput = {
+  productId?: number;
+  name: string;
+  orders?: Prisma.OrderUncheckedCreateNestedManyWithoutProductsInput;
+  productDetails?: Prisma.ProductDetailsUncheckedCreateNestedOneWithoutProductInput;
+};
+
+export type ProductCreateOrConnectWithoutSellerInput = {
+  where: Prisma.ProductWhereUniqueInput;
+  create: Prisma.XOR<
+    Prisma.ProductCreateWithoutSellerInput,
+    Prisma.ProductUncheckedCreateWithoutSellerInput
+  >;
+};
+
+export type ProductCreateManySellerInputEnvelope = {
+  data:
+    Prisma.ProductCreateManySellerInput | Prisma.ProductCreateManySellerInput[];
+  skipDuplicates?: boolean;
+};
+
+export type ProductUpsertWithWhereUniqueWithoutSellerInput = {
+  where: Prisma.ProductWhereUniqueInput;
+  update: Prisma.XOR<
+    Prisma.ProductUpdateWithoutSellerInput,
+    Prisma.ProductUncheckedUpdateWithoutSellerInput
+  >;
+  create: Prisma.XOR<
+    Prisma.ProductCreateWithoutSellerInput,
+    Prisma.ProductUncheckedCreateWithoutSellerInput
+  >;
+};
+
+export type ProductUpdateWithWhereUniqueWithoutSellerInput = {
+  where: Prisma.ProductWhereUniqueInput;
+  data: Prisma.XOR<
+    Prisma.ProductUpdateWithoutSellerInput,
+    Prisma.ProductUncheckedUpdateWithoutSellerInput
+  >;
+};
+
+export type ProductUpdateManyWithWhereWithoutSellerInput = {
+  where: Prisma.ProductScalarWhereInput;
+  data: Prisma.XOR<
+    Prisma.ProductUpdateManyMutationInput,
+    Prisma.ProductUncheckedUpdateManyWithoutSellerInput
+  >;
+};
+
+export type ProductScalarWhereInput = {
+  AND?: Prisma.ProductScalarWhereInput | Prisma.ProductScalarWhereInput[];
+  OR?: Prisma.ProductScalarWhereInput[];
+  NOT?: Prisma.ProductScalarWhereInput | Prisma.ProductScalarWhereInput[];
+  productId?: Prisma.IntFilter<'Product'> | number;
+  name?: Prisma.StringFilter<'Product'> | string;
+  sellerId?: Prisma.IntFilter<'Product'> | number;
+};
+
 export type ProductCreateWithoutProductDetailsInput = {
   name: string;
   orders?: Prisma.OrderCreateNestedManyWithoutProductsInput;
+  seller: Prisma.UserCreateNestedOneWithoutProductsInput;
 };
 
 export type ProductUncheckedCreateWithoutProductDetailsInput = {
   productId?: number;
   name: string;
+  sellerId: number;
   orders?: Prisma.OrderUncheckedCreateNestedManyWithoutProductsInput;
 };
 
@@ -480,22 +666,26 @@ export type ProductUpdateToOneWithWhereWithoutProductDetailsInput = {
 export type ProductUpdateWithoutProductDetailsInput = {
   name?: Prisma.StringFieldUpdateOperationsInput | string;
   orders?: Prisma.OrderUpdateManyWithoutProductsNestedInput;
+  seller?: Prisma.UserUpdateOneRequiredWithoutProductsNestedInput;
 };
 
 export type ProductUncheckedUpdateWithoutProductDetailsInput = {
   productId?: Prisma.IntFieldUpdateOperationsInput | number;
   name?: Prisma.StringFieldUpdateOperationsInput | string;
+  sellerId?: Prisma.IntFieldUpdateOperationsInput | number;
   orders?: Prisma.OrderUncheckedUpdateManyWithoutProductsNestedInput;
 };
 
 export type ProductCreateWithoutOrdersInput = {
   name: string;
+  seller: Prisma.UserCreateNestedOneWithoutProductsInput;
   productDetails?: Prisma.ProductDetailsCreateNestedOneWithoutProductInput;
 };
 
 export type ProductUncheckedCreateWithoutOrdersInput = {
   productId?: number;
   name: string;
+  sellerId: number;
   productDetails?: Prisma.ProductDetailsUncheckedCreateNestedOneWithoutProductInput;
 };
 
@@ -535,28 +725,46 @@ export type ProductUpdateManyWithWhereWithoutOrdersInput = {
   >;
 };
 
-export type ProductScalarWhereInput = {
-  AND?: Prisma.ProductScalarWhereInput | Prisma.ProductScalarWhereInput[];
-  OR?: Prisma.ProductScalarWhereInput[];
-  NOT?: Prisma.ProductScalarWhereInput | Prisma.ProductScalarWhereInput[];
-  productId?: Prisma.IntFilter<'Product'> | number;
-  name?: Prisma.StringFilter<'Product'> | string;
+export type ProductCreateManySellerInput = {
+  productId?: number;
+  name: string;
+};
+
+export type ProductUpdateWithoutSellerInput = {
+  name?: Prisma.StringFieldUpdateOperationsInput | string;
+  orders?: Prisma.OrderUpdateManyWithoutProductsNestedInput;
+  productDetails?: Prisma.ProductDetailsUpdateOneWithoutProductNestedInput;
+};
+
+export type ProductUncheckedUpdateWithoutSellerInput = {
+  productId?: Prisma.IntFieldUpdateOperationsInput | number;
+  name?: Prisma.StringFieldUpdateOperationsInput | string;
+  orders?: Prisma.OrderUncheckedUpdateManyWithoutProductsNestedInput;
+  productDetails?: Prisma.ProductDetailsUncheckedUpdateOneWithoutProductNestedInput;
+};
+
+export type ProductUncheckedUpdateManyWithoutSellerInput = {
+  productId?: Prisma.IntFieldUpdateOperationsInput | number;
+  name?: Prisma.StringFieldUpdateOperationsInput | string;
 };
 
 export type ProductUpdateWithoutOrdersInput = {
   name?: Prisma.StringFieldUpdateOperationsInput | string;
+  seller?: Prisma.UserUpdateOneRequiredWithoutProductsNestedInput;
   productDetails?: Prisma.ProductDetailsUpdateOneWithoutProductNestedInput;
 };
 
 export type ProductUncheckedUpdateWithoutOrdersInput = {
   productId?: Prisma.IntFieldUpdateOperationsInput | number;
   name?: Prisma.StringFieldUpdateOperationsInput | string;
+  sellerId?: Prisma.IntFieldUpdateOperationsInput | number;
   productDetails?: Prisma.ProductDetailsUncheckedUpdateOneWithoutProductNestedInput;
 };
 
 export type ProductUncheckedUpdateManyWithoutOrdersInput = {
   productId?: Prisma.IntFieldUpdateOperationsInput | number;
   name?: Prisma.StringFieldUpdateOperationsInput | string;
+  sellerId?: Prisma.IntFieldUpdateOperationsInput | number;
 };
 
 /**
@@ -604,7 +812,9 @@ export type ProductSelect<
   {
     productId?: boolean;
     name?: boolean;
+    sellerId?: boolean;
     orders?: boolean | Prisma.Product$ordersArgs<ExtArgs>;
+    seller?: boolean | Prisma.UserDefaultArgs<ExtArgs>;
     productDetails?: boolean | Prisma.Product$productDetailsArgs<ExtArgs>;
     _count?: boolean | Prisma.ProductCountOutputTypeDefaultArgs<ExtArgs>;
   },
@@ -618,6 +828,8 @@ export type ProductSelectCreateManyAndReturn<
   {
     productId?: boolean;
     name?: boolean;
+    sellerId?: boolean;
+    seller?: boolean | Prisma.UserDefaultArgs<ExtArgs>;
   },
   ExtArgs['result']['product']
 >;
@@ -629,6 +841,8 @@ export type ProductSelectUpdateManyAndReturn<
   {
     productId?: boolean;
     name?: boolean;
+    sellerId?: boolean;
+    seller?: boolean | Prisma.UserDefaultArgs<ExtArgs>;
   },
   ExtArgs['result']['product']
 >;
@@ -636,13 +850,14 @@ export type ProductSelectUpdateManyAndReturn<
 export type ProductSelectScalar = {
   productId?: boolean;
   name?: boolean;
+  sellerId?: boolean;
 };
 
 export type ProductOmit<
   ExtArgs extends runtime.Types.Extensions.InternalArgs =
     runtime.Types.Extensions.DefaultArgs,
 > = runtime.Types.Extensions.GetOmit<
-  'productId' | 'name',
+  'productId' | 'name' | 'sellerId',
   ExtArgs['result']['product']
 >;
 export type ProductInclude<
@@ -650,17 +865,22 @@ export type ProductInclude<
     runtime.Types.Extensions.DefaultArgs,
 > = {
   orders?: boolean | Prisma.Product$ordersArgs<ExtArgs>;
+  seller?: boolean | Prisma.UserDefaultArgs<ExtArgs>;
   productDetails?: boolean | Prisma.Product$productDetailsArgs<ExtArgs>;
   _count?: boolean | Prisma.ProductCountOutputTypeDefaultArgs<ExtArgs>;
 };
 export type ProductIncludeCreateManyAndReturn<
   ExtArgs extends runtime.Types.Extensions.InternalArgs =
     runtime.Types.Extensions.DefaultArgs,
-> = {};
+> = {
+  seller?: boolean | Prisma.UserDefaultArgs<ExtArgs>;
+};
 export type ProductIncludeUpdateManyAndReturn<
   ExtArgs extends runtime.Types.Extensions.InternalArgs =
     runtime.Types.Extensions.DefaultArgs,
-> = {};
+> = {
+  seller?: boolean | Prisma.UserDefaultArgs<ExtArgs>;
+};
 
 export type $ProductPayload<
   ExtArgs extends runtime.Types.Extensions.InternalArgs =
@@ -669,12 +889,14 @@ export type $ProductPayload<
   name: 'Product';
   objects: {
     orders: Prisma.$OrderPayload<ExtArgs>[];
+    seller: Prisma.$UserPayload<ExtArgs>;
     productDetails: Prisma.$ProductDetailsPayload<ExtArgs> | null;
   };
   scalars: runtime.Types.Extensions.GetPayloadResult<
     {
       productId: number;
       name: string;
+      sellerId: number;
     },
     ExtArgs['result']['product']
   >;
@@ -1236,6 +1458,20 @@ export interface Prisma__ProductClient<
       >
     | Null
   >;
+  seller<T extends Prisma.UserDefaultArgs<ExtArgs> = {}>(
+    args?: Prisma.Subset<T, Prisma.UserDefaultArgs<ExtArgs>>,
+  ): Prisma.Prisma__UserClient<
+    | runtime.Types.Result.GetResult<
+        Prisma.$UserPayload<ExtArgs>,
+        T,
+        'findUniqueOrThrow',
+        GlobalOmitOptions
+      >
+    | Null,
+    Null,
+    ExtArgs,
+    GlobalOmitOptions
+  >;
   productDetails<T extends Prisma.Product$productDetailsArgs<ExtArgs> = {}>(
     args?: Prisma.Subset<T, Prisma.Product$productDetailsArgs<ExtArgs>>,
   ): Prisma.Prisma__ProductDetailsClient<
@@ -1287,6 +1523,7 @@ export interface Prisma__ProductClient<
 export interface ProductFieldRefs {
   readonly productId: Prisma.FieldRef<'Product', 'Int'>;
   readonly name: Prisma.FieldRef<'Product', 'String'>;
+  readonly sellerId: Prisma.FieldRef<'Product', 'Int'>;
 }
 
 // Custom InputTypes
@@ -1573,6 +1810,10 @@ export type ProductCreateManyAndReturnArgs<
    */
   data: Prisma.ProductCreateManyInput | Prisma.ProductCreateManyInput[];
   skipDuplicates?: boolean;
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.ProductIncludeCreateManyAndReturn<ExtArgs> | null;
 };
 
 /**
@@ -1661,6 +1902,10 @@ export type ProductUpdateManyAndReturnArgs<
    * Limit how many Products to update.
    */
   limit?: number;
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.ProductIncludeUpdateManyAndReturn<ExtArgs> | null;
 };
 
 /**

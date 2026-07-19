@@ -21,7 +21,7 @@ model User {
   status UserStatus @default(active)
   role Role @default(user)
   orders Order[]
-
+  products Product[]
   @@map("users")
 }
 
@@ -40,16 +40,20 @@ model Product {
   productId Int @id @default(autoincrement()) @map("product_id")
   name String @db.VarChar(30) @unique
   orders Order[] @relation("products_in_order")
+  sellerId Int @map("seller_id")
+  seller User @relation(fields: [sellerId], references: [userId])
   productDetails ProductDetails?
+
   @@map("products")
 }
 
 model ProductDetails {
-  productDetailId Int @unique
+  productDetailId Int @unique @map("product_detail_id")
   product Product @relation(fields: [productDetailId], references: [productId])
   price Float
   color String?
   size String?
+  author String?
   images String[]
   description String?
   category ProductCategory?

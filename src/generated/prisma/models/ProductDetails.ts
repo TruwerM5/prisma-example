@@ -41,6 +41,7 @@ export type ProductDetailsMinAggregateOutputType = {
   price: number | null;
   color: string | null;
   size: string | null;
+  author: string | null;
   description: string | null;
   category: $Enums.ProductCategory | null;
 };
@@ -50,6 +51,7 @@ export type ProductDetailsMaxAggregateOutputType = {
   price: number | null;
   color: string | null;
   size: string | null;
+  author: string | null;
   description: string | null;
   category: $Enums.ProductCategory | null;
 };
@@ -59,6 +61,7 @@ export type ProductDetailsCountAggregateOutputType = {
   price: number;
   color: number;
   size: number;
+  author: number;
   images: number;
   description: number;
   category: number;
@@ -80,6 +83,7 @@ export type ProductDetailsMinAggregateInputType = {
   price?: true;
   color?: true;
   size?: true;
+  author?: true;
   description?: true;
   category?: true;
 };
@@ -89,6 +93,7 @@ export type ProductDetailsMaxAggregateInputType = {
   price?: true;
   color?: true;
   size?: true;
+  author?: true;
   description?: true;
   category?: true;
 };
@@ -98,6 +103,7 @@ export type ProductDetailsCountAggregateInputType = {
   price?: true;
   color?: true;
   size?: true;
+  author?: true;
   images?: true;
   description?: true;
   category?: true;
@@ -206,6 +212,7 @@ export type ProductDetailsGroupByOutputType = {
   price: number;
   color: string | null;
   size: string | null;
+  author: string | null;
   images: string[];
   description: string | null;
   category: $Enums.ProductCategory | null;
@@ -238,6 +245,7 @@ export type ProductDetailsWhereInput = {
   price?: Prisma.FloatFilter<'ProductDetails'> | number;
   color?: Prisma.StringNullableFilter<'ProductDetails'> | string | null;
   size?: Prisma.StringNullableFilter<'ProductDetails'> | string | null;
+  author?: Prisma.StringNullableFilter<'ProductDetails'> | string | null;
   images?: Prisma.StringNullableListFilter<'ProductDetails'>;
   description?: Prisma.StringNullableFilter<'ProductDetails'> | string | null;
   category?:
@@ -255,6 +263,7 @@ export type ProductDetailsOrderByWithRelationInput = {
   price?: Prisma.SortOrder;
   color?: Prisma.SortOrderInput | Prisma.SortOrder;
   size?: Prisma.SortOrderInput | Prisma.SortOrder;
+  author?: Prisma.SortOrderInput | Prisma.SortOrder;
   images?: Prisma.SortOrder;
   description?: Prisma.SortOrderInput | Prisma.SortOrder;
   category?: Prisma.SortOrderInput | Prisma.SortOrder;
@@ -270,6 +279,7 @@ export type ProductDetailsWhereUniqueInput = Prisma.AtLeast<
     price?: Prisma.FloatFilter<'ProductDetails'> | number;
     color?: Prisma.StringNullableFilter<'ProductDetails'> | string | null;
     size?: Prisma.StringNullableFilter<'ProductDetails'> | string | null;
+    author?: Prisma.StringNullableFilter<'ProductDetails'> | string | null;
     images?: Prisma.StringNullableListFilter<'ProductDetails'>;
     description?: Prisma.StringNullableFilter<'ProductDetails'> | string | null;
     category?:
@@ -289,6 +299,7 @@ export type ProductDetailsOrderByWithAggregationInput = {
   price?: Prisma.SortOrder;
   color?: Prisma.SortOrderInput | Prisma.SortOrder;
   size?: Prisma.SortOrderInput | Prisma.SortOrder;
+  author?: Prisma.SortOrderInput | Prisma.SortOrder;
   images?: Prisma.SortOrder;
   description?: Prisma.SortOrderInput | Prisma.SortOrder;
   category?: Prisma.SortOrderInput | Prisma.SortOrder;
@@ -313,6 +324,8 @@ export type ProductDetailsScalarWhereWithAggregatesInput = {
     Prisma.StringNullableWithAggregatesFilter<'ProductDetails'> | string | null;
   size?:
     Prisma.StringNullableWithAggregatesFilter<'ProductDetails'> | string | null;
+  author?:
+    Prisma.StringNullableWithAggregatesFilter<'ProductDetails'> | string | null;
   images?: Prisma.StringNullableListFilter<'ProductDetails'>;
   description?:
     Prisma.StringNullableWithAggregatesFilter<'ProductDetails'> | string | null;
@@ -326,6 +339,7 @@ export type ProductDetailsCreateInput = {
   price: number;
   color?: string | null;
   size?: string | null;
+  author?: string | null;
   images?: Prisma.ProductDetailsCreateimagesInput | string[];
   description?: string | null;
   category?: $Enums.ProductCategory | null;
@@ -337,6 +351,7 @@ export type ProductDetailsUncheckedCreateInput = {
   price: number;
   color?: string | null;
   size?: string | null;
+  author?: string | null;
   images?: Prisma.ProductDetailsCreateimagesInput | string[];
   description?: string | null;
   category?: $Enums.ProductCategory | null;
@@ -346,6 +361,7 @@ export type ProductDetailsUpdateInput = {
   price?: Prisma.FloatFieldUpdateOperationsInput | number;
   color?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
   size?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
+  author?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
   images?: Prisma.ProductDetailsUpdateimagesInput | string[];
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
   category?:
@@ -360,6 +376,7 @@ export type ProductDetailsUncheckedUpdateInput = {
   price?: Prisma.FloatFieldUpdateOperationsInput | number;
   color?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
   size?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
+  author?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
   images?: Prisma.ProductDetailsUpdateimagesInput | string[];
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
   category?:
@@ -373,6 +390,7 @@ export type ProductDetailsCreateManyInput = {
   price: number;
   color?: string | null;
   size?: string | null;
+  author?: string | null;
   images?: Prisma.ProductDetailsCreateimagesInput | string[];
   description?: string | null;
   category?: $Enums.ProductCategory | null;
@@ -382,6 +400,7 @@ export type ProductDetailsUpdateManyMutationInput = {
   price?: Prisma.FloatFieldUpdateOperationsInput | number;
   color?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
   size?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
+  author?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
   images?: Prisma.ProductDetailsUpdateimagesInput | string[];
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
   category?:
@@ -395,6 +414,7 @@ export type ProductDetailsUncheckedUpdateManyInput = {
   price?: Prisma.FloatFieldUpdateOperationsInput | number;
   color?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
   size?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
+  author?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
   images?: Prisma.ProductDetailsUpdateimagesInput | string[];
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
   category?:
@@ -421,6 +441,7 @@ export type ProductDetailsCountOrderByAggregateInput = {
   price?: Prisma.SortOrder;
   color?: Prisma.SortOrder;
   size?: Prisma.SortOrder;
+  author?: Prisma.SortOrder;
   images?: Prisma.SortOrder;
   description?: Prisma.SortOrder;
   category?: Prisma.SortOrder;
@@ -436,6 +457,7 @@ export type ProductDetailsMaxOrderByAggregateInput = {
   price?: Prisma.SortOrder;
   color?: Prisma.SortOrder;
   size?: Prisma.SortOrder;
+  author?: Prisma.SortOrder;
   description?: Prisma.SortOrder;
   category?: Prisma.SortOrder;
 };
@@ -445,6 +467,7 @@ export type ProductDetailsMinOrderByAggregateInput = {
   price?: Prisma.SortOrder;
   color?: Prisma.SortOrder;
   size?: Prisma.SortOrder;
+  author?: Prisma.SortOrder;
   description?: Prisma.SortOrder;
   category?: Prisma.SortOrder;
 };
@@ -539,6 +562,7 @@ export type ProductDetailsCreateWithoutProductInput = {
   price: number;
   color?: string | null;
   size?: string | null;
+  author?: string | null;
   images?: Prisma.ProductDetailsCreateimagesInput | string[];
   description?: string | null;
   category?: $Enums.ProductCategory | null;
@@ -548,6 +572,7 @@ export type ProductDetailsUncheckedCreateWithoutProductInput = {
   price: number;
   color?: string | null;
   size?: string | null;
+  author?: string | null;
   images?: Prisma.ProductDetailsCreateimagesInput | string[];
   description?: string | null;
   category?: $Enums.ProductCategory | null;
@@ -585,6 +610,7 @@ export type ProductDetailsUpdateWithoutProductInput = {
   price?: Prisma.FloatFieldUpdateOperationsInput | number;
   color?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
   size?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
+  author?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
   images?: Prisma.ProductDetailsUpdateimagesInput | string[];
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
   category?:
@@ -597,6 +623,7 @@ export type ProductDetailsUncheckedUpdateWithoutProductInput = {
   price?: Prisma.FloatFieldUpdateOperationsInput | number;
   color?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
   size?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
+  author?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
   images?: Prisma.ProductDetailsUpdateimagesInput | string[];
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
   category?:
@@ -614,6 +641,7 @@ export type ProductDetailsSelect<
     price?: boolean;
     color?: boolean;
     size?: boolean;
+    author?: boolean;
     images?: boolean;
     description?: boolean;
     category?: boolean;
@@ -631,6 +659,7 @@ export type ProductDetailsSelectCreateManyAndReturn<
     price?: boolean;
     color?: boolean;
     size?: boolean;
+    author?: boolean;
     images?: boolean;
     description?: boolean;
     category?: boolean;
@@ -648,6 +677,7 @@ export type ProductDetailsSelectUpdateManyAndReturn<
     price?: boolean;
     color?: boolean;
     size?: boolean;
+    author?: boolean;
     images?: boolean;
     description?: boolean;
     category?: boolean;
@@ -661,6 +691,7 @@ export type ProductDetailsSelectScalar = {
   price?: boolean;
   color?: boolean;
   size?: boolean;
+  author?: boolean;
   images?: boolean;
   description?: boolean;
   category?: boolean;
@@ -674,6 +705,7 @@ export type ProductDetailsOmit<
   | 'price'
   | 'color'
   | 'size'
+  | 'author'
   | 'images'
   | 'description'
   | 'category',
@@ -712,6 +744,7 @@ export type $ProductDetailsPayload<
       price: number;
       color: string | null;
       size: string | null;
+      author: string | null;
       images: string[];
       description: string | null;
       category: $Enums.ProductCategory | null;
@@ -1331,6 +1364,7 @@ export interface ProductDetailsFieldRefs {
   readonly price: Prisma.FieldRef<'ProductDetails', 'Float'>;
   readonly color: Prisma.FieldRef<'ProductDetails', 'String'>;
   readonly size: Prisma.FieldRef<'ProductDetails', 'String'>;
+  readonly author: Prisma.FieldRef<'ProductDetails', 'String'>;
   readonly images: Prisma.FieldRef<'ProductDetails', 'String[]'>;
   readonly description: Prisma.FieldRef<'ProductDetails', 'String'>;
   readonly category: Prisma.FieldRef<'ProductDetails', 'ProductCategory'>;

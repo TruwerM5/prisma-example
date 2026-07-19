@@ -798,6 +798,7 @@ export type UserScalarFieldEnum =
 export const ProductScalarFieldEnum = {
   productId: 'productId',
   name: 'name',
+  sellerId: 'sellerId',
 } as const;
 
 export type ProductScalarFieldEnum =
@@ -808,6 +809,7 @@ export const ProductDetailsScalarFieldEnum = {
   price: 'price',
   color: 'color',
   size: 'size',
+  author: 'author',
   images: 'images',
   description: 'description',
   category: 'category',
