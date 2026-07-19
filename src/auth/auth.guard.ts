@@ -28,7 +28,6 @@ export class AuthGuard implements CanActivate {
 
   private extractTokenFromCookie(request: Request): string | undefined {
     const jwt = request.cookies.jwt;
-    console.log(request.cookies);
     return jwt;
   }
 }
