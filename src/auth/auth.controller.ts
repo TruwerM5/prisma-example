@@ -1,10 +1,17 @@
-import { Controller, Post, Body, HttpCode, Res, BadRequestException, Req } from '@nestjs/common';
+import {
+  Controller,
+  Post,
+  Body,
+  HttpCode,
+  Res,
+  BadRequestException,
+} from '@nestjs/common';
 import { AuthService } from './auth.service';
 import { GetUserDto } from './dto/get-user.dto';
 import { LoginDto } from './dto/login.dto';
 import { SignUpDto } from './dto/signup.dto';
 import type { Response } from 'express';
-import { AuthGuard } from './auth.guard';
+
 @Controller('auth')
 export class AuthController {
   constructor(private readonly authService: AuthService) {}
@@ -34,9 +41,7 @@ export class AuthController {
 
   @Post('logout')
   @HttpCode(200)
-  logout(
-    @Res({ passthrough: true }) response: Response,
-  ): { success: boolean; } {
+  logout(@Res({ passthrough: true }) response: Response): { success: boolean } {
     try {
       response.clearCookie('jwt', {
         httpOnly: true,
@@ -44,7 +49,7 @@ export class AuthController {
         path: '/',
       });
       return { success: true };
-    } catch(err) {
+    } catch (err) {
       throw new BadRequestException();
     }
   }
