@@ -23,6 +23,7 @@ async function main() {
             email: "alice@prisma.io",
             name: "Alice",
             password: alicePassword,
+            role: 'seller',
         },
     });
     const bobPassword = await hash('secret', salt);
