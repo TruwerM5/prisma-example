@@ -21,9 +21,7 @@ export class ProductsController {
   @UseGuards(AuthGuard, RolesGuard)
   @Roles(Role.seller)
   @Get('my-products')
-  getSellersProducts(
-    @Req() request: AuthenticatedRequest,
-  ) {
+  getSellersProducts(@Req() request: AuthenticatedRequest) {
     const sellerId = request.user.userId;
     return this.productsService.getProductsBySeller(sellerId);
   }
@@ -35,8 +33,11 @@ export class ProductsController {
 
   @UseGuards(AuthGuard)
   @Post('add')
-  addProduct(@Body() product: CreateProductDto, @Req() request) {
-    const sellerId: number = request.user?.userId;
+  addProduct(
+    @Body() product: CreateProductDto, 
+    @Req() request: AuthenticatedRequest
+  ) {
+    const sellerId = request.user?.userId;
     product.sellerId = sellerId;
     return this.productsService.createProduct(product);
   }

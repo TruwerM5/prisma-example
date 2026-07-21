@@ -6,3 +6,7 @@ export class GetUserDto {
   status: UserStatus;
   role: Role;
 }
+
+export class GetUserWithPasswordDto extends GetUserDto {
+  password: string;
+}

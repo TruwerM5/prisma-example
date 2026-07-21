@@ -12,6 +12,7 @@ import {
 import { UserService } from './user.service';
 import { User as UserModel, Prisma } from 'src/generated/prisma/client';
 import { AuthGuard } from 'src/guards/auth.guard';
+import type { AuthenticatedRequest } from 'types';
 @Controller('user')
 export class UserController {
   constructor(private readonly userService: UserService) {}
@@ -23,7 +24,7 @@ export class UserController {
 
   @UseGuards(AuthGuard)
   @Get('profile')
-  getProfile(@Request() req) {
+  getProfile(@Request() req: AuthenticatedRequest) {
     return req.user;
   }
 
@@ -37,9 +38,7 @@ export class UserController {
   }
 
   @Post()
-  async signupUser(
-    @Body() userData: Prisma.UserCreateInput,
-  ): Promise<UserModel> {
+  async signupUser(@Body() userData: Prisma.UserCreateInput): Promise<UserModel> {
     return this.userService.createUser(userData);
   }
 }

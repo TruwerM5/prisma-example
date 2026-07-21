@@ -7,7 +7,7 @@ export class AppController {
 
   @Get()
   @HttpCode(200)
-  async getHello() {
-    return await this.appService.getHello();
+  getHello() {
+    return this.appService.getHello();
   }
 }

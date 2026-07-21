@@ -1,6 +1,6 @@
 import { BadRequestException, ConflictException, Injectable, NotFoundException } from '@nestjs/common';
 import { PrismaService } from 'src/prisma.service';
-import { Product } from 'src/generated/prisma/client';
+import { Prisma, Product } from 'src/generated/prisma/client';
 import { CreateProductDto } from './dto/create-product.dto';
 @Injectable()
 export class ProductsService {
@@ -63,6 +63,9 @@ export class ProductsService {
         },
       });
     } catch (err) {
+      if (!(err instanceof Prisma.PrismaClientKnownRequestError)) {
+        throw err;
+      }
       const code = err.code;
       if (err.code === 'P2002') {
         throw new ConflictException(code);
