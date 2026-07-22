@@ -39,10 +39,11 @@ enum UserStatus {
 model Product {
   productId Int @id @default(autoincrement()) @map("product_id")
   name String @db.VarChar(150)
-  orders Order[] @relation("products_in_order")
   sellerId Int @map("seller_id")
   seller User @relation(fields: [sellerId], references: [userId])
   productDetails ProductDetails?
+  orderItem OrderItem?
+  discount Discount?
 
   @@unique([sellerId, name])
   @@map("products")
@@ -58,6 +59,7 @@ model ProductDetails {
   images String[]
   description String?
   category ProductCategory?
+  discount Decimal?
 
   @@map("product_details")
 }
@@ -73,9 +75,28 @@ model Order {
   userId Int @map("user_id")
   user User @relation(fields: [userId], references: [userId])
   status OrderStatus @default(unpaid)
-  products Product[] @relation("products_in_order")
-
+  orderItems OrderItem[]
+  createdTime DateTime @default(now())
   @@map("orders")
+}
+
+model OrderItem {
+  productId Int @unique @map("product_id")
+  orderId Int @unique @map("order_id")
+  summaryPrice Decimal
+  quantity Int
+  product Product @relation(fields: [productId], references: [productId])
+  order Order @relation(fields: [orderId], references: [orderId])
+
+  @@map("order_items")
+}
+
+model Discount {
+  productId Int @unique
+  discount Decimal
+  product Product @relation(fields: [productId], references: [productId])
+
+  @@map("discounts")
 }
 
 enum OrderStatus {
