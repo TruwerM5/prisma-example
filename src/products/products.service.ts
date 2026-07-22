@@ -2,6 +2,7 @@ import { BadRequestException, ConflictException, Injectable, NotFoundException }
 import { PrismaService } from 'src/prisma.service';
 import { Prisma, Product } from 'src/generated/prisma/client';
 import { CreateProductDto } from './dto/create-product.dto';
+import { EditProductDto } from './dto/edit-product.dto';
 @Injectable()
 export class ProductsService {
   constructor(private prisma: PrismaService) {}
@@ -72,5 +73,37 @@ export class ProductsService {
       }
       throw new BadRequestException(code);
     }
+  }
+
+  async editProduct(
+    productId: number,
+    productDto: EditProductDto
+  ): Promise<Product> {
+    const { productDetails, name } = productDto;
+    return this.prisma.product.update({
+      where: {
+        productId: productId,
+      },
+      data: {
+        name,
+        productDetails: {
+          update: {
+            where: {
+              productId,
+            },
+            data: {
+              ...productDetails,
+            }
+          }
+        }
+      },
+      include: {
+        productDetails: {
+          omit: {
+            productId: true,
+          }
+        }
+      },
+    });
   }
 }
