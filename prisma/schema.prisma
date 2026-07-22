@@ -20,8 +20,11 @@ model User {
   name String @db.VarChar(30)
   status UserStatus @default(active)
   role Role @default(user)
+
   orders Order[]
   productsForSale Product[]
+  wishlist Wishlist?
+
   @@map("users")
 }
 
@@ -41,9 +44,11 @@ model Product {
   name String @db.VarChar(150)
   sellerId Int @map("seller_id")
   seller User @relation(fields: [sellerId], references: [userId])
+  discount Discount?
+
   productDetails ProductDetails?
   orderItem OrderItem?
-  discount Discount?
+  wishlist Wishlist?
 
   @@unique([sellerId, name])
   @@map("products")
@@ -97,6 +102,13 @@ model Discount {
   product Product @relation(fields: [productId], references: [productId])
 
   @@map("discounts")
+}
+
+model Wishlist {
+  productId Int @unique
+  userId Int @unique
+  product Product @relation(fields: [productId], references: [productId])
+  user User @relation(fields: [userId], references: [userId])
 }
 
 enum OrderStatus {
