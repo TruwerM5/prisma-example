@@ -75,10 +75,7 @@ export class ProductsService {
     }
   }
 
-  async editProduct(
-    productId: number,
-    productDto: EditProductDto
-  ): Promise<Product> {
+  async editProduct(productId: number, productDto: EditProductDto): Promise<Product> {
     const { productDetails, name } = productDto;
     return this.prisma.product.update({
       where: {
@@ -93,16 +90,16 @@ export class ProductsService {
             },
             data: {
               ...productDetails,
-            }
-          }
-        }
+            },
+          },
+        },
       },
       include: {
         productDetails: {
           omit: {
             productId: true,
-          }
-        }
+          },
+        },
       },
     });
   }

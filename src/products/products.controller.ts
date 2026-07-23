@@ -12,7 +12,7 @@ import { EditProductDto } from './dto/edit-product.dto';
 
 @Controller('products')
 export class ProductsController {
-  constructor(private readonly productsService: ProductsService) { }
+  constructor(private readonly productsService: ProductsService) {}
 
   @Get()
   listProducts(): Promise<ProductModel[]> {
@@ -34,10 +34,7 @@ export class ProductsController {
 
   @UseGuards(AuthGuard)
   @Post('add')
-  addProduct(
-    @Body() product: CreateProductDto,
-    @Req() request: AuthenticatedRequest
-  ) {
+  addProduct(@Body() product: CreateProductDto, @Req() request: AuthenticatedRequest) {
     const sellerId = request.user?.userId;
     product.sellerId = sellerId;
     return this.productsService.createProduct(product);
@@ -45,10 +42,7 @@ export class ProductsController {
 
   @UseGuards(AuthGuard)
   @Put('/edit/:id')
-  editProduct(
-    @Param('id', ParseIntPipe) productId: number,
-    @Body() productDto: EditProductDto,
-  ): Promise<ProductModel> {
+  editProduct(@Param('id', ParseIntPipe) productId: number, @Body() productDto: EditProductDto): Promise<ProductModel> {
     return this.productsService.editProduct(productId, productDto);
   }
 }

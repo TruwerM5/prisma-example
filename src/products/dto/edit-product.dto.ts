@@ -1,11 +1,11 @@
-import { IsString, IsDecimal, IsArray } from "class-validator";
+import { IsString, IsDecimal, IsArray } from 'class-validator';
 import type { ProductCategory } from 'src/generated/prisma/enums';
 
 export class EditProductDto {
-    @IsString()
-    name?: string;
+  @IsString()
+  name?: string;
 
-    productDetails: EditProductDetailsDto;
+  productDetails: EditProductDetailsDto;
 }
 
 class EditProductDetailsDto {
