@@ -13,14 +13,17 @@ async function bootstrap() {
   .build();
 
   const documentFactory = () => SwaggerModule.createDocument(app, config);
-  SwaggerModule.setup('api', app, documentFactory);
+  if(process.env.NODE_ENV !== 'production') {
+    SwaggerModule.setup('api', app, documentFactory);
+  }
+  
 
   app.use(cookieParser.default());
   app.enableCors({
     origin: 'http://localhost:3000',
     credentials: true,
   });
-  await app.listen(process.env.APP_PORT ?? 3000);
+  await app.listen(process.env.APP_PORT ?? 3001);
 }
 bootstrap().catch((err) => {
   console.error(err);
