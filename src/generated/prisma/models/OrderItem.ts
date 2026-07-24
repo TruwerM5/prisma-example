@@ -268,7 +268,7 @@ export type OrderItemScalarWhereWithAggregatesInput = {
 
 export type OrderItemCreateInput = {
   summaryPrice: runtime.Decimal | runtime.DecimalJsLike | number | string
-  quantity: number
+  quantity?: number
   product: Prisma.ProductCreateNestedOneWithoutOrderItemInput
   order: Prisma.OrderCreateNestedOneWithoutOrderItemsInput
 }
@@ -277,7 +277,7 @@ export type OrderItemUncheckedCreateInput = {
   productId: number
   orderId: number
   summaryPrice: runtime.Decimal | runtime.DecimalJsLike | number | string
-  quantity: number
+  quantity?: number
 }
 
 export type OrderItemUpdateInput = {
@@ -298,7 +298,7 @@ export type OrderItemCreateManyInput = {
   productId: number
   orderId: number
   summaryPrice: runtime.Decimal | runtime.DecimalJsLike | number | string
-  quantity: number
+  quantity?: number
 }
 
 export type OrderItemUpdateManyMutationInput = {
@@ -439,14 +439,14 @@ export type OrderItemUncheckedUpdateManyWithoutOrderNestedInput = {
 
 export type OrderItemCreateWithoutProductInput = {
   summaryPrice: runtime.Decimal | runtime.DecimalJsLike | number | string
-  quantity: number
+  quantity?: number
   order: Prisma.OrderCreateNestedOneWithoutOrderItemsInput
 }
 
 export type OrderItemUncheckedCreateWithoutProductInput = {
   orderId: number
   summaryPrice: runtime.Decimal | runtime.DecimalJsLike | number | string
-  quantity: number
+  quantity?: number
 }
 
 export type OrderItemCreateOrConnectWithoutProductInput = {
@@ -479,14 +479,14 @@ export type OrderItemUncheckedUpdateWithoutProductInput = {
 
 export type OrderItemCreateWithoutOrderInput = {
   summaryPrice: runtime.Decimal | runtime.DecimalJsLike | number | string
-  quantity: number
+  quantity?: number
   product: Prisma.ProductCreateNestedOneWithoutOrderItemInput
 }
 
 export type OrderItemUncheckedCreateWithoutOrderInput = {
   productId: number
   summaryPrice: runtime.Decimal | runtime.DecimalJsLike | number | string
-  quantity: number
+  quantity?: number
 }
 
 export type OrderItemCreateOrConnectWithoutOrderInput = {
@@ -528,7 +528,7 @@ export type OrderItemScalarWhereInput = {
 export type OrderItemCreateManyOrderInput = {
   productId: number
   summaryPrice: runtime.Decimal | runtime.DecimalJsLike | number | string
-  quantity: number
+  quantity?: number
 }
 
 export type OrderItemUpdateWithoutOrderInput = {
