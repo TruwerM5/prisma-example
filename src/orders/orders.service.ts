@@ -1,20 +1,36 @@
 import { Injectable } from '@nestjs/common';
-import { Order } from 'src/generated/prisma/client';
+import { Order, OrderItem } from 'src/generated/prisma/client';
 import { PrismaService } from 'src/prisma.service';
-import { CreateOrderDto } from './dto/create-order-dto';
+import { AddToCartDto } from './dto/create-order-dto';
 
 @Injectable()
 export class OrdersService {
   constructor(private readonly prisma: PrismaService) {}
 
-  async getAllOrders(userId: number): Promise<Order[]> {
+  async getAllOrders(userId: number) {
     return this.prisma.order.findMany({
-      include: {
-        user: true,
-        orderItems: true,
-      },
       where: {
         userId,
+      },
+      select: {
+        orderId: true,
+        orderItems: {
+          select: {
+            product: {
+              select: {
+                productId: true,
+                productDetails: {
+                  select: {
+                    price: true,
+                    images: true
+                  }
+                }
+              }
+            },
+            quantity: true,
+            summaryPrice: true,
+          },
+        },
       },
     });
   }
@@ -27,7 +43,35 @@ export class OrdersService {
     });
   }
 
-  async createOrder(userId: number, createOrderDto: CreateOrderDto): Promise<Order> {
+  async getProductInOrder(userId: number, productId: number) {
+    return this.prisma.orderItem.findFirst({
+      where: {
+        productId,
+        order: {
+          userId,
+        }
+      },
+      select: {
+        orderId: true,
+        productId: true,
+        quantity: true,
+      }
+    });
+  }
+
+  async createOrEditOrder(userId: number, createOrderDto: AddToCartDto): Promise<Order | OrderItem> {
+    const { productId } = createOrderDto;
+    const productInCart = await this.getProductInOrder(userId, productId);
+    if(!productInCart) {
+      return this.createOrder(userId, createOrderDto);
+    }
+    const { orderId, productId: productInCartId, quantity } = productInCart;
+    return this.setProductQuantity(orderId, productInCartId, quantity + 1);
+  }
+
+  async createOrder(userId: number, createOrderDto: AddToCartDto): Promise<Order> {
+    const { productId } = createOrderDto;
+     const { price: productPrice } = await this.getProductPrice(productId);
     return this.prisma.order.create({
       data: {
         user: {
@@ -39,14 +83,42 @@ export class OrdersService {
           create: {
             product: {
               connect: {
-                productId: createOrderDto.productId,
+                productId,
               },
             },
-            quantity: createOrderDto.quantity,
-            summaryPrice: createOrderDto.summaryPrice,
+            summaryPrice: productPrice,
           },
         },
       },
+      include: {
+        orderItems: true,
+      }
+    });
+  }
+
+  async setProductQuantity(orderId: number, productId: number, newQuantity: number) {
+    const { price: productPrice } = await this.getProductPrice(productId);
+    const newSummaryPrice = Number(productPrice) * newQuantity;
+    return this.prisma.orderItem.update({
+      where: {
+        orderId,
+        productId,
+      },
+      data: {
+        quantity: newQuantity,
+        summaryPrice: newSummaryPrice,
+      }
+    });
+  }
+
+  private async getProductPrice(productId: number) {
+    return this.prisma.productDetails.findFirstOrThrow({
+      where: {
+        productId,
+      },
+      select: {
+        price: true,
+      }
     });
   }
 }

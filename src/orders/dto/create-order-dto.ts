@@ -1,6 +1,6 @@
 import { IsNumber } from 'class-validator';
 
-export class CreateOrderDto {
+export class AddToCartDto {
   @IsNumber()
   productId: number;
 
@@ -8,5 +8,5 @@ export class CreateOrderDto {
   summaryPrice: number;
 
   @IsNumber()
-  quantity: number;
+  quantity: 1;
 }
