@@ -5,13 +5,16 @@ export class EditProductDto {
   @IsString()
   name?: string;
 
+  @IsDecimal()
+  price?: number;
+
+  @IsArray()
+  images?: string[];
+
   productDetails: EditProductDetailsDto;
 }
 
 class EditProductDetailsDto {
-  @IsDecimal()
-  price?: number;
-
   @IsString()
   description?: string;
 
@@ -26,7 +29,4 @@ class EditProductDetailsDto {
 
   @IsString()
   author?: string;
-
-  @IsArray()
-  images?: string[];
 }

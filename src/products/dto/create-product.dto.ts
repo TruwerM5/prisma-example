@@ -7,13 +7,17 @@ export class CreateProductDto {
   @IsNumber()
   sellerId: number;
 
+  @IsDecimal()
+  price: number;
+
+  @IsArray()
+  images?: string[];
+
+
   productDetails: ProductDetailsDto;
 }
 
 class ProductDetailsDto {
-  @IsDecimal()
-  price: number;
-
   @IsString()
   description: string;
 
@@ -28,7 +32,4 @@ class ProductDetailsDto {
 
   @IsString()
   author?: string;
-
-  @IsArray()
-  images?: string[];
 }

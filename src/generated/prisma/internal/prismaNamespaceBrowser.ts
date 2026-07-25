@@ -54,6 +54,7 @@ export const ModelName = {
   User: 'User',
   Product: 'Product',
   ProductDetails: 'ProductDetails',
+  ProductImages: 'ProductImages',
   Order: 'Order',
   OrderItem: 'OrderItem',
   Discount: 'Discount',
@@ -91,6 +92,7 @@ export type UserScalarFieldEnum = (typeof UserScalarFieldEnum)[keyof typeof User
 export const ProductScalarFieldEnum = {
   productId: 'productId',
   name: 'name',
+  price: 'price',
   sellerId: 'sellerId'
 } as const
 
@@ -99,17 +101,22 @@ export type ProductScalarFieldEnum = (typeof ProductScalarFieldEnum)[keyof typeo
 
 export const ProductDetailsScalarFieldEnum = {
   productId: 'productId',
-  price: 'price',
   color: 'color',
   size: 'size',
   author: 'author',
-  images: 'images',
   description: 'description',
-  category: 'category',
-  discount: 'discount'
+  category: 'category'
 } as const
 
 export type ProductDetailsScalarFieldEnum = (typeof ProductDetailsScalarFieldEnum)[keyof typeof ProductDetailsScalarFieldEnum]
+
+
+export const ProductImagesScalarFieldEnum = {
+  productId: 'productId',
+  imagePaths: 'imagePaths'
+} as const
+
+export type ProductImagesScalarFieldEnum = (typeof ProductImagesScalarFieldEnum)[keyof typeof ProductImagesScalarFieldEnum]
 
 
 export const OrderScalarFieldEnum = {
@@ -125,6 +132,7 @@ export type OrderScalarFieldEnum = (typeof OrderScalarFieldEnum)[keyof typeof Or
 export const OrderItemScalarFieldEnum = {
   productId: 'productId',
   orderId: 'orderId',
+  productPrice: 'productPrice',
   summaryPrice: 'summaryPrice',
   quantity: 'quantity'
 } as const

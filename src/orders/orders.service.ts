@@ -1,11 +1,15 @@
-import { Injectable } from '@nestjs/common';
+import { BadRequestException, Injectable } from '@nestjs/common';
 import { Order, OrderItem } from 'src/generated/prisma/client';
 import { PrismaService } from 'src/prisma.service';
 import { AddToCartDto } from './dto/create-order-dto';
+import { ProductsService } from 'src/products/products.service';
 
 @Injectable()
 export class OrdersService {
-  constructor(private readonly prisma: PrismaService) {}
+  constructor(
+    private readonly prisma: PrismaService,
+    private readonly products: ProductsService,
+  ) {}
 
   async getAllOrders(userId: number) {
     return this.prisma.order.findMany({
@@ -19,16 +23,13 @@ export class OrdersService {
             product: {
               select: {
                 productId: true,
-                productDetails: {
-                  select: {
-                    price: true,
-                    images: true
-                  }
-                }
+                price: true,
+                productImages: true,
               }
             },
             quantity: true,
             summaryPrice: true,
+            productPrice: true,
           },
         },
       },
@@ -71,7 +72,7 @@ export class OrdersService {
 
   async createOrder(userId: number, createOrderDto: AddToCartDto): Promise<Order> {
     const { productId } = createOrderDto;
-     const { price: productPrice } = await this.getProductPrice(productId);
+     const { price: productPrice } = await this.products.getProductPrice(productId);
     return this.prisma.order.create({
       data: {
         user: {
@@ -86,6 +87,7 @@ export class OrdersService {
                 productId,
               },
             },
+            productPrice,
             summaryPrice: productPrice,
           },
         },
@@ -97,8 +99,11 @@ export class OrdersService {
   }
 
   async setProductQuantity(orderId: number, productId: number, newQuantity: number) {
-    const { price: productPrice } = await this.getProductPrice(productId);
+    const { price: productPrice } = await this.products.getProductPrice(productId);
     const newSummaryPrice = Number(productPrice) * newQuantity;
+    if(isNaN(newSummaryPrice)) {
+      throw new BadRequestException();
+    }
     return this.prisma.orderItem.update({
       where: {
         orderId,
@@ -106,18 +111,8 @@ export class OrdersService {
       },
       data: {
         quantity: newQuantity,
+        productPrice,
         summaryPrice: newSummaryPrice,
-      }
-    });
-  }
-
-  private async getProductPrice(productId: number) {
-    return this.prisma.productDetails.findFirstOrThrow({
-      where: {
-        productId,
-      },
-      select: {
-        price: true,
       }
     });
   }
