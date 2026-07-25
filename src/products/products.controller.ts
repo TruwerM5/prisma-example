@@ -40,7 +40,8 @@ export class ProductsController {
     return this.productsService.createProduct(product);
   }
 
-  @UseGuards(AuthGuard)
+  @UseGuards(AuthGuard, RolesGuard)
+  @Roles(Role.seller)
   @Put('/edit/:id')
   editProduct(@Param('id', ParseIntPipe) productId: number, @Body() productDto: EditProductDto): Promise<ProductModel> {
     return this.productsService.editProduct(productId, productDto);
