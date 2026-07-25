@@ -8,31 +8,4 @@ import { Order, OrderItem } from 'src/generated/prisma/client';
 @Controller('orders')
 export class OrdersController {
   constructor(private readonly ordersService: OrdersService) {}
-
-  @UseGuards(AuthGuard)
-  @Get()
-  getCart(@Req() req: OptionalAuthenticatedRequest) {
-    if(req.user) {
-      return this.ordersService.getUserOrdersByStatus(req.user.userId, ['unpaid']);
-    }
-    return [];
-  }
-
-  @UseGuards(AuthGuard)
-  @Get('history')
-  getPurchaseHistory(@Req() req: OptionalAuthenticatedRequest) {
-    if(req.user) {
-      return this.ordersService.getUserOrdersByStatus(req.user.userId, ['paid', 'part_refund', 'refund']);
-    }
-    return [];
-  }
-
-  @Post('create')
-  addToCart(
-    @Req() req: AuthenticatedRequest,
-    @Body() data: AddToCartDto
-  ): Promise<Order | OrderItem> {
-    const userId = req.user.userId;
-    return this.ordersService.createOrEditOrder(userId, data);
-  }
 }
