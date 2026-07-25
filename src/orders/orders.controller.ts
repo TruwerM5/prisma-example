@@ -11,14 +11,22 @@ export class OrdersController {
 
   @UseGuards(AuthGuard)
   @Get()
-  listOrders(@Req() req: OptionalAuthenticatedRequest) {
+  getCart(@Req() req: OptionalAuthenticatedRequest) {
     if(req.user) {
-      return this.ordersService.getAllOrders(req.user.userId);
+      return this.ordersService.getUserOrdersByStatus(req.user.userId, ['unpaid']);
     }
     return [];
   }
 
   @UseGuards(AuthGuard)
+  @Get('history')
+  getPurchaseHistory(@Req() req: OptionalAuthenticatedRequest) {
+    if(req.user) {
+      return this.ordersService.getUserOrdersByStatus(req.user.userId, ['paid', 'part_refund', 'refund']);
+    }
+    return [];
+  }
+
   @Post('create')
   addToCart(
     @Req() req: AuthenticatedRequest,

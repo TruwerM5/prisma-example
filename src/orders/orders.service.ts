@@ -1,5 +1,5 @@
 import { BadRequestException, Injectable } from '@nestjs/common';
-import { Order, OrderItem } from 'src/generated/prisma/client';
+import { Order, OrderItem, OrderStatus } from 'src/generated/prisma/client';
 import { PrismaService } from 'src/prisma.service';
 import { AddToCartDto } from './dto/create-order-dto';
 import { ProductsService } from 'src/products/products.service';
@@ -30,6 +30,19 @@ export class OrdersService {
             quantity: true,
             summaryPrice: true,
             productPrice: true,
+          },
+        },
+      },
+    });
+  }
+
+  async getUserOrdersByStatus(userId: number, status: OrderStatus[]): Promise<OrderItem[]> {
+    return this.prisma.orderItem.findMany({
+      where: {
+        order: {
+          userId,
+          status: {
+            in: status,
           },
         },
       },
