@@ -17,18 +17,11 @@ export class ProductsService {
   }
 
   async getOneById(id: number): Promise<Product | null> {
-    const product = await this.prisma.product.findUnique({
+    return this.prisma.product.findFirst({
       where: {
         productId: id,
-      },
-      include: {
-        productDetails: true,
-      },
+      }
     });
-    if (!product) {
-      throw new NotFoundException();
-    }
-    return product;
   }
 
   async getProductsBySeller(sellerId: number): Promise<Product[]> {
