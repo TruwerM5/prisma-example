@@ -2,6 +2,7 @@ import { BadRequestException, Injectable } from '@nestjs/common';
 import { Cart } from 'src/generated/prisma/client';
 import { PrismaService } from 'src/prisma.service';
 import { ProductsService } from 'src/products/products.service';
+import { GetCartDto } from './dto/get-cart.dto';
 @Injectable()
 export class CartService {
     constructor(
@@ -18,6 +19,7 @@ export class CartService {
         if(!product) {
             throw new BadRequestException('Product not found');
         }
+
         let cart: Cart | null = null;
 
         if(userId) {
@@ -34,11 +36,13 @@ export class CartService {
             });
         }
 
-
         if(!cart) {
+            const expiresAt = new Date();
+            expiresAt.setDate(expiresAt.getDate() + 1);
             cart = await this.prisma.cart.create({
                 data: {
-                    expiresAt: new Date(Date.now() + 30 * 24 * 60 * 60 * 1000),
+                    userId: userId ?? null,
+                    expiresAt: expiresAt,
                 },
             });
         }
@@ -66,20 +70,29 @@ export class CartService {
         }
     }
 
-    async getCart(cartToken: string) {
+    async getCart(cartToken: string, userId?: number): Promise<GetCartDto | null> {
         return this.prisma.cart.findFirst({
             where: {
+                userId,
                 token: cartToken,
             },
             select: {
                 cartId: true,
+                expiresAt: true,
                 items: {
-                    include: {
-                        cart: false,
+                    select: {
+                        quantity: true,
                         product: {
-                            include: {
-                                productImages: true
-                            }
+                            select: {
+                                productId: true,
+                                name: true,
+                                price: true,
+                                productImages: {
+                                    select: {
+                                        imagePath: true
+                                    },
+                                },
+                            },
                         },
                     },
                 },

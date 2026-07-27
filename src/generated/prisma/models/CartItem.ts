@@ -235,16 +235,16 @@ export type CartItemOrderByWithRelationInput = {
 
 export type CartItemWhereUniqueInput = Prisma.AtLeast<{
   cartItemId?: number
+  productId?: number
   cartId_productId?: Prisma.CartItemCartIdProductIdCompoundUniqueInput
   AND?: Prisma.CartItemWhereInput | Prisma.CartItemWhereInput[]
   OR?: Prisma.CartItemWhereInput[]
   NOT?: Prisma.CartItemWhereInput | Prisma.CartItemWhereInput[]
   cartId?: Prisma.IntFilter<"CartItem"> | number
-  productId?: Prisma.IntFilter<"CartItem"> | number
   quantity?: Prisma.IntFilter<"CartItem"> | number
   cart?: Prisma.XOR<Prisma.CartScalarRelationFilter, Prisma.CartWhereInput>
   product?: Prisma.XOR<Prisma.ProductScalarRelationFilter, Prisma.ProductWhereInput>
-}, "cartItemId" | "cartId_productId">
+}, "cartItemId" | "productId" | "cartId_productId">
 
 export type CartItemOrderByWithAggregationInput = {
   cartItemId?: Prisma.SortOrder
@@ -312,6 +312,11 @@ export type CartItemUncheckedUpdateManyInput = {
   quantity?: Prisma.IntFieldUpdateOperationsInput | number
 }
 
+export type CartItemNullableScalarRelationFilter = {
+  is?: Prisma.CartItemWhereInput | null
+  isNot?: Prisma.CartItemWhereInput | null
+}
+
 export type CartItemListRelationFilter = {
   every?: Prisma.CartItemWhereInput
   some?: Prisma.CartItemWhereInput
@@ -362,46 +367,36 @@ export type CartItemSumOrderByAggregateInput = {
   quantity?: Prisma.SortOrder
 }
 
-export type CartItemCreateNestedManyWithoutProductInput = {
-  create?: Prisma.XOR<Prisma.CartItemCreateWithoutProductInput, Prisma.CartItemUncheckedCreateWithoutProductInput> | Prisma.CartItemCreateWithoutProductInput[] | Prisma.CartItemUncheckedCreateWithoutProductInput[]
-  connectOrCreate?: Prisma.CartItemCreateOrConnectWithoutProductInput | Prisma.CartItemCreateOrConnectWithoutProductInput[]
-  createMany?: Prisma.CartItemCreateManyProductInputEnvelope
-  connect?: Prisma.CartItemWhereUniqueInput | Prisma.CartItemWhereUniqueInput[]
+export type CartItemCreateNestedOneWithoutProductInput = {
+  create?: Prisma.XOR<Prisma.CartItemCreateWithoutProductInput, Prisma.CartItemUncheckedCreateWithoutProductInput>
+  connectOrCreate?: Prisma.CartItemCreateOrConnectWithoutProductInput
+  connect?: Prisma.CartItemWhereUniqueInput
 }
 
-export type CartItemUncheckedCreateNestedManyWithoutProductInput = {
-  create?: Prisma.XOR<Prisma.CartItemCreateWithoutProductInput, Prisma.CartItemUncheckedCreateWithoutProductInput> | Prisma.CartItemCreateWithoutProductInput[] | Prisma.CartItemUncheckedCreateWithoutProductInput[]
-  connectOrCreate?: Prisma.CartItemCreateOrConnectWithoutProductInput | Prisma.CartItemCreateOrConnectWithoutProductInput[]
-  createMany?: Prisma.CartItemCreateManyProductInputEnvelope
-  connect?: Prisma.CartItemWhereUniqueInput | Prisma.CartItemWhereUniqueInput[]
+export type CartItemUncheckedCreateNestedOneWithoutProductInput = {
+  create?: Prisma.XOR<Prisma.CartItemCreateWithoutProductInput, Prisma.CartItemUncheckedCreateWithoutProductInput>
+  connectOrCreate?: Prisma.CartItemCreateOrConnectWithoutProductInput
+  connect?: Prisma.CartItemWhereUniqueInput
 }
 
-export type CartItemUpdateManyWithoutProductNestedInput = {
-  create?: Prisma.XOR<Prisma.CartItemCreateWithoutProductInput, Prisma.CartItemUncheckedCreateWithoutProductInput> | Prisma.CartItemCreateWithoutProductInput[] | Prisma.CartItemUncheckedCreateWithoutProductInput[]
-  connectOrCreate?: Prisma.CartItemCreateOrConnectWithoutProductInput | Prisma.CartItemCreateOrConnectWithoutProductInput[]
-  upsert?: Prisma.CartItemUpsertWithWhereUniqueWithoutProductInput | Prisma.CartItemUpsertWithWhereUniqueWithoutProductInput[]
-  createMany?: Prisma.CartItemCreateManyProductInputEnvelope
-  set?: Prisma.CartItemWhereUniqueInput | Prisma.CartItemWhereUniqueInput[]
-  disconnect?: Prisma.CartItemWhereUniqueInput | Prisma.CartItemWhereUniqueInput[]
-  delete?: Prisma.CartItemWhereUniqueInput | Prisma.CartItemWhereUniqueInput[]
-  connect?: Prisma.CartItemWhereUniqueInput | Prisma.CartItemWhereUniqueInput[]
-  update?: Prisma.CartItemUpdateWithWhereUniqueWithoutProductInput | Prisma.CartItemUpdateWithWhereUniqueWithoutProductInput[]
-  updateMany?: Prisma.CartItemUpdateManyWithWhereWithoutProductInput | Prisma.CartItemUpdateManyWithWhereWithoutProductInput[]
-  deleteMany?: Prisma.CartItemScalarWhereInput | Prisma.CartItemScalarWhereInput[]
+export type CartItemUpdateOneWithoutProductNestedInput = {
+  create?: Prisma.XOR<Prisma.CartItemCreateWithoutProductInput, Prisma.CartItemUncheckedCreateWithoutProductInput>
+  connectOrCreate?: Prisma.CartItemCreateOrConnectWithoutProductInput
+  upsert?: Prisma.CartItemUpsertWithoutProductInput
+  disconnect?: Prisma.CartItemWhereInput | boolean
+  delete?: Prisma.CartItemWhereInput | boolean
+  connect?: Prisma.CartItemWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.CartItemUpdateToOneWithWhereWithoutProductInput, Prisma.CartItemUpdateWithoutProductInput>, Prisma.CartItemUncheckedUpdateWithoutProductInput>
 }
 
-export type CartItemUncheckedUpdateManyWithoutProductNestedInput = {
-  create?: Prisma.XOR<Prisma.CartItemCreateWithoutProductInput, Prisma.CartItemUncheckedCreateWithoutProductInput> | Prisma.CartItemCreateWithoutProductInput[] | Prisma.CartItemUncheckedCreateWithoutProductInput[]
-  connectOrCreate?: Prisma.CartItemCreateOrConnectWithoutProductInput | Prisma.CartItemCreateOrConnectWithoutProductInput[]
-  upsert?: Prisma.CartItemUpsertWithWhereUniqueWithoutProductInput | Prisma.CartItemUpsertWithWhereUniqueWithoutProductInput[]
-  createMany?: Prisma.CartItemCreateManyProductInputEnvelope
-  set?: Prisma.CartItemWhereUniqueInput | Prisma.CartItemWhereUniqueInput[]
-  disconnect?: Prisma.CartItemWhereUniqueInput | Prisma.CartItemWhereUniqueInput[]
-  delete?: Prisma.CartItemWhereUniqueInput | Prisma.CartItemWhereUniqueInput[]
-  connect?: Prisma.CartItemWhereUniqueInput | Prisma.CartItemWhereUniqueInput[]
-  update?: Prisma.CartItemUpdateWithWhereUniqueWithoutProductInput | Prisma.CartItemUpdateWithWhereUniqueWithoutProductInput[]
-  updateMany?: Prisma.CartItemUpdateManyWithWhereWithoutProductInput | Prisma.CartItemUpdateManyWithWhereWithoutProductInput[]
-  deleteMany?: Prisma.CartItemScalarWhereInput | Prisma.CartItemScalarWhereInput[]
+export type CartItemUncheckedUpdateOneWithoutProductNestedInput = {
+  create?: Prisma.XOR<Prisma.CartItemCreateWithoutProductInput, Prisma.CartItemUncheckedCreateWithoutProductInput>
+  connectOrCreate?: Prisma.CartItemCreateOrConnectWithoutProductInput
+  upsert?: Prisma.CartItemUpsertWithoutProductInput
+  disconnect?: Prisma.CartItemWhereInput | boolean
+  delete?: Prisma.CartItemWhereInput | boolean
+  connect?: Prisma.CartItemWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.CartItemUpdateToOneWithWhereWithoutProductInput, Prisma.CartItemUpdateWithoutProductInput>, Prisma.CartItemUncheckedUpdateWithoutProductInput>
 }
 
 export type CartItemCreateNestedManyWithoutCartInput = {
@@ -462,35 +457,26 @@ export type CartItemCreateOrConnectWithoutProductInput = {
   create: Prisma.XOR<Prisma.CartItemCreateWithoutProductInput, Prisma.CartItemUncheckedCreateWithoutProductInput>
 }
 
-export type CartItemCreateManyProductInputEnvelope = {
-  data: Prisma.CartItemCreateManyProductInput | Prisma.CartItemCreateManyProductInput[]
-  skipDuplicates?: boolean
-}
-
-export type CartItemUpsertWithWhereUniqueWithoutProductInput = {
-  where: Prisma.CartItemWhereUniqueInput
+export type CartItemUpsertWithoutProductInput = {
   update: Prisma.XOR<Prisma.CartItemUpdateWithoutProductInput, Prisma.CartItemUncheckedUpdateWithoutProductInput>
   create: Prisma.XOR<Prisma.CartItemCreateWithoutProductInput, Prisma.CartItemUncheckedCreateWithoutProductInput>
+  where?: Prisma.CartItemWhereInput
 }
 
-export type CartItemUpdateWithWhereUniqueWithoutProductInput = {
-  where: Prisma.CartItemWhereUniqueInput
+export type CartItemUpdateToOneWithWhereWithoutProductInput = {
+  where?: Prisma.CartItemWhereInput
   data: Prisma.XOR<Prisma.CartItemUpdateWithoutProductInput, Prisma.CartItemUncheckedUpdateWithoutProductInput>
 }
 
-export type CartItemUpdateManyWithWhereWithoutProductInput = {
-  where: Prisma.CartItemScalarWhereInput
-  data: Prisma.XOR<Prisma.CartItemUpdateManyMutationInput, Prisma.CartItemUncheckedUpdateManyWithoutProductInput>
+export type CartItemUpdateWithoutProductInput = {
+  quantity?: Prisma.IntFieldUpdateOperationsInput | number
+  cart?: Prisma.CartUpdateOneRequiredWithoutItemsNestedInput
 }
 
-export type CartItemScalarWhereInput = {
-  AND?: Prisma.CartItemScalarWhereInput | Prisma.CartItemScalarWhereInput[]
-  OR?: Prisma.CartItemScalarWhereInput[]
-  NOT?: Prisma.CartItemScalarWhereInput | Prisma.CartItemScalarWhereInput[]
-  cartItemId?: Prisma.IntFilter<"CartItem"> | number
-  cartId?: Prisma.IntFilter<"CartItem"> | number
-  productId?: Prisma.IntFilter<"CartItem"> | number
-  quantity?: Prisma.IntFilter<"CartItem"> | number
+export type CartItemUncheckedUpdateWithoutProductInput = {
+  cartItemId?: Prisma.IntFieldUpdateOperationsInput | number
+  cartId?: Prisma.IntFieldUpdateOperationsInput | number
+  quantity?: Prisma.IntFieldUpdateOperationsInput | number
 }
 
 export type CartItemCreateWithoutCartInput = {
@@ -530,27 +516,14 @@ export type CartItemUpdateManyWithWhereWithoutCartInput = {
   data: Prisma.XOR<Prisma.CartItemUpdateManyMutationInput, Prisma.CartItemUncheckedUpdateManyWithoutCartInput>
 }
 
-export type CartItemCreateManyProductInput = {
-  cartItemId?: number
-  cartId: number
-  quantity?: number
-}
-
-export type CartItemUpdateWithoutProductInput = {
-  quantity?: Prisma.IntFieldUpdateOperationsInput | number
-  cart?: Prisma.CartUpdateOneRequiredWithoutItemsNestedInput
-}
-
-export type CartItemUncheckedUpdateWithoutProductInput = {
-  cartItemId?: Prisma.IntFieldUpdateOperationsInput | number
-  cartId?: Prisma.IntFieldUpdateOperationsInput | number
-  quantity?: Prisma.IntFieldUpdateOperationsInput | number
-}
-
-export type CartItemUncheckedUpdateManyWithoutProductInput = {
-  cartItemId?: Prisma.IntFieldUpdateOperationsInput | number
-  cartId?: Prisma.IntFieldUpdateOperationsInput | number
-  quantity?: Prisma.IntFieldUpdateOperationsInput | number
+export type CartItemScalarWhereInput = {
+  AND?: Prisma.CartItemScalarWhereInput | Prisma.CartItemScalarWhereInput[]
+  OR?: Prisma.CartItemScalarWhereInput[]
+  NOT?: Prisma.CartItemScalarWhereInput | Prisma.CartItemScalarWhereInput[]
+  cartItemId?: Prisma.IntFilter<"CartItem"> | number
+  cartId?: Prisma.IntFilter<"CartItem"> | number
+  productId?: Prisma.IntFilter<"CartItem"> | number
+  quantity?: Prisma.IntFilter<"CartItem"> | number
 }
 
 export type CartItemCreateManyCartInput = {

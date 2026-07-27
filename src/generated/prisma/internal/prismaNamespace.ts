@@ -1228,7 +1228,7 @@ export type ProductDetailsScalarFieldEnum = (typeof ProductDetailsScalarFieldEnu
 
 export const ProductImagesScalarFieldEnum = {
   productId: 'productId',
-  imagePaths: 'imagePaths'
+  imagePath: 'imagePath'
 } as const
 
 export type ProductImagesScalarFieldEnum = (typeof ProductImagesScalarFieldEnum)[keyof typeof ProductImagesScalarFieldEnum]
