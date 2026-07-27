@@ -14,6 +14,14 @@ export class AuthService {
     private readonly jwtService: JwtService,
   ) {}
 
+  async getUser(jwtToken: string) {
+    const payload = await this.jwtService.verifyAsync(jwtToken);
+    if(!payload) {
+      throw new UnauthorizedException();
+    }
+    return payload;
+  }
+
   async createUser(userData: Prisma.UserCreateInput): Promise<GetUserDto & AccessTokenDto> {
     try {
       const { password: inputPassword } = userData;

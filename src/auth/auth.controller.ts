@@ -1,13 +1,24 @@
-import { Controller, Post, Body, HttpCode, Res, BadRequestException } from '@nestjs/common';
+import { Controller, Post, Get, Body, HttpCode, Res, BadRequestException, Req, UnauthorizedException } from '@nestjs/common';
 import { AuthService } from './auth.service';
 import { GetUserDto } from './dto/get-user.dto';
 import { LoginDto } from './dto/login.dto';
 import { SignUpDto } from './dto/signup.dto';
-import type { Response } from 'express';
+import type { Response, Request } from 'express';
 
 @Controller('auth')
 export class AuthController {
   constructor(private readonly authService: AuthService) {}
+
+  @Get()
+  async getIsAuthenticated(
+    @Req() request: Request
+  ) {
+    const jwt = request.cookies?.jwt;
+    if(!jwt) {
+      return { isAuthenticated: false };
+    }
+    return this.getIsAuthenticated(jwt);
+  }
 
   @Post('login')
   @HttpCode(200)
