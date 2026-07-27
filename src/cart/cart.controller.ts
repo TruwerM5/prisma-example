@@ -2,6 +2,7 @@ import { Controller, Post, Get, Req, Res, Body, ParseIntPipe, BadRequestExceptio
 import { CartService } from './cart.service';
 import type { Request, Response } from 'express';
 import { Cart, CartItem } from 'src/generated/prisma/client';
+import type { OptionalAuthenticatedRequest } from 'types';
 @Controller('cart')
 export class CartController {
   constructor(private readonly cartService: CartService) {}
@@ -19,12 +20,13 @@ export class CartController {
 
   @Post('add-to-cart')
   async addToCart(
-    @Req() request: Request,
+    @Req() request: OptionalAuthenticatedRequest,
     @Res({ passthrough: true }) response: Response,
     @Body('productId', ParseIntPipe) productId: number,
   ): Promise<{cart: Cart, cartItem: CartItem}> {
     const cartToken = request.cookies?.cartToken;
-    const result = await this.cartService.addToCart(productId, cartToken);
+    const userId = request.user?.userId;
+    const result = await this.cartService.addToCart(productId, cartToken, userId);
     if(!cartToken) {
       response.cookie('cartToken', result.cart.token, {
         httpOnly: true,

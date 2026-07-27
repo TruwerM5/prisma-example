@@ -1,4 +1,4 @@
-import { BadRequestException, Injectable, NotFoundException } from '@nestjs/common';
+import { BadRequestException, Injectable } from '@nestjs/common';
 import { Cart } from 'src/generated/prisma/client';
 import { PrismaService } from 'src/prisma.service';
 import { ProductsService } from 'src/products/products.service';
@@ -12,18 +12,29 @@ export class CartService {
     async addToCart(
         productId: number,
         cartToken?: string,
+        userId?: number,
     ) {
         const product = await this.products.getOneById(productId);
         if(!product) {
             throw new BadRequestException('Product not found');
         }
-        let cart = cartToken 
-        ? await this.prisma.cart.findUnique({
-            where: {
-                token: cartToken,
-            }
-        })
-        : null;
+        let cart: Cart | null = null;
+
+        if(userId) {
+            cart = await this.prisma.cart.findUnique({
+                where: {
+                    userId,
+                },
+            });
+        } else if(cartToken) {
+            cart = await this.prisma.cart.findUnique({
+                where: {
+                    token: cartToken,
+                }
+            });
+        }
+
+
         if(!cart) {
             cart = await this.prisma.cart.create({
                 data: {
@@ -69,10 +80,10 @@ export class CartService {
                             include: {
                                 productImages: true
                             }
-                        }
+                        },
                     },
                 },
-            }
+            },
         });
     }
 }
