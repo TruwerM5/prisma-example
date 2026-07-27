@@ -14,8 +14,8 @@ export class AuthService {
     private readonly jwtService: JwtService,
   ) {}
 
-  async getUser(jwtToken: string) {
-    const payload = await this.jwtService.verifyAsync(jwtToken);
+  async getUser(jwtToken: string): Promise<GetUserDto> {
+    const payload = await this.jwtService.verifyAsync<GetUserDto>(jwtToken);
     if(!payload) {
       throw new UnauthorizedException();
     }
