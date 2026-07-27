@@ -1,4 +1,4 @@
-import { Controller, Post, Get, Body, HttpCode, Res, BadRequestException, Req, UnauthorizedException } from '@nestjs/common';
+import { Controller, Post, Get, Body, HttpCode, Res, BadRequestException, Req, UnauthorizedException, HttpStatus } from '@nestjs/common';
 import { AuthService } from './auth.service';
 import { GetUserDto } from './dto/get-user.dto';
 import { LoginDto } from './dto/login.dto';
@@ -17,7 +17,7 @@ export class AuthController {
     if(!jwt) {
       return { isAuthenticated: false };
     }
-    return this.getIsAuthenticated(jwt);
+    return this.authService.getUser(jwt);
   }
 
   @Post('login')
