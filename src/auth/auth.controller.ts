@@ -15,7 +15,7 @@ export class AuthController {
   ) {
     const jwt = request.cookies?.jwt;
     if(!jwt) {
-      return { isAuthenticated: false };
+      throw new UnauthorizedException();
     }
     return this.authService.getUser(jwt);
   }
