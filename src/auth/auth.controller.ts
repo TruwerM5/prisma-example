@@ -1,4 +1,4 @@
-import { Controller, Post, Get, Body, HttpCode, Res, BadRequestException, Req, UnauthorizedException, HttpStatus } from '@nestjs/common';
+import { Controller, Post, Get, Body, HttpCode, Res, BadRequestException, Req, UnauthorizedException, HttpStatus, ValidationPipe, UsePipes } from '@nestjs/common';
 import { AuthService } from './auth.service';
 import { GetUserDto } from './dto/get-user.dto';
 import { LoginDto } from './dto/login.dto';
@@ -38,7 +38,7 @@ export class AuthController {
   }
 
   @Post('signup')
-  signUp(@Body() credentials: SignUpDto): Promise<GetUserDto | null> {
+  signUp(@Body(new ValidationPipe()) credentials: SignUpDto): Promise<GetUserDto | null> {
     return this.authService.createUser(credentials);
   }
 
