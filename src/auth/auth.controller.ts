@@ -38,8 +38,25 @@ export class AuthController {
   }
 
   @Post('signup')
-  signUp(@Body(new ValidationPipe()) credentials: SignUpDto): Promise<GetUserDto | null> {
-    return this.authService.createUser(credentials);
+  async signUp(
+    @Body(new ValidationPipe()) credentials: SignUpDto,
+    @Res({ passthrough: true }) response: Response
+  ): Promise<GetUserDto | null> {
+    const { confirmPassword, ...userData } = credentials;
+    if(confirmPassword !== userData.password) {
+      throw new BadRequestException('Password are not equal');
+    }
+    const { access_token, ...user } = await this.authService.createUser(userData);
+    response.cookie('jwt', access_token, {
+      httpOnly: true,
+      secure: process.env.NODE_ENV === 'production',
+      sameSite: 'lax',
+      maxAge: 15 * 60 * 1000,
+      path: '/',
+    });
+
+    return { ...user };
+
   }
 
   @Post('logout')
