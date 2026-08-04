@@ -1,4 +1,4 @@
-import { BadRequestException, ConflictException, Injectable, NotFoundException } from '@nestjs/common';
+import { BadRequestException, ConflictException, Injectable } from '@nestjs/common';
 import { PrismaService } from 'src/prisma.service';
 import { Prisma, Product } from 'src/generated/prisma/client';
 import { CreateProductDto } from './dto/create-product.dto';
@@ -11,7 +11,7 @@ export class ProductsService {
   async getAllProducts(): Promise<Product[]> {
     return await this.prisma.product.findMany({
       include: {
-        productDetails: true,
+        productImages: true,
       },
     });
   }
