@@ -4,6 +4,7 @@ import { Prisma, Product } from 'src/generated/prisma/client';
 import { CreateProductDto } from './dto/create-product.dto';
 import { EditProductDto } from './dto/edit-product.dto';
 import { Decimal } from '@prisma/client/runtime/client';
+import { GetProductDto } from './dto/get-product.dto';
 @Injectable()
 export class ProductsService {
   constructor(private prisma: PrismaService) {}
@@ -13,13 +14,24 @@ export class ProductsService {
       include: {
         productImages: true,
       },
+      orderBy: {
+        productId: 'asc',
+      }
     });
   }
 
-  async getOneById(id: number): Promise<Product | null> {
+  async getOneById(id: number): Promise<GetProductDto | null> {
     return this.prisma.product.findFirst({
       where: {
         productId: id,
+      },
+      select: {
+        productId: true,
+        name: true,
+        price: true,
+        sellerId: true,
+        productImages: true,
+        productDetails: true,
       }
     });
   }

@@ -1,6 +1,5 @@
 import { IsString, IsDecimal, IsArray, IsNumber } from 'class-validator';
-import type { ProductCategory } from 'src/generated/prisma/enums';
-
+import { ProductDetailsDto } from './product-details.dto';
 export class CreateProductDto {
   @IsString()
   name: string;
@@ -13,23 +12,5 @@ export class CreateProductDto {
   @IsArray()
   images?: string[];
 
-
   productDetails: ProductDetailsDto;
-}
-
-class ProductDetailsDto {
-  @IsString()
-  description: string;
-
-  @IsString()
-  category: ProductCategory;
-
-  @IsString()
-  color?: string;
-
-  @IsString()
-  size?: string;
-
-  @IsString()
-  author?: string;
 }
