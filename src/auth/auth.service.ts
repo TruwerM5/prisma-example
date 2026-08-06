@@ -14,10 +14,10 @@ export class AuthService {
     private readonly jwtService: JwtService,
   ) {}
 
-  async getUser(jwtToken: string): Promise<GetUserDto> {
+  async getUser(jwtToken: string): Promise<GetUserDto | { userId: null }> {
     const payload = await this.jwtService.verifyAsync<GetUserDto>(jwtToken);
     if(!payload) {
-      throw new UnauthorizedException();
+      return { userId: null };
     }
     return payload;
   }
