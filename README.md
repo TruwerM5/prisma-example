@@ -1,3 +1,12 @@
+## Required .env variables
+- CORS_ORIGIN
+- APP_PORT
+- POSTGRES_USER
+- POSTGRES_PASSWORD
+- POSTGRES_DB
+- DATABASE_URL
+- JWT_SECRET
+
 <p align="center">
   <a href="http://nestjs.com/" target="blank"><img src="https://nestjs.com/img/logo-small.svg" width="120" alt="Nest Logo" /></a>
 </p>
