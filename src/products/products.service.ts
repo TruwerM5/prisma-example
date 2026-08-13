@@ -29,6 +29,7 @@ export class ProductsService {
         productId: true,
         name: true,
         price: true,
+        rating: true,
         sellerId: true,
         productImages: true,
         productDetails: true,

@@ -5,6 +5,7 @@ const products: Prisma.ProductCreateInput[] = [
     {
         name: '1984',
         price: 10,
+        rating: 4.5,
         seller: {
             connect: {
                 userId: 1,
@@ -22,6 +23,7 @@ const products: Prisma.ProductCreateInput[] = [
     },{
         name: 'Dandelion Wine',
         price: 8.63,
+        rating: 4.8,
         seller: {
             connect: {
                 userId: 1,
