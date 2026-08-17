@@ -1,6 +1,6 @@
 import { BadRequestException, ConflictException, Injectable } from '@nestjs/common';
 import { PrismaService } from 'src/prisma.service';
-import { Prisma, Product } from 'src/generated/prisma/client';
+import { Prisma, Product, ProductCategory } from 'src/generated/prisma/client';
 import { CreateProductDto } from './dto/create-product.dto';
 import { EditProductDto } from './dto/edit-product.dto';
 import { Decimal } from '@prisma/client/runtime/client';
@@ -30,6 +30,7 @@ export class ProductsService {
         name: true,
         price: true,
         rating: true,
+        category: true,
         sellerId: true,
         productImages: true,
         productDetails: true,
@@ -44,6 +45,26 @@ export class ProductsService {
       },
       include: {
         productDetails: true,
+      },
+    });
+  }
+
+  async getProductsByCategory(category: ProductCategory, excludeId?: number): Promise<Product[]> {
+    return this.prisma.product.findMany({
+      where: {
+        category,
+        productId: {
+          not: excludeId,
+        },
+      },
+      include: {
+        productImages: {
+          take: 1,
+        },
+      },
+      take: 10,
+      orderBy: {
+        rating: 'desc',
       },
     });
   }

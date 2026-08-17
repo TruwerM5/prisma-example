@@ -1,7 +1,7 @@
-import { Body, Get, Param, ParseIntPipe, Post, Req, UseGuards, Put } from '@nestjs/common';
+import { Body, Get, Param, ParseIntPipe, Post, Req, UseGuards, Put, ParseEnumPipe, Query } from '@nestjs/common';
 import { Controller } from '@nestjs/common';
 import { ProductsService } from './products.service';
-import { Product as ProductModel } from 'src/generated/prisma/client';
+import { Product, ProductCategory, Product as ProductModel } from 'src/generated/prisma/client';
 import { CreateProductDto } from './dto/create-product.dto';
 import { AuthGuard } from 'src/guards/auth.guard';
 import { Roles } from 'src/roles.decorator';
@@ -30,6 +30,14 @@ export class ProductsController {
   @Get(':id')
   getProductById(@Param('id', ParseIntPipe) id: number) {
     return this.productsService.getOneById(id);
+  }
+
+  @Get('/category/:category')
+  getByCategory(
+    @Param('category', new ParseEnumPipe(ProductCategory)) category: ProductCategory,
+    @Query('excludeId', ParseIntPipe) excludeId?: number,
+  ): Promise<Product[]> {
+    return this.productsService.getProductsByCategory(category, excludeId);
   }
 
   @UseGuards(AuthGuard)

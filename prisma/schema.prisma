@@ -46,6 +46,7 @@ model Product {
   sellerId Int @map("seller_id")
   seller User @relation(fields: [sellerId], references: [userId])
   rating Decimal @default(0) @db.Decimal(10, 2)
+  category ProductCategory?
   discount Discount?
   productImages ProductImages[]
   productDetails ProductDetails?
@@ -64,7 +65,6 @@ model ProductDetails {
   size String?
   author String?
   description String?  
-  category ProductCategory?
 
   @@map("product_details")
 }

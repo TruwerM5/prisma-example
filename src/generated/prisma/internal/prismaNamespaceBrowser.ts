@@ -96,7 +96,8 @@ export const ProductScalarFieldEnum = {
   name: 'name',
   price: 'price',
   sellerId: 'sellerId',
-  rating: 'rating'
+  rating: 'rating',
+  category: 'category'
 } as const
 
 export type ProductScalarFieldEnum = (typeof ProductScalarFieldEnum)[keyof typeof ProductScalarFieldEnum]
@@ -107,8 +108,7 @@ export const ProductDetailsScalarFieldEnum = {
   color: 'color',
   size: 'size',
   author: 'author',
-  description: 'description',
-  category: 'category'
+  description: 'description'
 } as const
 
 export type ProductDetailsScalarFieldEnum = (typeof ProductDetailsScalarFieldEnum)[keyof typeof ProductDetailsScalarFieldEnum]

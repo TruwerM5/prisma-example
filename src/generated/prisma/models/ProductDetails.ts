@@ -40,7 +40,6 @@ export type ProductDetailsMinAggregateOutputType = {
   size: string | null
   author: string | null
   description: string | null
-  category: $Enums.ProductCategory | null
 }
 
 export type ProductDetailsMaxAggregateOutputType = {
@@ -49,7 +48,6 @@ export type ProductDetailsMaxAggregateOutputType = {
   size: string | null
   author: string | null
   description: string | null
-  category: $Enums.ProductCategory | null
 }
 
 export type ProductDetailsCountAggregateOutputType = {
@@ -58,7 +56,6 @@ export type ProductDetailsCountAggregateOutputType = {
   size: number
   author: number
   description: number
-  category: number
   _all: number
 }
 
@@ -77,7 +74,6 @@ export type ProductDetailsMinAggregateInputType = {
   size?: true
   author?: true
   description?: true
-  category?: true
 }
 
 export type ProductDetailsMaxAggregateInputType = {
@@ -86,7 +82,6 @@ export type ProductDetailsMaxAggregateInputType = {
   size?: true
   author?: true
   description?: true
-  category?: true
 }
 
 export type ProductDetailsCountAggregateInputType = {
@@ -95,7 +90,6 @@ export type ProductDetailsCountAggregateInputType = {
   size?: true
   author?: true
   description?: true
-  category?: true
   _all?: true
 }
 
@@ -191,7 +185,6 @@ export type ProductDetailsGroupByOutputType = {
   size: string | null
   author: string | null
   description: string | null
-  category: $Enums.ProductCategory | null
   _count: ProductDetailsCountAggregateOutputType | null
   _avg: ProductDetailsAvgAggregateOutputType | null
   _sum: ProductDetailsSumAggregateOutputType | null
@@ -223,7 +216,6 @@ export type ProductDetailsWhereInput = {
   size?: Prisma.StringNullableFilter<"ProductDetails"> | string | null
   author?: Prisma.StringNullableFilter<"ProductDetails"> | string | null
   description?: Prisma.StringNullableFilter<"ProductDetails"> | string | null
-  category?: Prisma.EnumProductCategoryNullableFilter<"ProductDetails"> | $Enums.ProductCategory | null
   product?: Prisma.XOR<Prisma.ProductScalarRelationFilter, Prisma.ProductWhereInput>
 }
 
@@ -233,7 +225,6 @@ export type ProductDetailsOrderByWithRelationInput = {
   size?: Prisma.SortOrderInput | Prisma.SortOrder
   author?: Prisma.SortOrderInput | Prisma.SortOrder
   description?: Prisma.SortOrderInput | Prisma.SortOrder
-  category?: Prisma.SortOrderInput | Prisma.SortOrder
   product?: Prisma.ProductOrderByWithRelationInput
 }
 
@@ -246,7 +237,6 @@ export type ProductDetailsWhereUniqueInput = Prisma.AtLeast<{
   size?: Prisma.StringNullableFilter<"ProductDetails"> | string | null
   author?: Prisma.StringNullableFilter<"ProductDetails"> | string | null
   description?: Prisma.StringNullableFilter<"ProductDetails"> | string | null
-  category?: Prisma.EnumProductCategoryNullableFilter<"ProductDetails"> | $Enums.ProductCategory | null
   product?: Prisma.XOR<Prisma.ProductScalarRelationFilter, Prisma.ProductWhereInput>
 }, "productId">
 
@@ -256,7 +246,6 @@ export type ProductDetailsOrderByWithAggregationInput = {
   size?: Prisma.SortOrderInput | Prisma.SortOrder
   author?: Prisma.SortOrderInput | Prisma.SortOrder
   description?: Prisma.SortOrderInput | Prisma.SortOrder
-  category?: Prisma.SortOrderInput | Prisma.SortOrder
   _count?: Prisma.ProductDetailsCountOrderByAggregateInput
   _avg?: Prisma.ProductDetailsAvgOrderByAggregateInput
   _max?: Prisma.ProductDetailsMaxOrderByAggregateInput
@@ -273,7 +262,6 @@ export type ProductDetailsScalarWhereWithAggregatesInput = {
   size?: Prisma.StringNullableWithAggregatesFilter<"ProductDetails"> | string | null
   author?: Prisma.StringNullableWithAggregatesFilter<"ProductDetails"> | string | null
   description?: Prisma.StringNullableWithAggregatesFilter<"ProductDetails"> | string | null
-  category?: Prisma.EnumProductCategoryNullableWithAggregatesFilter<"ProductDetails"> | $Enums.ProductCategory | null
 }
 
 export type ProductDetailsCreateInput = {
@@ -281,7 +269,6 @@ export type ProductDetailsCreateInput = {
   size?: string | null
   author?: string | null
   description?: string | null
-  category?: $Enums.ProductCategory | null
   product: Prisma.ProductCreateNestedOneWithoutProductDetailsInput
 }
 
@@ -291,7 +278,6 @@ export type ProductDetailsUncheckedCreateInput = {
   size?: string | null
   author?: string | null
   description?: string | null
-  category?: $Enums.ProductCategory | null
 }
 
 export type ProductDetailsUpdateInput = {
@@ -299,7 +285,6 @@ export type ProductDetailsUpdateInput = {
   size?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   author?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  category?: Prisma.NullableEnumProductCategoryFieldUpdateOperationsInput | $Enums.ProductCategory | null
   product?: Prisma.ProductUpdateOneRequiredWithoutProductDetailsNestedInput
 }
 
@@ -309,7 +294,6 @@ export type ProductDetailsUncheckedUpdateInput = {
   size?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   author?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  category?: Prisma.NullableEnumProductCategoryFieldUpdateOperationsInput | $Enums.ProductCategory | null
 }
 
 export type ProductDetailsCreateManyInput = {
@@ -318,7 +302,6 @@ export type ProductDetailsCreateManyInput = {
   size?: string | null
   author?: string | null
   description?: string | null
-  category?: $Enums.ProductCategory | null
 }
 
 export type ProductDetailsUpdateManyMutationInput = {
@@ -326,7 +309,6 @@ export type ProductDetailsUpdateManyMutationInput = {
   size?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   author?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  category?: Prisma.NullableEnumProductCategoryFieldUpdateOperationsInput | $Enums.ProductCategory | null
 }
 
 export type ProductDetailsUncheckedUpdateManyInput = {
@@ -335,7 +317,6 @@ export type ProductDetailsUncheckedUpdateManyInput = {
   size?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   author?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  category?: Prisma.NullableEnumProductCategoryFieldUpdateOperationsInput | $Enums.ProductCategory | null
 }
 
 export type ProductDetailsNullableScalarRelationFilter = {
@@ -349,7 +330,6 @@ export type ProductDetailsCountOrderByAggregateInput = {
   size?: Prisma.SortOrder
   author?: Prisma.SortOrder
   description?: Prisma.SortOrder
-  category?: Prisma.SortOrder
 }
 
 export type ProductDetailsAvgOrderByAggregateInput = {
@@ -362,7 +342,6 @@ export type ProductDetailsMaxOrderByAggregateInput = {
   size?: Prisma.SortOrder
   author?: Prisma.SortOrder
   description?: Prisma.SortOrder
-  category?: Prisma.SortOrder
 }
 
 export type ProductDetailsMinOrderByAggregateInput = {
@@ -371,7 +350,6 @@ export type ProductDetailsMinOrderByAggregateInput = {
   size?: Prisma.SortOrder
   author?: Prisma.SortOrder
   description?: Prisma.SortOrder
-  category?: Prisma.SortOrder
 }
 
 export type ProductDetailsSumOrderByAggregateInput = {
@@ -414,16 +392,11 @@ export type NullableStringFieldUpdateOperationsInput = {
   set?: string | null
 }
 
-export type NullableEnumProductCategoryFieldUpdateOperationsInput = {
-  set?: $Enums.ProductCategory | null
-}
-
 export type ProductDetailsCreateWithoutProductInput = {
   color?: string | null
   size?: string | null
   author?: string | null
   description?: string | null
-  category?: $Enums.ProductCategory | null
 }
 
 export type ProductDetailsUncheckedCreateWithoutProductInput = {
@@ -431,7 +404,6 @@ export type ProductDetailsUncheckedCreateWithoutProductInput = {
   size?: string | null
   author?: string | null
   description?: string | null
-  category?: $Enums.ProductCategory | null
 }
 
 export type ProductDetailsCreateOrConnectWithoutProductInput = {
@@ -455,7 +427,6 @@ export type ProductDetailsUpdateWithoutProductInput = {
   size?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   author?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  category?: Prisma.NullableEnumProductCategoryFieldUpdateOperationsInput | $Enums.ProductCategory | null
 }
 
 export type ProductDetailsUncheckedUpdateWithoutProductInput = {
@@ -463,7 +434,6 @@ export type ProductDetailsUncheckedUpdateWithoutProductInput = {
   size?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   author?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  category?: Prisma.NullableEnumProductCategoryFieldUpdateOperationsInput | $Enums.ProductCategory | null
 }
 
 
@@ -474,7 +444,6 @@ export type ProductDetailsSelect<ExtArgs extends runtime.Types.Extensions.Intern
   size?: boolean
   author?: boolean
   description?: boolean
-  category?: boolean
   product?: boolean | Prisma.ProductDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["productDetails"]>
 
@@ -484,7 +453,6 @@ export type ProductDetailsSelectCreateManyAndReturn<ExtArgs extends runtime.Type
   size?: boolean
   author?: boolean
   description?: boolean
-  category?: boolean
   product?: boolean | Prisma.ProductDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["productDetails"]>
 
@@ -494,7 +462,6 @@ export type ProductDetailsSelectUpdateManyAndReturn<ExtArgs extends runtime.Type
   size?: boolean
   author?: boolean
   description?: boolean
-  category?: boolean
   product?: boolean | Prisma.ProductDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["productDetails"]>
 
@@ -504,10 +471,9 @@ export type ProductDetailsSelectScalar = {
   size?: boolean
   author?: boolean
   description?: boolean
-  category?: boolean
 }
 
-export type ProductDetailsOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"productId" | "color" | "size" | "author" | "description" | "category", ExtArgs["result"]["productDetails"]>
+export type ProductDetailsOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"productId" | "color" | "size" | "author" | "description", ExtArgs["result"]["productDetails"]>
 export type ProductDetailsInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   product?: boolean | Prisma.ProductDefaultArgs<ExtArgs>
 }
@@ -529,7 +495,6 @@ export type $ProductDetailsPayload<ExtArgs extends runtime.Types.Extensions.Inte
     size: string | null
     author: string | null
     description: string | null
-    category: $Enums.ProductCategory | null
   }, ExtArgs["result"]["productDetails"]>
   composites: {}
 }
@@ -959,7 +924,6 @@ export interface ProductDetailsFieldRefs {
   readonly size: Prisma.FieldRef<"ProductDetails", 'String'>
   readonly author: Prisma.FieldRef<"ProductDetails", 'String'>
   readonly description: Prisma.FieldRef<"ProductDetails", 'String'>
-  readonly category: Prisma.FieldRef<"ProductDetails", 'ProductCategory'>
 }
     
 
