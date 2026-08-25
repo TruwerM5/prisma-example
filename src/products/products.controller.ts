@@ -9,13 +9,14 @@ import { Role } from 'src/generated/prisma/client';
 import { RolesGuard } from 'src/guards/roles.guard';
 import type { AuthenticatedRequest } from 'types';
 import { EditProductDto } from './dto/edit-product.dto';
+import { GetProductDto } from './dto/get-product.dto';
 
 @Controller('products')
 export class ProductsController {
   constructor(private readonly productsService: ProductsService) {}
 
   @Get()
-  listProducts(): Promise<ProductModel[]> {
+  listProducts(): Promise<GetProductDto[]> {
     return this.productsService.getAllProducts();
   }
 
@@ -36,7 +37,7 @@ export class ProductsController {
   getByCategory(
     @Param('category', new ParseEnumPipe(ProductCategory)) category: ProductCategory,
     @Query('excludeId', ParseIntPipe) excludeId?: number,
-  ): Promise<Product[]> {
+  ): Promise<GetProductDto[]> {
     return this.productsService.getProductsByCategory(category, excludeId);
   }
 

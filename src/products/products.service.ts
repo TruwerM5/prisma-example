@@ -4,13 +4,13 @@ import { Prisma, Product, ProductCategory } from 'src/generated/prisma/client';
 import { CreateProductDto } from './dto/create-product.dto';
 import { EditProductDto } from './dto/edit-product.dto';
 import { Decimal } from '@prisma/client/runtime/client';
-import { GetProductDto } from './dto/get-product.dto';
+import { GetFullProductDto, GetProductDto } from './dto/get-product.dto';
 @Injectable()
 export class ProductsService {
   constructor(private prisma: PrismaService) {}
 
-  async getAllProducts(): Promise<Product[]> {
-    return await this.prisma.product.findMany({
+  async getAllProducts(): Promise<GetProductDto[]> {
+    const products = await this.prisma.product.findMany({
       include: {
         productImages: true,
       },
@@ -18,10 +18,15 @@ export class ProductsService {
         productId: 'asc',
       }
     });
+    
+    return products.map((product) => ({
+      ...product,
+      price: product.price.toNumber(),
+    }));
   }
 
-  async getOneById(id: number): Promise<GetProductDto | null> {
-    return this.prisma.product.findFirst({
+  async getOneById(id: number): Promise<GetFullProductDto | null> {
+    const product = await this.prisma.product.findUnique({
       where: {
         productId: id,
       },
@@ -36,6 +41,15 @@ export class ProductsService {
         productDetails: true,
       }
     });
+
+    if(!product) {
+      return null;
+    }
+
+    return {
+      ...product,
+      price: product.price.toNumber(),
+    }
   }
 
   async getProductsBySeller(sellerId: number): Promise<Product[]> {
@@ -49,8 +63,8 @@ export class ProductsService {
     });
   }
 
-  async getProductsByCategory(category: ProductCategory, excludeId?: number): Promise<Product[]> {
-    return this.prisma.product.findMany({
+  async getProductsByCategory(category: ProductCategory, excludeId?: number): Promise<GetProductDto[]> {
+    const products = await this.prisma.product.findMany({
       where: {
         category,
         productId: {
@@ -67,6 +81,11 @@ export class ProductsService {
         rating: 'desc',
       },
     });
+
+    return products.map((product) => ({
+      ...product,
+      price: product.price.toNumber(),
+    }))
   }
 
   async createProduct(product: CreateProductDto): Promise<Product> {
