@@ -2,11 +2,15 @@ import { Injectable, ConflictException, UnauthorizedException } from '@nestjs/co
 import { Prisma } from 'src/generated/prisma/client';
 import { PrismaService } from 'src/prisma.service';
 import { compare } from 'bcrypt';
-import { GetUserDto, GetUserWithPasswordDto } from './dto/get-user.dto';
-import { AccessTokenDto } from './dto/access-token.dto';
 import { genSalt, hash } from 'bcrypt';
 import { JwtService } from '@nestjs/jwt';
 import { LoginDto } from './dto/login.dto';
+import type { 
+  UserResponse, 
+  UserWithPasswordResponse,
+  AuthenticatedUserResponse
+} from '@shop/contracts';
+
 @Injectable()
 export class AuthService {
   constructor(
@@ -14,15 +18,15 @@ export class AuthService {
     private readonly jwtService: JwtService,
   ) {}
 
-  async getUser(jwtToken: string): Promise<GetUserDto | { userId: null }> {
-    const payload = await this.jwtService.verifyAsync<GetUserDto>(jwtToken);
+  async getUser(jwtToken: string): Promise<UserResponse | { userId: null }> {
+    const payload = await this.jwtService.verifyAsync<UserResponse>(jwtToken);
     if(!payload) {
       return { userId: null };
     }
     return payload;
   }
 
-  async createUser(userData: Prisma.UserCreateInput): Promise<GetUserDto & AccessTokenDto> {
+  async createUser(userData: Prisma.UserCreateInput): Promise<AuthenticatedUserResponse> {
     try {
       const { password: inputPassword } = userData;
       const salt = await genSalt();
@@ -51,7 +55,7 @@ export class AuthService {
     }
   }
 
-  async signIn(credentials: LoginDto): Promise<GetUserDto & AccessTokenDto> {
+  async signIn(credentials: LoginDto): Promise<AuthenticatedUserResponse> {
     const { email, password: inputPassword } = credentials;
     const user = await this.prisma.user.findUnique({
       where: {
@@ -75,7 +79,7 @@ export class AuthService {
     };
   }
 
-  private getUserPayload(user: GetUserWithPasswordDto): GetUserDto {
+  private getUserPayload(user: UserWithPasswordResponse): UserResponse {
     const { password, ...result } = user;
     return result;
   }

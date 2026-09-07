@@ -1,9 +1,22 @@
-import { Controller, Post, Get, Body, HttpCode, Res, BadRequestException, Req, UnauthorizedException, HttpStatus, ValidationPipe, UsePipes } from '@nestjs/common';
+import { 
+  Controller,
+  Post,
+  Get,
+  Body,
+  HttpCode,
+  Res,
+  BadRequestException,
+  Req,
+  UnauthorizedException,
+  HttpStatus,
+  ValidationPipe,
+  UsePipes 
+} from '@nestjs/common';
 import { AuthService } from './auth.service';
-import { GetUserDto } from './dto/get-user.dto';
 import { LoginDto } from './dto/login.dto';
 import { SignUpDto } from './dto/signup.dto';
 import type { Response, Request } from 'express';
+import type { UserResponse } from '@shop/contracts';
 
 @Controller('auth')
 export class AuthController {
@@ -25,7 +38,7 @@ export class AuthController {
   async login(
     @Body() credentials: LoginDto, 
     @Res({ passthrough: true }) response: Response,
-  ): Promise<GetUserDto> {
+  ): Promise<UserResponse> {
     const { access_token, ...user } = await this.authService.signIn(credentials);
     response.cookie('jwt', access_token, {
       httpOnly: true,
@@ -41,7 +54,7 @@ export class AuthController {
   async signUp(
     @Body(new ValidationPipe()) credentials: SignUpDto,
     @Res({ passthrough: true }) response: Response
-  ): Promise<GetUserDto | null> {
+  ): Promise<UserResponse | null> {
     const { confirmPassword, ...userData } = credentials;
     if(confirmPassword !== userData.password) {
       throw new BadRequestException('Password are not equal');
