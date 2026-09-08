@@ -1,9 +1,8 @@
 import { Injectable, NestMiddleware } from "@nestjs/common";
 import { JwtService } from "@nestjs/jwt";
-import { Request, Response, NextFunction } from "express";
+import { Response, NextFunction } from "express";
 import type { OptionalAuthenticatedRequest } from "types";
-import { GetUserAndJwtExpirationDto } from "src/auth/dto/get-user-and-jwt.dto";
-
+import { UserAndJwtExpirationResponse } from "@shop/contracts";
 @Injectable()
 export class AuthMiddleware implements NestMiddleware {
     constructor(private jwtService: JwtService) {}
@@ -15,7 +14,7 @@ export class AuthMiddleware implements NestMiddleware {
             return;
         }
         try {
-            const payload: GetUserAndJwtExpirationDto = await this.jwtService.verifyAsync(jwt);
+            const payload: UserAndJwtExpirationResponse = await this.jwtService.verifyAsync(jwt);
             req.user = payload;
         } catch {
             req.user = undefined;

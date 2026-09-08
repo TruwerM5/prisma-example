@@ -1,10 +1,9 @@
-import { GetUserDto } from 'src/auth/dto/get-user.dto';
 import type { Request } from 'express';
-
+import type { UserResponse } from '@shop/contracts';
 export interface AuthenticatedRequest extends Request {
-    user: GetUserDto;
+    user: UserResponse;
 }
 
 export interface OptionalAuthenticatedRequest extends Request {
-    user?: GetUserDto;
+    user?: UserResponse;
 }
