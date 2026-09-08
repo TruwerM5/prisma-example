@@ -4,12 +4,13 @@ import { Prisma, Product, ProductCategory } from 'src/generated/prisma/client';
 import { CreateProductDto } from './dto/create-product.dto';
 import { EditProductDto } from './dto/edit-product.dto';
 import { Decimal } from '@prisma/client/runtime/client';
-import { GetFullProductDto, GetProductDto } from './dto/get-product.dto';
+import type { ProductResponse } from '@shop/contracts';
+
 @Injectable()
 export class ProductsService {
   constructor(private prisma: PrismaService) {}
 
-  async getAllProducts(): Promise<GetProductDto[]> {
+  async getAllProducts(): Promise<ProductResponse[]> {
     const products = await this.prisma.product.findMany({
       include: {
         productImages: true,
@@ -22,10 +23,11 @@ export class ProductsService {
     return products.map((product) => ({
       ...product,
       price: product.price.toNumber(),
+      rating: product.rating.toNumber(),
     }));
   }
 
-  async getOneById(id: number): Promise<GetFullProductDto | null> {
+  async getOneById(id: number): Promise<ProductResponse | null> {
     const product = await this.prisma.product.findUnique({
       where: {
         productId: id,
@@ -49,6 +51,7 @@ export class ProductsService {
     return {
       ...product,
       price: product.price.toNumber(),
+      rating: product.rating.toNumber(),
     }
   }
 
@@ -63,7 +66,7 @@ export class ProductsService {
     });
   }
 
-  async getProductsByCategory(category: ProductCategory, excludeId?: number): Promise<GetProductDto[]> {
+  async getProductsByCategory(category: ProductCategory, excludeId?: number): Promise<ProductResponse[]> {
     const products = await this.prisma.product.findMany({
       where: {
         category,
@@ -85,17 +88,19 @@ export class ProductsService {
     return products.map((product) => ({
       ...product,
       price: product.price.toNumber(),
+      rating: product.rating.toNumber(),
     }))
   }
 
   async createProduct(product: CreateProductDto): Promise<Product> {
     try {
-      const { sellerId, ...rest } = product;
+      const { sellerId, category, ...rest } = product;
       const { productDetails, name, price } = rest;
       return await this.prisma.product.create({
         data: {
           name,
           price,
+          category,
           seller: {
             connect: {
               userId: sellerId,
