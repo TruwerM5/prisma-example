@@ -2,7 +2,8 @@ import { BadRequestException, Injectable } from '@nestjs/common';
 import { Cart } from 'src/generated/prisma/client';
 import { PrismaService } from 'src/prisma.service';
 import { ProductsService } from 'src/products/products.service';
-import { GetCartDto } from './dto/get-cart.dto';
+import { CartResponse } from "@shop/contracts";
+
 @Injectable()
 export class CartService {
     constructor(
@@ -70,33 +71,47 @@ export class CartService {
         }
     }
 
-    async getCart(cartToken: string, userId?: number): Promise<GetCartDto | null> {
-        return this.prisma.cart.findFirst({
+    async getCart(cartToken: string, userId?: number): Promise<CartResponse | null> {
+        const cart = await this.prisma.cart.findFirst({
             where: {
                 userId,
                 token: cartToken,
             },
             select: {
                 cartId: true,
+                createdAt: true,
                 expiresAt: true,
+                token: true,
                 items: {
                     select: {
+                        cartItemId: true,
                         quantity: true,
                         product: {
                             select: {
                                 productId: true,
                                 name: true,
                                 price: true,
-                                productImages: {
-                                    select: {
-                                        imagePath: true
-                                    },
-                                },
+                                productImages: true,
                             },
                         },
                     },
                 },
             },
         });
+
+        if(!cart) {
+            return null;
+        }
+        
+        return {
+            ...cart,
+            items: cart.items.map((item) => ({
+                ...item,
+                product: {
+                    ...item.product,
+                    price: item.product.price.toNumber(),
+                }
+            })),
+        };
     }
 }
