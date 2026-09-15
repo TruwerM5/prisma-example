@@ -63,15 +63,23 @@ export class CartService {
                 quantity: {
                     increment: 1,
                 }
-            }
+            },
         });
         return {
             cart,
             cartItem,
-        }
+        };
     }
 
-    async getCart(cartToken: string, userId?: number): Promise<CartResponse | null> {
+    async getCart(cartToken?: string, userId?: number): Promise<CartResponse> {
+        const emptyCart = {
+            items: null,
+        };
+
+        if(!cartToken) {
+            return emptyCart;
+        }
+        
         const cart = await this.prisma.cart.findFirst({
             where: {
                 userId,
@@ -81,7 +89,6 @@ export class CartService {
                 cartId: true,
                 createdAt: true,
                 expiresAt: true,
-                token: true,
                 items: {
                     select: {
                         cartItemId: true,
@@ -100,7 +107,7 @@ export class CartService {
         });
 
         if(!cart) {
-            return null;
+            return emptyCart;
         }
         
         return {
