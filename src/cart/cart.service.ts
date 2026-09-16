@@ -2,7 +2,7 @@ import { BadRequestException, Injectable } from '@nestjs/common';
 import { Cart } from 'src/generated/prisma/client';
 import { PrismaService } from 'src/prisma.service';
 import { ProductsService } from 'src/products/products.service';
-import { CartResponse } from "@shop/contracts";
+import { GetCartResponse } from "@shop/contracts";
 
 @Injectable()
 export class CartService {
@@ -64,14 +64,28 @@ export class CartService {
                     increment: 1,
                 }
             },
+            include: {
+                product: {
+                    include: {
+                        productImages: true,
+                    }
+                }
+            }
         });
+        
         return {
             cart,
-            cartItem,
+            cartItem: {
+                ...cartItem,
+                product: {
+                    ...cartItem.product,
+                    price: cartItem.product.price.toNumber(),
+                },
+            },
         };
     }
 
-    async getCart(cartToken?: string, userId?: number): Promise<CartResponse> {
+    async getCart(cartToken?: string, userId?: number): Promise<GetCartResponse> {
         const emptyCart = {
             items: null,
         };
@@ -89,6 +103,7 @@ export class CartService {
                 cartId: true,
                 createdAt: true,
                 expiresAt: true,
+                userId: true,
                 items: {
                     select: {
                         cartItemId: true,
@@ -109,7 +124,7 @@ export class CartService {
         if(!cart) {
             return emptyCart;
         }
-        
+
         return {
             ...cart,
             items: cart.items.map((item) => ({

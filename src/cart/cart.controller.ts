@@ -1,9 +1,8 @@
 import { Controller, Post, Get, Req, Res, Body, ParseIntPipe, BadRequestException } from '@nestjs/common';
 import { CartService } from './cart.service';
 import type { Request, Response } from 'express';
-import { Cart, CartItem } from 'src/generated/prisma/client';
 import type { OptionalAuthenticatedRequest } from 'types';
-import type { CartResponse } from '@shop/contracts';
+import type { GetCartResponse, AddToCartResponse } from '@shop/contracts';
 @Controller('cart')
 export class CartController {
   constructor(private readonly cartService: CartService) {}
@@ -11,7 +10,7 @@ export class CartController {
   @Get()
   async getCart(
     @Req() request: Request
-  ): Promise<CartResponse> {
+  ): Promise<GetCartResponse> {
     const cartToken = request.cookies?.cartToken;
     return this.cartService.getCart(cartToken);
   }
@@ -21,7 +20,7 @@ export class CartController {
     @Req() request: OptionalAuthenticatedRequest,
     @Res({ passthrough: true }) response: Response,
     @Body('productId', ParseIntPipe) productId: number,
-  ): Promise<{cart: Omit<Cart, 'token'>, cartItem: CartItem}> {
+  ): Promise<AddToCartResponse> {
     const cartToken = request.cookies?.cartToken;
     const userId = request.user?.userId;
     const result = await this.cartService.addToCart(productId, cartToken, userId);
@@ -33,9 +32,7 @@ export class CartController {
         maxAge: 30 * 24 * 60 * 60 * 1000,
       });
     }
-
     const {token, ...cart } = result.cart;
-    
     return {
       cart,
       cartItem: result.cartItem,
