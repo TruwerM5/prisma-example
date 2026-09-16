@@ -48,21 +48,19 @@ export class CartService {
             });
         }
         const cartItem = await this.prisma.cartItem.upsert({
-            where: {
-                cartId_productId: {
-                    cartId: cart.cartId,
-                    productId,
-                }
-            },
             create: {
                 cartId: cart.cartId,
                 productId,
                 quantity: 1,
             },
+            where: {
+                cartId: cart.cartId,
+                productId,
+            },
             update: {
                 quantity: {
                     increment: 1,
-                }
+                },
             },
             include: {
                 product: {
