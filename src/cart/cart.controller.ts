@@ -9,10 +9,11 @@ export class CartController {
 
   @Get()
   async getCart(
-    @Req() request: Request
+    @Req() request: OptionalAuthenticatedRequest
   ): Promise<GetCartResponse> {
+    const userId = request.user?.userId;
     const cartToken = request.cookies?.cartToken;
-    return this.cartService.getCart(cartToken);
+    return this.cartService.getCart(cartToken, userId);
   }
 
   @Post('add-to-cart')
