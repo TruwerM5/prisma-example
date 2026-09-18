@@ -5,6 +5,8 @@ import { compare } from 'bcrypt';
 import { genSalt, hash } from 'bcrypt';
 import { JwtService } from '@nestjs/jwt';
 import { LoginDto } from './dto/login.dto';
+import { CartService } from 'src/cart/cart.service';
+
 import type { 
   UserResponse, 
   UserWithPasswordResponse,
@@ -16,6 +18,7 @@ export class AuthService {
   constructor(
     private readonly prisma: PrismaService,
     private readonly jwtService: JwtService,
+    private readonly cartService: CartService,
   ) {}
 
   async getUser(jwtToken: string): Promise<UserResponse | { userId: null }> {
@@ -55,7 +58,7 @@ export class AuthService {
     }
   }
 
-  async signIn(credentials: LoginDto): Promise<AuthenticatedUserResponse> {
+  async signIn(credentials: LoginDto, cartToken?: string): Promise<AuthenticatedUserResponse> {
     const { email, password: inputPassword } = credentials;
     const user = await this.prisma.user.findUnique({
       where: {
@@ -73,6 +76,11 @@ export class AuthService {
 
     const result = this.getUserPayload(user);
     const access_token = await this.jwtService.signAsync(result);
+
+    if(cartToken) {
+      await this.cartService.mergeCarts(result.userId, cartToken);
+    }
+
     return {
       ...result,
       access_token,

@@ -44,6 +44,7 @@ export class CartService {
                 data: {
                     userId: userId ?? null,
                     expiresAt: expiresAt,
+                    token: cartToken,
                 },
             });
         }
@@ -92,12 +93,8 @@ export class CartService {
         if(!cartToken && !userId) {
             return emptyCart;
         }
-        
-        let userCart: GetCartDto | null = null;
-        let anonymousCart: GetCartDto | null = null;
-        let existingCart: GetCartDto | null = null;
 
-        const carts = await this.prisma.cart.findMany({
+        const cart = await this.prisma.cart.findFirst({
             where: {
                 OR: [
                     {
@@ -106,9 +103,9 @@ export class CartService {
                     {
                         AND: {
                             token: cartToken,
-                            userId: null,
-                        },
-                    },
+                            userId: null
+                        }
+                    }
                 ],
             },
             select: {
@@ -133,57 +130,12 @@ export class CartService {
                 },
             },
         });
-        //TODO
-        switch(carts.length) {
-            case 0:
-                return emptyCart;
-            case 1:
-                existingCart = carts[0];
-            break;
-            case 2:
-                userCart = carts.find((cart) => cart.userId === userId) || null;
-                anonymousCart = carts.find((cart) => cart.token === cartToken) || null;
 
-                if(userCart && anonymousCart) {
-                    const items: GetCartItemDto[] | null[] = [
-                        ...userCart.items,
-                        ...anonymousCart.items,
-                    ];
-                    const productIdsSet = new Set([...items.map(item => item.product.productId)]);
-                    
-
-                    
-                    items.forEach(item => {
-                        console.log(item.product.productId);
-                    })
-                    existingCart = {
-                        // cartId: userCart.cartId,
-                        // createdAt: userCart.createdAt,
-                        // expiresAt: userCart.expiresAt,
-                        // userId: userCart.userId,
-                        ...userCart,
-                        
-                    };
-                }else if(anonymousCart) {
-                    console.log('has anonymous cart');
-                    existingCart = {
-                        ...anonymousCart,
-                    };
-                }
-            break;
-            default:
-                throw new BadRequestException('more than 2 carts in database');
-        }
-        console.log(existingCart);
-        if(!existingCart) {
+        if(!cart) {
             return emptyCart;
         }
 
-        if(existingCart.userId && existingCart.userId === userId) {
-
-        }
-
-        const { token, ...resultCart } = existingCart;
+        const { token, ...resultCart } = cart;
 
         return {
             ...resultCart,
@@ -195,5 +147,79 @@ export class CartService {
                 }
             })),
         };
+    }
+
+    async mergeCarts(userId: number, cartToken: string) {
+        await this.prisma.$transaction(async (tx) => {
+            const userCart = await tx.cart.findUnique({
+                where: {
+                    userId,
+                },
+                include: {
+                    items: true,
+                }
+            });
+            const anonymousCart = await tx.cart.findUnique({
+                where: {
+                    token: cartToken,
+                },
+                include: {
+                    items: true,
+                }
+            });
+            
+            if (!anonymousCart && !userCart) { // nothing to merge
+                return;
+            }
+
+            if(userCart && !anonymousCart) {
+                return userCart;
+            }
+
+            if(anonymousCart && !userCart) {
+                return await tx.cart.update({
+                    where: {
+                        token: cartToken,
+                    },
+                    data: {
+                        userId,
+                    },
+                });
+            }
+
+            if(anonymousCart && userCart) {
+                if(anonymousCart.cartId === userCart.cartId) {
+                    return userCart;
+                }
+
+                for(const item of anonymousCart.items) {
+                    await tx.cartItem.upsert({
+                        where: {
+                            cartId_productId: {
+                                cartId: userCart.cartId,
+                                productId: item.productId,
+                            },
+                        },
+                        create: {
+                            cartId: userCart.cartId,
+                            productId: item.productId,
+                            quantity: item.quantity,
+                        },
+                        update: {
+                            quantity: {
+                                increment: item.quantity,
+                            }
+                        }
+                    });
+                }
+
+                await tx.cart.delete({
+                    where: {
+                        cartId: anonymousCart.cartId
+                    }
+                });
+            }
+            return userCart;
+        });
     }
 }

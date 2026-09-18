@@ -36,10 +36,12 @@ export class AuthController {
   @Post('login')
   @HttpCode(200)
   async login(
+    @Req() request: Request,
     @Body() credentials: LoginDto, 
     @Res({ passthrough: true }) response: Response,
   ): Promise<UserResponse> {
-    const { access_token, ...user } = await this.authService.signIn(credentials);
+    const cartToken = request.cookies?.cartToken;
+    const { access_token, ...user } = await this.authService.signIn(credentials, cartToken);
     response.cookie('jwt', access_token, {
       httpOnly: true,
       secure: process.env.NODE_ENV === 'production',
