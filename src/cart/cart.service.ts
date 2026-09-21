@@ -150,7 +150,7 @@ export class CartService {
     }
 
     async mergeCarts(userId: number, cartToken: string) {
-        await this.prisma.$transaction(async (tx) => {
+        return this.prisma.$transaction(async (tx) => {
             const userCart = await tx.cart.findUnique({
                 where: {
                     userId,
@@ -159,9 +159,10 @@ export class CartService {
                     items: true,
                 }
             });
-            const anonymousCart = await tx.cart.findUnique({
+            const anonymousCart = await tx.cart.findFirst({
                 where: {
                     token: cartToken,
+                    userId: null,
                 },
                 include: {
                     items: true,
@@ -173,25 +174,25 @@ export class CartService {
             }
 
             if(userCart && !anonymousCart) {
-                return userCart;
+                return userCart.token;
             }
 
             if(anonymousCart && !userCart) {
-                return await tx.cart.update({
+                const updadetCart = await tx.cart.update({
                     where: {
                         token: cartToken,
                     },
                     data: {
                         userId,
                     },
+                    select: {
+                        token: true
+                    }
                 });
+                return updadetCart.token
             }
 
             if(anonymousCart && userCart) {
-                if(anonymousCart.cartId === userCart.cartId) {
-                    return userCart;
-                }
-
                 for(const item of anonymousCart.items) {
                     await tx.cartItem.upsert({
                         where: {
@@ -218,8 +219,9 @@ export class CartService {
                         cartId: anonymousCart.cartId
                     }
                 });
+
+                return userCart.token;
             }
-            return userCart;
         });
     }
 }
