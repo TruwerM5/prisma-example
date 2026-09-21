@@ -41,7 +41,7 @@ export class AuthController {
     @Res({ passthrough: true }) response: Response,
   ): Promise<UserResponse> {
     const cartToken = request.cookies?.cartToken;
-    const { access_token, ...user } = await this.authService.signIn(credentials, cartToken);
+    const { access_token, newCartToken, ...user } = await this.authService.signIn(credentials, cartToken);
     response.cookie('jwt', access_token, {
       httpOnly: true,
       secure: process.env.NODE_ENV === 'production',
@@ -49,6 +49,14 @@ export class AuthController {
       maxAge: 15 * 60 * 1000,
       path: '/',
     });
+    if(newCartToken) {
+      response.cookie('cartToken', newCartToken, {
+        httpOnly: true,
+        sameSite: 'lax',
+        secure: process.env.NODE_ENV === 'production',
+        maxAge: 30 * 24 * 60 * 60 * 1000,
+      });
+    }
     return { ...user };
   }
 
@@ -78,11 +86,8 @@ export class AuthController {
   @HttpCode(200)
   logout(@Res({ passthrough: true }) response: Response): { success: boolean } {
     try {
-      response.clearCookie('jwt', {
-        httpOnly: true,
-        sameSite: 'lax',
-        path: '/',
-      });
+      response.clearCookie('jwt');
+      response.clearCookie('cartToken');
       return { success: true };
     } catch {
       throw new BadRequestException();

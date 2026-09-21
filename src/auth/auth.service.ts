@@ -60,11 +60,13 @@ export class AuthService {
 
   async signIn(credentials: LoginDto, cartToken?: string): Promise<AuthenticatedUserResponse> {
     const { email, password: inputPassword } = credentials;
+    let newCartToken: string | undefined = undefined;
     const user = await this.prisma.user.findUnique({
       where: {
         email,
       },
     });
+    
     if (!user) {
       throw new UnauthorizedException();
     }
@@ -78,12 +80,13 @@ export class AuthService {
     const access_token = await this.jwtService.signAsync(result);
 
     if(cartToken) {
-      await this.cartService.mergeCarts(result.userId, cartToken);
+      newCartToken = await this.cartService.mergeCarts(result.userId, cartToken) || '';
     }
 
     return {
       ...result,
       access_token,
+      newCartToken,
     };
   }
 
