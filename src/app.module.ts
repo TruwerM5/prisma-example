@@ -8,9 +8,19 @@ import { ProductsModule } from './products/products.module';
 import { OrdersModule } from './orders/orders.module';
 import { CartModule } from './cart/cart.module';
 import { AuthMiddleware } from 'src/middleware/auth.middleware';
+import { ScheduleModule } from '@nestjs/schedule';
+import { TasksModule } from './tasks/tasks.module';
 
 @Module({
-  imports: [UserModule, AuthModule, ProductsModule, OrdersModule, CartModule],
+  imports: [
+    UserModule,
+    AuthModule,
+    ProductsModule,
+    OrdersModule,
+    CartModule,
+    ScheduleModule.forRoot(),
+    TasksModule,
+  ],
   controllers: [AppController],
   providers: [AppService, PrismaService],
 })
