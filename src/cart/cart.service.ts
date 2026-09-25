@@ -226,7 +226,7 @@ export class CartService {
     }
 
     async deleteExpiredCarts() {
-        this.prisma.cart.deleteMany({
+        await this.prisma.cart.deleteMany({
             where: {
                 expiresAt: {
                     lt: new Date(),

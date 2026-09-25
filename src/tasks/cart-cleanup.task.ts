@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { CartService } from 'src/cart/cart.service';
-import { Cron, CronExpression, Interval } from '@nestjs/schedule';
+import { Interval } from '@nestjs/schedule';
 
 
 @Injectable()
@@ -12,6 +12,7 @@ export class CartCleanupTask {
     @Interval(5 * 60 * 1000)
     async handle() {
         await this.cart.deleteExpiredCarts();
-        console.log('expired carts were removed');
+        const date = new Date();
+        console.log(`${date.toLocaleTimeString()}`,' expired carts were removed');
     }
 }
