@@ -10,6 +10,9 @@ import { CartModule } from './cart/cart.module';
 import { AuthMiddleware } from 'src/middleware/auth.middleware';
 import { ScheduleModule } from '@nestjs/schedule';
 import { TasksModule } from './tasks/tasks.module';
+import { CacheModule } from '@nestjs/cache-manager';
+import { createKeyv } from '@keyv/redis';
+import 'dotenv/config';
 
 @Module({
   imports: [
@@ -20,6 +23,17 @@ import { TasksModule } from './tasks/tasks.module';
     CartModule,
     ScheduleModule.forRoot(),
     TasksModule,
+    CacheModule.registerAsync({
+      useFactory: async () => {
+        return {
+          stores: [
+            createKeyv(process.env.REDIS_HOST),
+          ],
+          ttl: 60000,
+        };
+      },
+      isGlobal: true,
+    }),
   ],
   controllers: [AppController],
   providers: [

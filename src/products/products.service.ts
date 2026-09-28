@@ -1,16 +1,25 @@
-import { BadRequestException, ConflictException, Injectable } from '@nestjs/common';
+import { BadRequestException, ConflictException, Inject, Injectable } from '@nestjs/common';
 import { PrismaService } from 'src/prisma.service';
 import { Prisma, Product, ProductCategory } from 'src/generated/prisma/client';
 import { CreateProductDto } from './dto/create-product.dto';
 import { EditProductDto } from './dto/edit-product.dto';
 import { Decimal } from '@prisma/client/runtime/client';
 import type { ProductResponse } from '@shop/contracts';
+import { CACHE_MANAGER, type Cache } from "@nestjs/cache-manager";
 
 @Injectable()
 export class ProductsService {
-  constructor(private prisma: PrismaService) {}
+  constructor(
+    private prisma: PrismaService,
+    @Inject(CACHE_MANAGER) private cacheManager: Cache
+  ) {}
 
   async getAllProducts(): Promise<ProductResponse[]> {
+    
+    const cachedProducts = await this.cacheManager.get<ProductResponse[]>('products');
+    if(cachedProducts) {
+      return cachedProducts;
+    }
     const products = await this.prisma.product.findMany({
       include: {
         productImages: true,
@@ -19,12 +28,16 @@ export class ProductsService {
         productId: 'asc',
       }
     });
-    
-    return products.map((product) => ({
+
+    const mapped = products.map((product) => ({
       ...product,
       price: product.price.toNumber(),
       rating: product.rating.toNumber(),
     }));
+    
+    await this.cacheManager.set('products', mapped);
+
+    return mapped;
   }
 
   async getOneById(id: number): Promise<ProductResponse | null> {
