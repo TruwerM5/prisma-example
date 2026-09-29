@@ -9,14 +9,18 @@ import { CACHE_MANAGER, type Cache } from "@nestjs/cache-manager";
 
 @Injectable()
 export class ProductsService {
+  cachedProductTTL: number;
+
   constructor(
     private prisma: PrismaService,
     @Inject(CACHE_MANAGER) private cacheManager: Cache
-  ) {}
+  ) {
+    this.cachedProductTTL = 1000 * 60 * 60 * 24;
+  }
 
   async getAllProducts(): Promise<ProductResponse[]> {
-    
-    const cachedProducts = await this.cacheManager.get<ProductResponse[]>('products');
+    const cacheKey = 'products';
+    const cachedProducts = await this.cacheManager.get<ProductResponse[]>(cacheKey);
     if(cachedProducts) {
       return cachedProducts;
     }
@@ -35,12 +39,18 @@ export class ProductsService {
       rating: product.rating.toNumber(),
     }));
     
-    await this.cacheManager.set('products', mapped);
-
+    await this.cacheManager.set(cacheKey, mapped, this.cachedProductTTL);
     return mapped;
   }
 
   async getOneById(id: number): Promise<ProductResponse | null> {
+    const cacheKey = `product:${id}`;
+    const cached = await this.cacheManager.get<ProductResponse>(cacheKey);
+
+    if(cached) {
+      return cached;
+    }
+
     const product = await this.prisma.product.findUnique({
       where: {
         productId: id,
@@ -61,11 +71,14 @@ export class ProductsService {
       return null;
     }
 
-    return {
+    const mapped = {
       ...product,
       price: product.price.toNumber(),
       rating: product.rating.toNumber(),
-    }
+    };
+
+    await this.cacheManager.set(cacheKey, mapped, this.cachedProductTTL);
+    return mapped;
   }
 
   async getProductsBySeller(sellerId: number): Promise<Product[]> {
@@ -80,6 +93,13 @@ export class ProductsService {
   }
 
   async getProductsByCategory(category: ProductCategory, excludeId?: number): Promise<ProductResponse[]> {
+    const cacheKey = `products:category:${category}`;
+    
+    const cached = await this.cacheManager.get<ProductResponse[]>(cacheKey);
+    if(cached) {
+      return cached;
+    }
+
     const products = await this.prisma.product.findMany({
       where: {
         category,
@@ -98,18 +118,22 @@ export class ProductsService {
       },
     });
 
-    return products.map((product) => ({
+    const mapped = products.map((product) => ({
       ...product,
       price: product.price.toNumber(),
       rating: product.rating.toNumber(),
-    }))
+    }));
+
+    await this.cacheManager.set(cacheKey, mapped, this.cachedProductTTL);
+
+    return mapped;
   }
 
   async createProduct(product: CreateProductDto): Promise<Product> {
     try {
       const { sellerId, category, ...rest } = product;
       const { productDetails, name, price } = rest;
-      return await this.prisma.product.create({
+      const createdProduct = await this.prisma.product.create({
         data: {
           name,
           price,
@@ -129,6 +153,9 @@ export class ProductsService {
           productDetails: true,
         },
       });
+      await this.clearCachedProducts();
+      return createdProduct;
+
     } catch (err) {
       if (!(err instanceof Prisma.PrismaClientKnownRequestError)) {
         throw err;
@@ -143,7 +170,7 @@ export class ProductsService {
 
   async editProduct(productId: number, productDto: EditProductDto): Promise<Product> {
     const { productDetails, name, price } = productDto;
-    return this.prisma.product.update({
+    const editedProduct = await this.prisma.product.update({
       where: {
         productId: productId,
       },
@@ -169,10 +196,18 @@ export class ProductsService {
         },
       },
     });
+
+    await this.clearCachedProducts();
+    return editedProduct;
   }
 
   async getProductPrice(productId: number): Promise<{ price: Decimal }> {
-    return this.prisma.product.findFirstOrThrow({
+    const cacheKey = `product:price:${productId}`;
+    const cached = await this.cacheManager.get<{price: Decimal}>(cacheKey);
+    if(cached) {
+      return cached;
+    }
+    const productPrice = await this.prisma.product.findFirstOrThrow({
       where: {
         productId
       },
@@ -180,5 +215,12 @@ export class ProductsService {
         price: true,
       }
     });
-  } 
+
+    await this.cacheManager.set(cacheKey, productPrice, this.cachedProductTTL);
+    return productPrice;
+  }
+
+  private async clearCachedProducts() {
+    await this.cacheManager.del('products');
+  }
 }
