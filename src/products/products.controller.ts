@@ -36,7 +36,7 @@ export class ProductsController {
   @Get('/category/:category')
   getByCategory(
     @Param('category', new ParseEnumPipe(ProductCategory)) category: ProductCategory,
-    @Query('excludeId', ParseIntPipe) excludeId?: number,
+    @Query('excludeId', new ParseIntPipe({ optional: true })) excludeId?: number,
   ): Promise<ProductResponse[]> {
     return this.productsService.getProductsByCategory(category, excludeId);
   }

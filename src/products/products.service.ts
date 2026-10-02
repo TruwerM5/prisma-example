@@ -93,8 +93,7 @@ export class ProductsService {
   }
 
   async getProductsByCategory(category: ProductCategory, excludeId?: number): Promise<ProductResponse[]> {
-    const cacheKey = `products:category:${category}`;
-    
+    const cacheKey = `products:category:${category}${excludeId ? `:excludeId:${excludeId}` : ''}`;
     const cached = await this.cacheManager.get<ProductResponse[]>(cacheKey);
     if(cached) {
       return cached;
