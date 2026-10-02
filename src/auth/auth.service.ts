@@ -1,4 +1,4 @@
-import { Injectable, ConflictException, UnauthorizedException } from '@nestjs/common';
+import { Injectable, ConflictException, UnauthorizedException, BadRequestException } from '@nestjs/common';
 import { Prisma } from 'src/generated/prisma/client';
 import { PrismaService } from 'src/prisma.service';
 import { compare } from 'bcrypt';
@@ -12,6 +12,7 @@ import type {
   UserWithPasswordResponse,
   AuthenticatedUserResponse
 } from '@shop/contracts';
+import { SignUpDto } from './dto/signup.dto';
 
 @Injectable()
 export class AuthService {
@@ -29,11 +30,14 @@ export class AuthService {
     return payload;
   }
 
-  async createUser(userData: Prisma.UserCreateInput): Promise<AuthenticatedUserResponse> {
-    try {
-      const { password: inputPassword } = userData;
+  async createUser(credentials: SignUpDto): Promise<AuthenticatedUserResponse> {
+    const { confirmPassword, password, ...userData } = credentials;
+    if(confirmPassword !== password) {
+      throw new BadRequestException('Password are not equal');
+    }
+    try { 
       const salt = await genSalt();
-      const hashStr = await hash(inputPassword, salt);
+      const hashStr = await hash(password, salt);
       const newUser = await this.prisma.user.create({
         data: {
           ...userData,

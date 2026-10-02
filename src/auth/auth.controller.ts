@@ -65,11 +65,7 @@ export class AuthController {
     @Body(new ValidationPipe()) credentials: SignUpDto,
     @Res({ passthrough: true }) response: Response
   ): Promise<UserResponse | null> {
-    const { confirmPassword, ...userData } = credentials;
-    if(confirmPassword !== userData.password) {
-      throw new BadRequestException('Password are not equal');
-    }
-    const { access_token, ...user } = await this.authService.createUser(userData);
+    const { access_token, ...user } = await this.authService.createUser(credentials);
     response.cookie('jwt', access_token, {
       httpOnly: true,
       secure: process.env.NODE_ENV === 'production',
