@@ -8,12 +8,12 @@ import {
   Request,
   ParseIntPipe,
   NotFoundException,
-} from '@nestjs/common';
-import { UserService } from './user.service';
-import { User as UserModel, Prisma } from 'src/generated/prisma/client';
-import { AuthGuard } from 'src/guards/auth.guard';
-import type { AuthenticatedRequest } from 'types';
-@Controller('user')
+} from "@nestjs/common";
+import { UserService } from "./user.service";
+import { User as UserModel, Prisma } from "src/generated/prisma/client";
+import { AuthGuard } from "src/guards/auth.guard";
+import type { AuthenticatedRequest } from "types";
+@Controller("user")
 export class UserController {
   constructor(private readonly userService: UserService) {}
 
@@ -23,13 +23,13 @@ export class UserController {
   }
 
   @UseGuards(AuthGuard)
-  @Get('profile')
+  @Get("profile")
   getProfile(@Request() req: AuthenticatedRequest) {
     return req.user;
   }
 
-  @Get(':id')
-  async getUserById(@Param('id', ParseIntPipe) id: number): Promise<UserModel> {
+  @Get(":id")
+  async getUserById(@Param("id", ParseIntPipe) id: number): Promise<UserModel> {
     const user = await this.userService.user({ userId: id });
     if (!user) {
       throw new NotFoundException();

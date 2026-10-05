@@ -6,4 +6,8 @@ export interface AuthenticatedRequest extends Request {
 
 export interface OptionalAuthenticatedRequest extends Request {
     user?: UserResponse;
+    cookies: {
+        jwt?: string;
+        cartToken?: string;
+    }
 }

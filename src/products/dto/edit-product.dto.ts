@@ -1,5 +1,5 @@
-import { IsString, IsDecimal, IsArray } from 'class-validator';
-import type { ProductCategory } from 'src/generated/prisma/enums';
+import { IsString, IsDecimal, IsArray } from "class-validator";
+import type { ProductCategory } from "src/generated/prisma/enums";
 
 export class EditProductDto {
   @IsString()

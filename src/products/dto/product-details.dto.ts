@@ -1,5 +1,4 @@
-import { IsString } from 'class-validator';
-import type { ProductCategory } from '@shop/contracts';
+import { IsString } from "class-validator";
 export class ProductDetailsDto {
   @IsString()
   description: string;

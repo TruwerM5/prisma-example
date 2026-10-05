@@ -1,10 +1,10 @@
-import { BadRequestException, ConflictException, Inject, Injectable } from '@nestjs/common';
-import { PrismaService } from 'src/prisma.service';
-import { Prisma, Product, ProductCategory } from 'src/generated/prisma/client';
-import { CreateProductDto } from './dto/create-product.dto';
-import { EditProductDto } from './dto/edit-product.dto';
-import { Decimal } from '@prisma/client/runtime/client';
-import type { ProductResponse } from '@shop/contracts';
+import { BadRequestException, ConflictException, Inject, Injectable } from "@nestjs/common";
+import { PrismaService } from "src/prisma.service";
+import { Prisma, Product, ProductCategory } from "src/generated/prisma/client";
+import { CreateProductDto } from "./dto/create-product.dto";
+import { EditProductDto } from "./dto/edit-product.dto";
+import { Decimal } from "@prisma/client/runtime/client";
+import type { ProductResponse } from "@shop/contracts";
 import { CACHE_MANAGER, type Cache } from "@nestjs/cache-manager";
 
 @Injectable()
@@ -13,15 +13,15 @@ export class ProductsService {
 
   constructor(
     private prisma: PrismaService,
-    @Inject(CACHE_MANAGER) private cacheManager: Cache
+    @Inject(CACHE_MANAGER) private cacheManager: Cache,
   ) {
     this.cachedProductTTL = 1000 * 60 * 60 * 24;
   }
 
   async getAllProducts(): Promise<ProductResponse[]> {
-    const cacheKey = 'products';
+    const cacheKey = "products";
     const cachedProducts = await this.cacheManager.get<ProductResponse[]>(cacheKey);
-    if(cachedProducts) {
+    if (cachedProducts) {
       return cachedProducts;
     }
     const products = await this.prisma.product.findMany({
@@ -29,8 +29,8 @@ export class ProductsService {
         productImages: true,
       },
       orderBy: {
-        productId: 'asc',
-      }
+        productId: "asc",
+      },
     });
 
     const mapped = products.map((product) => ({
@@ -38,7 +38,7 @@ export class ProductsService {
       price: product.price.toNumber(),
       rating: product.rating.toNumber(),
     }));
-    
+
     await this.cacheManager.set(cacheKey, mapped, this.cachedProductTTL);
     return mapped;
   }
@@ -47,7 +47,7 @@ export class ProductsService {
     const cacheKey = `product:${id}`;
     const cached = await this.cacheManager.get<ProductResponse>(cacheKey);
 
-    if(cached) {
+    if (cached) {
       return cached;
     }
 
@@ -64,10 +64,10 @@ export class ProductsService {
         sellerId: true,
         productImages: true,
         productDetails: true,
-      }
+      },
     });
 
-    if(!product) {
+    if (!product) {
       return null;
     }
 
@@ -93,9 +93,9 @@ export class ProductsService {
   }
 
   async getProductsByCategory(category: ProductCategory, excludeId?: number): Promise<ProductResponse[]> {
-    const cacheKey = `products:category:${category}${excludeId ? `:excludeId:${excludeId}` : ''}`;
+    const cacheKey = `products:category:${category}${excludeId ? `:excludeId:${excludeId}` : ""}`;
     const cached = await this.cacheManager.get<ProductResponse[]>(cacheKey);
-    if(cached) {
+    if (cached) {
       return cached;
     }
 
@@ -113,7 +113,7 @@ export class ProductsService {
       },
       take: 10,
       orderBy: {
-        rating: 'desc',
+        rating: "desc",
       },
     });
 
@@ -154,13 +154,12 @@ export class ProductsService {
       });
       await this.clearCachedProducts();
       return createdProduct;
-
     } catch (err) {
       if (!(err instanceof Prisma.PrismaClientKnownRequestError)) {
         throw err;
       }
       const code = err.code;
-      if (err.code === 'P2002') {
+      if (err.code === "P2002") {
         throw new ConflictException(code);
       }
       throw new BadRequestException(code);
@@ -202,17 +201,17 @@ export class ProductsService {
 
   async getProductPrice(productId: number): Promise<{ price: Decimal }> {
     const cacheKey = `product:price:${productId}`;
-    const cached = await this.cacheManager.get<{price: Decimal}>(cacheKey);
-    if(cached) {
+    const cached = await this.cacheManager.get<{ price: Decimal }>(cacheKey);
+    if (cached) {
       return cached;
     }
     const productPrice = await this.prisma.product.findFirstOrThrow({
       where: {
-        productId
+        productId,
       },
       select: {
         price: true,
-      }
+      },
     });
 
     await this.cacheManager.set(cacheKey, productPrice, this.cachedProductTTL);
@@ -220,6 +219,6 @@ export class ProductsService {
   }
 
   private async clearCachedProducts() {
-    await this.cacheManager.del('products');
+    await this.cacheManager.del("products");
   }
 }
