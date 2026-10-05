@@ -14,12 +14,13 @@ datasource db {
 }
 
 model User {
-  userId          Int        @id @default(autoincrement()) @map("user_id")
-  email           String     @unique @db.VarChar(30)
-  password        String     @db.VarChar(100)
-  name            String     @db.VarChar(30)
-  status          UserStatus @default(active)
-  role            Role       @default(user)
+  userId          Int             @id @default(autoincrement()) @map("user_id")
+  email           String          @unique @db.VarChar(30)
+  password        String?         @db.VarChar(100)
+  name            String          @db.VarChar(30)
+  oauthAccounts   OAuthAccounts[]
+  status          UserStatus      @default(active)
+  role            Role            @default(user)
   cart            Cart?
   orders          Order[]
   productsForSale Product[]
@@ -37,6 +38,17 @@ enum Role {
 enum UserStatus {
   active
   blocked
+}
+
+model OAuthAccounts {
+  id                Int    @id @default(autoincrement()) @map("oauth_id")
+  userId            Int    @map("user_id")
+  user              User   @relation(fields: [userId], references: [userId])
+  provider          String
+  providerAccountId Int    @map("provider_account_id")
+
+  @@unique([provider, providerAccountId])
+  @@map("oauth_accounts")
 }
 
 model Product {

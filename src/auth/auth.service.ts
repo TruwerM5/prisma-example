@@ -1,18 +1,20 @@
-import { Injectable, ConflictException, UnauthorizedException, BadRequestException } from '@nestjs/common';
-import { Prisma } from 'src/generated/prisma/client';
-import { PrismaService } from 'src/prisma.service';
-import { compare } from 'bcrypt';
-import { genSalt, hash } from 'bcrypt';
-import { JwtService } from '@nestjs/jwt';
-import { LoginDto } from './dto/login.dto';
-import { CartService } from 'src/cart/cart.service';
-
-import type { 
-  UserResponse, 
+import { Injectable, ConflictException, UnauthorizedException, BadRequestException } from "@nestjs/common";
+import { Prisma } from "src/generated/prisma/client";
+import { PrismaService } from "src/prisma.service";
+import { compare } from "bcrypt";
+import { genSalt, hash } from "bcrypt";
+import { JwtService } from "@nestjs/jwt";
+import { LoginDto } from "./dto/login.dto";
+import { CartService } from "src/cart/cart.service";
+import {
+  UserResponse,
   UserWithPasswordResponse,
-  AuthenticatedUserResponse
-} from '@shop/contracts';
-import { SignUpDto } from './dto/signup.dto';
+  AuthenticatedUserResponse,
+  UnknownUserResponse,
+} from "@shop/contracts";
+import { SignUpDto } from "./dto/signup.dto";
+import { OAuthService } from "src/auth/oauth/oauth.service";
+import { GithubProvider } from "./oauth/github/github";
 
 @Injectable()
 export class AuthService {
@@ -20,11 +22,13 @@ export class AuthService {
     private readonly prisma: PrismaService,
     private readonly jwtService: JwtService,
     private readonly cartService: CartService,
+    private readonly oauthService: OAuthService,
+    private readonly github: GithubProvider,
   ) {}
 
-  async getUser(jwtToken: string): Promise<UserResponse | { userId: null }> {
-    const payload = await this.jwtService.verifyAsync<UserResponse>(jwtToken);
-    if(!payload) {
+  async getUser(jwtToken: string): Promise<UnknownUserResponse> {
+    const payload = await this.jwtService.verifyAsync<UnknownUserResponse>(jwtToken);
+    if (!payload) {
       return { userId: null };
     }
     return payload;
@@ -32,10 +36,10 @@ export class AuthService {
 
   async createUser(credentials: SignUpDto): Promise<AuthenticatedUserResponse> {
     const { confirmPassword, password, ...userData } = credentials;
-    if(confirmPassword !== password) {
-      throw new BadRequestException('Password are not equal');
+    if (confirmPassword !== password) {
+      throw new BadRequestException("Password are not equal");
     }
-    try { 
+    try {
       const salt = await genSalt();
       const hashStr = await hash(password, salt);
       const newUser = await this.prisma.user.create({
@@ -52,11 +56,8 @@ export class AuthService {
         access_token,
       };
     } catch (err) {
-      if (
-        err instanceof Prisma.PrismaClientKnownRequestError && 
-        err.code === 'P2002'
-      ) {
-        throw new ConflictException('User already exists');
+      if (err instanceof Prisma.PrismaClientKnownRequestError && err.code === "P2002") {
+        throw new ConflictException("User already exists");
       }
       throw err;
     }
@@ -70,9 +71,13 @@ export class AuthService {
         email,
       },
     });
-    
+
     if (!user) {
       throw new UnauthorizedException();
+    }
+
+    if (!user.password) {
+      throw new BadRequestException();
     }
 
     const isMatch = await compare(inputPassword, user.password);
@@ -83,8 +88,8 @@ export class AuthService {
     const result = this.getUserPayload(user);
     const access_token = await this.jwtService.signAsync(result);
 
-    if(cartToken) {
-      newCartToken = await this.cartService.mergeCarts(result.userId, cartToken) || '';
+    if (cartToken) {
+      newCartToken = (await this.cartService.mergeCarts(result.userId, cartToken)) || "";
     }
 
     return {
@@ -94,8 +99,23 @@ export class AuthService {
     };
   }
 
+  getGitHubOAuthRequestUrl() {
+    return this.github.getRequestUrl();
+  }
+
+  async signInWithGitHub(code: string) {
+    const ghUser = await this.github.getProfile(code);
+    const { id, email, login } = ghUser;
+    return this.oauthService.authenticate(id, login, email);
+  }
+
   private getUserPayload(user: UserWithPasswordResponse): UserResponse {
-    const { password, ...result } = user;
-    return result;
+    return {
+      userId: user.userId,
+      email: user.email,
+      name: user.name,
+      role: user.role,
+      status: user.status,
+    };
   }
 }
