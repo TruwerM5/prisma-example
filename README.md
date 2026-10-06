@@ -1,5 +1,5 @@
 ## Required .env variables
-- CORS_ORIGIN
+- FRONTEND_URL
 - APP_PORT
 - POSTGRES_USER
 - POSTGRES_PASSWORD

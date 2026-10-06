@@ -9,16 +9,24 @@ import {
   Req,
   ValidationPipe,
   Query,
+  UnauthorizedException,
 } from "@nestjs/common";
 import { AuthService } from "./auth.service";
 import { LoginDto } from "./dto/login.dto";
 import { SignUpDto } from "./dto/signup.dto";
-import type { Response, Request } from "express";
+import type { Response, CookieOptions } from "express";
 import type { UserResponse } from "@shop/contracts";
 import type { OptionalAuthenticatedRequest } from "types";
 
 @Controller("auth")
 export class AuthController {
+  private readonly cookieOptions = {
+    httpOnly: true,
+    sameSite: "lax",
+    secure: process.env.NODE_ENV === "production",
+    maxAge: 30 * 24 * 60 * 60 * 1000,
+  } satisfies CookieOptions;
+
   constructor(private readonly authService: AuthService) {}
 
   @Get()
@@ -39,13 +47,7 @@ export class AuthController {
   ): Promise<UserResponse> {
     const cartToken: string | undefined = request.cookies?.cartToken;
     const { access_token, newCartToken, ...user } = await this.authService.signIn(credentials, cartToken);
-    response.cookie("jwt", access_token, {
-      httpOnly: true,
-      secure: process.env.NODE_ENV === "production",
-      sameSite: "lax",
-      maxAge: 15 * 60 * 1000,
-      path: "/",
-    });
+    response.cookie("jwt", access_token, this.cookieOptions);
     if (newCartToken) {
       response.cookie("cartToken", newCartToken, {
         httpOnly: true,
@@ -80,6 +82,7 @@ export class AuthController {
     try {
       response.clearCookie("jwt");
       response.clearCookie("cartToken");
+      response.clearCookie("ouath_gh_state");
       return { success: true };
     } catch {
       throw new BadRequestException();
@@ -87,13 +90,28 @@ export class AuthController {
   }
 
   @Get("github/auth-url")
-  getGitHubAuthUrl() {
-    return this.authService.getGitHubOAuthRequestUrl();
+  async getGitHubAuthUrl(@Res({ passthrough: true }) res: Response): Promise<{ requestUrl: string }> {
+    const cookieOptions = { ...this.cookieOptions, maxAge: 1000 * 60 * 10 };
+    const urlParameters = await this.authService.getGitHubOAuthRequestUrl();
+    const { requestUrl, state } = urlParameters;
+    res.cookie("oauth_gh_state", state, cookieOptions);
+    return { requestUrl };
   }
 
   @Get("github")
-  async ouathGitHub(@Query("code") code: string, @Res({ passthrough: true }) response: Response) {
-    const { access_token } = await this.authService.signInWithGitHub(code);
+  async ouathGitHub(
+    @Query("code") code: string,
+    @Req() request: OptionalAuthenticatedRequest,
+    @Res({ passthrough: true }) response: Response,
+  ) {
+    const { oauth_gh_state } = request.cookies;
+    if (!oauth_gh_state) {
+      throw new UnauthorizedException();
+    }
+    const { access_token } = await this.authService.signInWithGitHub({
+      code,
+      state: oauth_gh_state,
+    });
     response.cookie("jwt", access_token, {
       httpOnly: true,
       secure: process.env.NODE_ENV === "production",
@@ -101,7 +119,6 @@ export class AuthController {
       maxAge: 15 * 60 * 1000,
       path: "/",
     });
-    response.redirect("http://localhost:3030");
-    response.end();
+    response.redirect(process.env.FRONTEND_URL as string);
   }
 }

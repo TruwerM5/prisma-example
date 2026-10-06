@@ -15,6 +15,7 @@ import {
 import { SignUpDto } from "./dto/signup.dto";
 import { OAuthService } from "src/auth/oauth/oauth.service";
 import { GithubProvider } from "./oauth/github/github";
+import type { SignInWithGithubParameters } from "types";
 
 @Injectable()
 export class AuthService {
@@ -103,8 +104,8 @@ export class AuthService {
     return this.github.getRequestUrl();
   }
 
-  async signInWithGitHub(code: string) {
-    const ghUser = await this.github.getProfile(code);
+  async signInWithGitHub(parameters: SignInWithGithubParameters) {
+    const ghUser = await this.github.getProfile(parameters);
     const { id, email, login } = ghUser;
     return this.oauthService.authenticate(id, login, email);
   }
