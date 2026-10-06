@@ -8,7 +8,7 @@ export class GithubProvider {
   private readonly accessTokenUrl = "https://github.com/login/oauth/access_token";
   private readonly requestUserUrl = "https://api.github.com/user";
   readonly codeChallengeMethod = "S256";
-  async getRequestUrl() {
+  getRequestUrl() {
     const { state, codeChallenge } = this.generateRandomStrings();
     const stateQuery = `&state=${state}`;
     const codeChallengeQuery = `&code_challenge=${codeChallenge}`;

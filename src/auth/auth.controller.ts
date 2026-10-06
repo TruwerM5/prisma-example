@@ -90,9 +90,9 @@ export class AuthController {
   }
 
   @Get("github/auth-url")
-  async getGitHubAuthUrl(@Res({ passthrough: true }) res: Response): Promise<{ requestUrl: string }> {
+  getGitHubAuthUrl(@Res({ passthrough: true }) res: Response): { requestUrl: string } {
     const cookieOptions = { ...this.cookieOptions, maxAge: 1000 * 60 * 10 };
-    const urlParameters = await this.authService.getGitHubOAuthRequestUrl();
+    const urlParameters = this.authService.getGitHubOAuthRequestUrl();
     const { requestUrl, state } = urlParameters;
     res.cookie("oauth_gh_state", state, cookieOptions);
     return { requestUrl };
