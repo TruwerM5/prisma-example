@@ -43,7 +43,7 @@ enum UserStatus {
 model OAuthAccounts {
   id                Int    @id @default(autoincrement()) @map("oauth_id")
   userId            Int    @map("user_id")
-  user              User   @relation(fields: [userId], references: [userId])
+  user              User   @relation(fields: [userId], references: [userId], onDelete: Cascade)
   provider          String
   providerAccountId Int    @map("provider_account_id")
 
