@@ -13,7 +13,7 @@ export interface OptionalAuthenticatedRequest extends Request {
   };
 }
 
-export interface SignInWithGithubParameters {
+export interface SignInWithOAuthParameters {
   code: string;
   state: string;
 }

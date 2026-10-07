@@ -14,8 +14,9 @@ import {
 } from "@shop/contracts";
 import { SignUpDto } from "./dto/signup.dto";
 import { OAuthService } from "src/auth/oauth/oauth.service";
-import { GithubProvider } from "./oauth/github/github";
-import type { SignInWithGithubParameters } from "types";
+import { GithubOAuth } from "./oauth/github/github.oauth";
+import type { SignInWithOAuthParameters } from "types";
+import { YandexOAuth } from "./oauth/yandex/yandex.oauth";
 
 @Injectable()
 export class AuthService {
@@ -24,7 +25,8 @@ export class AuthService {
     private readonly jwtService: JwtService,
     private readonly cartService: CartService,
     private readonly oauthService: OAuthService,
-    private readonly github: GithubProvider,
+    private readonly github: GithubOAuth,
+    private readonly yandex: YandexOAuth,
   ) {}
 
   async getUser(jwtToken: string): Promise<UnknownUserResponse> {
@@ -104,10 +106,20 @@ export class AuthService {
     return this.github.getRequestUrl();
   }
 
-  async signInWithGitHub(parameters: SignInWithGithubParameters) {
+  async signInWithGitHub(parameters: SignInWithOAuthParameters) {
     const ghUser = await this.github.getProfile(parameters);
     const { id, email, login } = ghUser;
     return this.oauthService.authenticate(id, login, email);
+  }
+
+  getYandexOAuthRequestUrl() {
+    return this.yandex.getRequestUrl();
+  }
+
+  async signInWithYandex(parameters: SignInWithOAuthParameters) {
+    const yandexUser = await this.yandex.getProfile(parameters);
+    const { id, emails, first_name } = yandexUser;
+    return this.oauthService.authenticate(Number(id), first_name, emails[0]);
   }
 
   private getUserPayload(user: UserWithPasswordResponse): UserResponse {

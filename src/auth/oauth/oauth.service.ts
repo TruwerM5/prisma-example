@@ -1,6 +1,7 @@
 import { BadRequestException, Injectable, UnauthorizedException } from "@nestjs/common";
 import { PrismaService } from "src/prisma.service";
 import { JwtService } from "@nestjs/jwt";
+import { createHash, randomBytes } from "crypto";
 
 @Injectable()
 export class OAuthService {
@@ -65,5 +66,11 @@ export class OAuthService {
 
     const access_token = await this.jwtService.signAsync(authenticatedUser);
     return { access_token };
+  }
+
+  generateStateAndCodeChallenge() {
+    const state = randomBytes(32).toString("hex");
+    const codeChallenge = createHash("sha-256").update(state).digest("base64url");
+    return { state, codeChallenge };
   }
 }

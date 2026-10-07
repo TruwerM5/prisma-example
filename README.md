@@ -8,8 +8,9 @@
 - JWT_SECRET
 - GITHUB_CLIENT_ID
 - GITHUB_CLIENT_SECRET
-- GITHUB_STATE
 - GITHUB_REDIRECT_URI
+- YANDEX_CLIENT_SECRET
+- YANDEX_CLIENT_ID
 
 <p align="center">
   <a href="http://nestjs.com/" target="blank"><img src="https://nestjs.com/img/logo-small.svg" width="120" alt="Nest Logo" /></a>

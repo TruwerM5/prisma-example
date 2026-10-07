@@ -112,13 +112,28 @@ export class AuthController {
       code,
       state: oauth_gh_state,
     });
-    response.cookie("jwt", access_token, {
-      httpOnly: true,
-      secure: process.env.NODE_ENV === "production",
-      sameSite: "lax",
-      maxAge: 15 * 60 * 1000,
-      path: "/",
+    response.cookie("jwt", access_token, this.cookieOptions);
+    response.redirect(process.env.FRONTEND_URL as string);
+  }
+
+  @Get("yandex/auth-url")
+  getYandexAuthUrl(): { requestUrl: string } {
+    const urlParameters = this.authService.getYandexOAuthRequestUrl();
+    const { requestUrl } = urlParameters;
+    return { requestUrl };
+  }
+
+  @Get("yandex")
+  async oauthYandex(
+    @Query("code") code: string,
+    @Query("state") state: string,
+    @Res({ passthrough: true }) response: Response,
+  ) {
+    const { access_token } = await this.authService.signInWithYandex({
+      code,
+      state,
     });
+    response.cookie("jwt", access_token, this.cookieOptions);
     response.redirect(process.env.FRONTEND_URL as string);
   }
 }

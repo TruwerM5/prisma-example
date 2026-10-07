@@ -1,15 +1,16 @@
 import { Injectable } from "@nestjs/common";
 import { GitHubUserResponse } from "@shop/contracts";
-import { randomBytes, createHash } from "crypto";
-import { SignInWithGithubParameters } from "types";
+import { SignInWithOAuthParameters } from "types";
+import { OAuthService } from "../oauth.service";
 @Injectable()
-export class GithubProvider {
+export class GithubOAuth {
   private readonly requestUrl = `https://github.com/login/oauth/authorize?client_id=${process.env.GITHUB_CLIENT_ID}`;
   private readonly accessTokenUrl = "https://github.com/login/oauth/access_token";
   private readonly requestUserUrl = "https://api.github.com/user";
   readonly codeChallengeMethod = "S256";
+  constructor(private readonly oauthService: OAuthService) {}
   getRequestUrl() {
-    const { state, codeChallenge } = this.generateRandomStrings();
+    const { state, codeChallenge } = this.oauthService.generateStateAndCodeChallenge();
     const stateQuery = `&state=${state}`;
     const codeChallengeQuery = `&code_challenge=${codeChallenge}`;
     const codeChallengeMethodQuery = `&code_challenge_method=${this.codeChallengeMethod}`;
@@ -20,19 +21,13 @@ export class GithubProvider {
     };
   }
 
-  async getProfile(parameters: SignInWithGithubParameters) {
+  async getProfile(parameters: SignInWithOAuthParameters) {
     const access_token = await this.getAccessToken(parameters);
     const ghUser = await this.getUser(access_token);
     return ghUser;
   }
 
-  private generateRandomStrings() {
-    const state = randomBytes(32).toString("hex");
-    const codeChallenge = createHash("sha-256").update(state).digest("base64url");
-    return { state, codeChallenge };
-  }
-
-  private async getAccessToken(parameters: SignInWithGithubParameters): Promise<string> {
+  private async getAccessToken(parameters: SignInWithOAuthParameters): Promise<string> {
     const ghAccessToken: { access_token: string } = await fetch(this.accessTokenUrl, {
       headers: {
         "Content-Type": "application/json",

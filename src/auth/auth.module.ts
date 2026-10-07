@@ -7,11 +7,12 @@ import { PrismaService } from "src/prisma.service";
 import { JwtModule } from "@nestjs/jwt";
 import { CartModule } from "src/cart/cart.module";
 import { OAuthService } from "src/auth/oauth/oauth.service";
-import { GithubProvider } from "./oauth/github/github";
+import { GithubOAuth } from "./oauth/github/github.oauth";
+import { YandexOAuth } from "./oauth/yandex/yandex.oauth";
 
 @Module({
   controllers: [AuthController],
-  providers: [AuthService, PrismaService, OAuthService, GithubProvider],
+  providers: [AuthService, PrismaService, OAuthService, GithubOAuth, YandexOAuth],
   imports: [
     UserModule,
     CartModule,

@@ -1,15 +1,15 @@
 import { Test, TestingModule } from "@nestjs/testing";
-import { GithubProvider } from "./github";
+import { GithubOAuth } from "./github.oauth";
 
 describe("Github", () => {
-  let provider: GithubProvider;
+  let provider: GithubOAuth;
 
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
-      providers: [GithubProvider],
+      providers: [GithubOAuth],
     }).compile();
 
-    provider = module.get<GithubProvider>(GithubProvider);
+    provider = module.get<GithubOAuth>(GithubOAuth);
   });
 
   it("should be defined", () => {
