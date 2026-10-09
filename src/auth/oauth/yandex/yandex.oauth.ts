@@ -2,6 +2,7 @@ import { Injectable } from "@nestjs/common";
 import { OAuthService } from "../oauth.service";
 import { SignInWithOAuthParameters } from "types";
 import { YandexUserResponse } from "@shop/contracts";
+import { HttpClient } from "@nestjs/http-client";
 
 @Injectable()
 export class YandexOAuth {
@@ -10,7 +11,10 @@ export class YandexOAuth {
   private readonly requestUserUrl = "https://login.yandex.ru/info?format=json";
   private readonly codeChallengeMethod = "S256";
 
-  constructor(private readonly oauthService: OAuthService) {}
+  constructor(
+    private readonly oauthService: OAuthService,
+    private readonly http: HttpClient,
+  ) {}
 
   getRequestUrl() {
     const { state, codeChallenge } = this.oauthService.generateStateAndCodeChallenge();
@@ -37,23 +41,21 @@ export class YandexOAuth {
       client_id: client_id || "",
       code_verifier: parameters.state,
     });
-    const yandexAccessToken: { access_token: string } = await fetch(this.accessTokenUrl, {
+    const { data } = await this.http.post<{ access_token: string }>(this.accessTokenUrl, {
       headers: {
         "Content-Type": "application/x-www-form-urlencoded",
       },
-      method: "POST",
       body,
-    }).then((res) => res.json());
-    return yandexAccessToken.access_token;
+    });
+    return data.access_token;
   }
 
   private async getUser(access_token: string): Promise<YandexUserResponse> {
-    const yandexUser: YandexUserResponse = await fetch(this.requestUserUrl, {
+    const { data } = await this.http.get<YandexUserResponse>(this.requestUserUrl, {
       headers: {
         Authorization: `OAuth ${access_token}`,
       },
-      method: "GET",
-    }).then((res) => res.json());
-    return yandexUser;
+    });
+    return data;
   }
 }
