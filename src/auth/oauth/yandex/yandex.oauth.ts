@@ -1,6 +1,7 @@
 import { Injectable } from "@nestjs/common";
 import { OAuthService } from "../oauth.service";
 import { SignInWithOAuthParameters } from "types";
+import { YandexUserResponse } from "@shop/contracts";
 
 @Injectable()
 export class YandexOAuth {
@@ -46,8 +47,8 @@ export class YandexOAuth {
     return yandexAccessToken.access_token;
   }
 
-  private async getUser(access_token: string) {
-    const yandexUser = await fetch(this.requestUserUrl, {
+  private async getUser(access_token: string): Promise<YandexUserResponse> {
+    const yandexUser: YandexUserResponse = await fetch(this.requestUserUrl, {
       headers: {
         Authorization: `OAuth ${access_token}`,
       },
