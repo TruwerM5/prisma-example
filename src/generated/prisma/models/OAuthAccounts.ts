@@ -28,27 +28,25 @@ export type AggregateOAuthAccounts = {
 export type OAuthAccountsAvgAggregateOutputType = {
   id: number | null
   userId: number | null
-  providerAccountId: number | null
 }
 
 export type OAuthAccountsSumAggregateOutputType = {
   id: number | null
   userId: number | null
-  providerAccountId: number | null
 }
 
 export type OAuthAccountsMinAggregateOutputType = {
   id: number | null
   userId: number | null
   provider: string | null
-  providerAccountId: number | null
+  providerAccountId: string | null
 }
 
 export type OAuthAccountsMaxAggregateOutputType = {
   id: number | null
   userId: number | null
   provider: string | null
-  providerAccountId: number | null
+  providerAccountId: string | null
 }
 
 export type OAuthAccountsCountAggregateOutputType = {
@@ -63,13 +61,11 @@ export type OAuthAccountsCountAggregateOutputType = {
 export type OAuthAccountsAvgAggregateInputType = {
   id?: true
   userId?: true
-  providerAccountId?: true
 }
 
 export type OAuthAccountsSumAggregateInputType = {
   id?: true
   userId?: true
-  providerAccountId?: true
 }
 
 export type OAuthAccountsMinAggregateInputType = {
@@ -184,7 +180,7 @@ export type OAuthAccountsGroupByOutputType = {
   id: number
   userId: number
   provider: string
-  providerAccountId: number
+  providerAccountId: string
   _count: OAuthAccountsCountAggregateOutputType | null
   _avg: OAuthAccountsAvgAggregateOutputType | null
   _sum: OAuthAccountsSumAggregateOutputType | null
@@ -214,7 +210,7 @@ export type OAuthAccountsWhereInput = {
   id?: Prisma.IntFilter<"OAuthAccounts"> | number
   userId?: Prisma.IntFilter<"OAuthAccounts"> | number
   provider?: Prisma.StringFilter<"OAuthAccounts"> | string
-  providerAccountId?: Prisma.IntFilter<"OAuthAccounts"> | number
+  providerAccountId?: Prisma.StringFilter<"OAuthAccounts"> | string
   user?: Prisma.XOR<Prisma.UserScalarRelationFilter, Prisma.UserWhereInput>
 }
 
@@ -234,7 +230,7 @@ export type OAuthAccountsWhereUniqueInput = Prisma.AtLeast<{
   NOT?: Prisma.OAuthAccountsWhereInput | Prisma.OAuthAccountsWhereInput[]
   userId?: Prisma.IntFilter<"OAuthAccounts"> | number
   provider?: Prisma.StringFilter<"OAuthAccounts"> | string
-  providerAccountId?: Prisma.IntFilter<"OAuthAccounts"> | number
+  providerAccountId?: Prisma.StringFilter<"OAuthAccounts"> | string
   user?: Prisma.XOR<Prisma.UserScalarRelationFilter, Prisma.UserWhereInput>
 }, "id" | "provider_providerAccountId">
 
@@ -257,12 +253,12 @@ export type OAuthAccountsScalarWhereWithAggregatesInput = {
   id?: Prisma.IntWithAggregatesFilter<"OAuthAccounts"> | number
   userId?: Prisma.IntWithAggregatesFilter<"OAuthAccounts"> | number
   provider?: Prisma.StringWithAggregatesFilter<"OAuthAccounts"> | string
-  providerAccountId?: Prisma.IntWithAggregatesFilter<"OAuthAccounts"> | number
+  providerAccountId?: Prisma.StringWithAggregatesFilter<"OAuthAccounts"> | string
 }
 
 export type OAuthAccountsCreateInput = {
   provider: string
-  providerAccountId: number
+  providerAccountId: string
   user: Prisma.UserCreateNestedOneWithoutOauthAccountsInput
 }
 
@@ -270,12 +266,12 @@ export type OAuthAccountsUncheckedCreateInput = {
   id?: number
   userId: number
   provider: string
-  providerAccountId: number
+  providerAccountId: string
 }
 
 export type OAuthAccountsUpdateInput = {
   provider?: Prisma.StringFieldUpdateOperationsInput | string
-  providerAccountId?: Prisma.IntFieldUpdateOperationsInput | number
+  providerAccountId?: Prisma.StringFieldUpdateOperationsInput | string
   user?: Prisma.UserUpdateOneRequiredWithoutOauthAccountsNestedInput
 }
 
@@ -283,26 +279,26 @@ export type OAuthAccountsUncheckedUpdateInput = {
   id?: Prisma.IntFieldUpdateOperationsInput | number
   userId?: Prisma.IntFieldUpdateOperationsInput | number
   provider?: Prisma.StringFieldUpdateOperationsInput | string
-  providerAccountId?: Prisma.IntFieldUpdateOperationsInput | number
+  providerAccountId?: Prisma.StringFieldUpdateOperationsInput | string
 }
 
 export type OAuthAccountsCreateManyInput = {
   id?: number
   userId: number
   provider: string
-  providerAccountId: number
+  providerAccountId: string
 }
 
 export type OAuthAccountsUpdateManyMutationInput = {
   provider?: Prisma.StringFieldUpdateOperationsInput | string
-  providerAccountId?: Prisma.IntFieldUpdateOperationsInput | number
+  providerAccountId?: Prisma.StringFieldUpdateOperationsInput | string
 }
 
 export type OAuthAccountsUncheckedUpdateManyInput = {
   id?: Prisma.IntFieldUpdateOperationsInput | number
   userId?: Prisma.IntFieldUpdateOperationsInput | number
   provider?: Prisma.StringFieldUpdateOperationsInput | string
-  providerAccountId?: Prisma.IntFieldUpdateOperationsInput | number
+  providerAccountId?: Prisma.StringFieldUpdateOperationsInput | string
 }
 
 export type OAuthAccountsListRelationFilter = {
@@ -317,7 +313,7 @@ export type OAuthAccountsOrderByRelationAggregateInput = {
 
 export type OAuthAccountsProviderProviderAccountIdCompoundUniqueInput = {
   provider: string
-  providerAccountId: number
+  providerAccountId: string
 }
 
 export type OAuthAccountsCountOrderByAggregateInput = {
@@ -330,7 +326,6 @@ export type OAuthAccountsCountOrderByAggregateInput = {
 export type OAuthAccountsAvgOrderByAggregateInput = {
   id?: Prisma.SortOrder
   userId?: Prisma.SortOrder
-  providerAccountId?: Prisma.SortOrder
 }
 
 export type OAuthAccountsMaxOrderByAggregateInput = {
@@ -350,7 +345,6 @@ export type OAuthAccountsMinOrderByAggregateInput = {
 export type OAuthAccountsSumOrderByAggregateInput = {
   id?: Prisma.SortOrder
   userId?: Prisma.SortOrder
-  providerAccountId?: Prisma.SortOrder
 }
 
 export type OAuthAccountsCreateNestedManyWithoutUserInput = {
@@ -397,13 +391,13 @@ export type OAuthAccountsUncheckedUpdateManyWithoutUserNestedInput = {
 
 export type OAuthAccountsCreateWithoutUserInput = {
   provider: string
-  providerAccountId: number
+  providerAccountId: string
 }
 
 export type OAuthAccountsUncheckedCreateWithoutUserInput = {
   id?: number
   provider: string
-  providerAccountId: number
+  providerAccountId: string
 }
 
 export type OAuthAccountsCreateOrConnectWithoutUserInput = {
@@ -439,30 +433,30 @@ export type OAuthAccountsScalarWhereInput = {
   id?: Prisma.IntFilter<"OAuthAccounts"> | number
   userId?: Prisma.IntFilter<"OAuthAccounts"> | number
   provider?: Prisma.StringFilter<"OAuthAccounts"> | string
-  providerAccountId?: Prisma.IntFilter<"OAuthAccounts"> | number
+  providerAccountId?: Prisma.StringFilter<"OAuthAccounts"> | string
 }
 
 export type OAuthAccountsCreateManyUserInput = {
   id?: number
   provider: string
-  providerAccountId: number
+  providerAccountId: string
 }
 
 export type OAuthAccountsUpdateWithoutUserInput = {
   provider?: Prisma.StringFieldUpdateOperationsInput | string
-  providerAccountId?: Prisma.IntFieldUpdateOperationsInput | number
+  providerAccountId?: Prisma.StringFieldUpdateOperationsInput | string
 }
 
 export type OAuthAccountsUncheckedUpdateWithoutUserInput = {
   id?: Prisma.IntFieldUpdateOperationsInput | number
   provider?: Prisma.StringFieldUpdateOperationsInput | string
-  providerAccountId?: Prisma.IntFieldUpdateOperationsInput | number
+  providerAccountId?: Prisma.StringFieldUpdateOperationsInput | string
 }
 
 export type OAuthAccountsUncheckedUpdateManyWithoutUserInput = {
   id?: Prisma.IntFieldUpdateOperationsInput | number
   provider?: Prisma.StringFieldUpdateOperationsInput | string
-  providerAccountId?: Prisma.IntFieldUpdateOperationsInput | number
+  providerAccountId?: Prisma.StringFieldUpdateOperationsInput | string
 }
 
 
@@ -518,7 +512,7 @@ export type $OAuthAccountsPayload<ExtArgs extends runtime.Types.Extensions.Inter
     id: number
     userId: number
     provider: string
-    providerAccountId: number
+    providerAccountId: string
   }, ExtArgs["result"]["oAuthAccounts"]>
   composites: {}
 }
@@ -946,7 +940,7 @@ export interface OAuthAccountsFieldRefs {
   readonly id: Prisma.FieldRef<"OAuthAccounts", 'Int'>
   readonly userId: Prisma.FieldRef<"OAuthAccounts", 'Int'>
   readonly provider: Prisma.FieldRef<"OAuthAccounts", 'String'>
-  readonly providerAccountId: Prisma.FieldRef<"OAuthAccounts", 'Int'>
+  readonly providerAccountId: Prisma.FieldRef<"OAuthAccounts", 'String'>
 }
     
 

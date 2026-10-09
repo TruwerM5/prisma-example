@@ -17,7 +17,7 @@ export class OAuthService {
     private readonly jwtService: JwtService,
   ) {}
 
-  async authenticate(id: number, name: string, email: string | null) {
+  async authenticate(id: string, name: string, email: string | null) {
     const authenticatedUser = await this.prisma.$transaction(async (tx) => {
       if (!email) {
         throw new BadRequestException();

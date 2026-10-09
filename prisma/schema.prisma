@@ -45,7 +45,7 @@ model OAuthAccounts {
   userId            Int    @map("user_id")
   user              User   @relation(fields: [userId], references: [userId], onDelete: Cascade)
   provider          String
-  providerAccountId Int    @map("provider_account_id")
+  providerAccountId String @map("provider_account_id")
 
   @@unique([provider, providerAccountId])
   @@map("oauth_accounts")

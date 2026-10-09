@@ -9,6 +9,7 @@ import { CartModule } from "src/cart/cart.module";
 import { OAuthService } from "src/auth/oauth/oauth.service";
 import { GithubOAuth } from "./oauth/github/github.oauth";
 import { YandexOAuth } from "./oauth/yandex/yandex.oauth";
+import { HttpClientModule } from "@nestjs/http-client";
 
 @Module({
   controllers: [AuthController],
@@ -20,6 +21,9 @@ import { YandexOAuth } from "./oauth/yandex/yandex.oauth";
       global: true,
       secret: process.env.JWT_SECRET,
       signOptions: { expiresIn: "15m" },
+    }),
+    HttpClientModule.register({
+      timeout: "10s",
     }),
   ],
 })

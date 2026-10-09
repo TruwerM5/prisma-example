@@ -109,7 +109,7 @@ export class AuthService {
   async signInWithGitHub(parameters: SignInWithOAuthParameters) {
     const ghUser = await this.github.getProfile(parameters);
     const { id, email, login } = ghUser;
-    return this.oauthService.authenticate(id, login, email);
+    return this.oauthService.authenticate(String(id), login, email);
   }
 
   getYandexOAuthRequestUrl() {
@@ -119,7 +119,7 @@ export class AuthService {
   async signInWithYandex(parameters: SignInWithOAuthParameters) {
     const yandexUser = await this.yandex.getProfile(parameters);
     const { id, emails, first_name } = yandexUser;
-    return this.oauthService.authenticate(Number(id), first_name, emails[0]);
+    return this.oauthService.authenticate(id, first_name, emails[0]);
   }
 
   private getUserPayload(user: UserWithPasswordResponse): UserResponse {
