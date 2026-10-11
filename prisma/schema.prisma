@@ -82,9 +82,13 @@ model ProductDetails {
 }
 
 model ProductImages {
-  productId Int     @unique @map("product_id")
-  imagePath String  @map("image_path")
-  product   Product @relation(fields: [productId], references: [productId])
+  productImageId Int     @id @default(autoincrement()) @map("product_image_id")
+  productId      Int     @map("product_id")
+  imagePath      String  @map("image_path")
+  isPrimary      Boolean @default(false) @map("is_primary")
+  product        Product @relation(fields: [productId], references: [productId])
+
+  @@map("product_images")
 }
 
 enum ProductCategory {

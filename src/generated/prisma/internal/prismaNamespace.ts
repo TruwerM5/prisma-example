@@ -1312,8 +1312,10 @@ export type ProductDetailsScalarFieldEnum = (typeof ProductDetailsScalarFieldEnu
 
 
 export const ProductImagesScalarFieldEnum = {
+  productImageId: 'productImageId',
   productId: 'productId',
-  imagePath: 'imagePath'
+  imagePath: 'imagePath',
+  isPrimary: 'isPrimary'
 } as const
 
 export type ProductImagesScalarFieldEnum = (typeof ProductImagesScalarFieldEnum)[keyof typeof ProductImagesScalarFieldEnum]
@@ -1499,6 +1501,13 @@ export type EnumProductCategoryFieldRefInput<$PrismaModel> = FieldRefInputType<$
  * Reference to a field of type 'ProductCategory[]'
  */
 export type ListEnumProductCategoryFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'ProductCategory[]'>
+    
+
+
+/**
+ * Reference to a field of type 'Boolean'
+ */
+export type BooleanFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Boolean'>
     
 
 
