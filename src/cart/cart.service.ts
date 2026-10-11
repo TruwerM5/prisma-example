@@ -1,5 +1,4 @@
 import { BadRequestException, Injectable } from "@nestjs/common";
-import { Cart } from "src/generated/prisma/client";
 import { PrismaService } from "src/prisma.service";
 import { ProductsService } from "src/products/products.service";
 import { GetCartResponse } from "@shop/contracts";
@@ -16,12 +15,16 @@ export class CartService {
       throw new BadRequestException("Product not found");
     }
 
-    let cart: Cart | null = null;
+    let cart: { cartId: number; token: string } | null = null;
 
     if (userId) {
       cart = await this.prisma.cart.findUnique({
         where: {
           userId,
+        },
+        select: {
+          cartId: true,
+          token: true,
         },
       });
     } else if (cartToken) {
@@ -43,7 +46,7 @@ export class CartService {
         },
       });
     }
-    const cartItem = await this.prisma.cartItem.upsert({
+    await this.prisma.cartItem.upsert({
       create: {
         cartId: cart.cartId,
         productId,
@@ -58,25 +61,9 @@ export class CartService {
           increment: 1,
         },
       },
-      include: {
-        product: {
-          include: {
-            productImages: true,
-          },
-        },
-      },
     });
 
-    return {
-      cart,
-      cartItem: {
-        ...cartItem,
-        product: {
-          ...cartItem.product,
-          price: cartItem.product.price.toNumber(),
-        },
-      },
-    };
+    return { cartToken: cart.token };
   }
 
   async getCart(cartToken?: string, userId?: number): Promise<GetCartResponse> {
@@ -89,60 +76,46 @@ export class CartService {
       return emptyCart;
     }
 
-    const cart = await this.prisma.cart.findFirst({
-      where: {
-        OR: [
-          {
-            userId,
-          },
-          {
-            AND: {
-              token: cartToken,
-              userId: null,
-            },
-          },
-        ],
-      },
-      select: {
-        token: true,
-        cartId: true,
-        createdAt: true,
-        expiresAt: true,
-        userId: true,
-        items: {
-          select: {
-            cartItemId: true,
-            quantity: true,
-            product: {
-              select: {
-                productId: true,
-                name: true,
-                price: true,
-                productImages: true,
-              },
-            },
-          },
-        },
-      },
-    });
-
+    const [cart] = await this.prisma.$queryRaw<GetCartResponse[]>`
+      SELECT 
+        c1.user_id AS "userId", 
+        c1.cart_id AS "cartId",
+        c1.expires_at AS "expiresAt",
+        json_agg(
+          json_build_object(
+            'cartItemId', c2.cart_item_id,
+            'productId', p.product_id,
+            'productName', p.name,
+            'productPrice', p.price,
+            'productImage', (
+              SELECT
+                image_path
+              FROM
+                product_images pi
+              WHERE
+                pi.product_id = p.product_id
+              ORDER BY product_image_id ASC
+              LIMIT 1
+            ),
+            'quantity', c2.quantity,
+            'itemTotalPrice', c2.quantity * p.price
+          ) ORDER BY c2.cart_item_id
+        ) AS items,
+        SUM(c2.quantity * p.price)::float AS "cartTotalPrice"
+      FROM carts c1
+      JOIN cart_items c2 ON c1.cart_id = c2.cart_id
+      JOIN products p ON c2.product_id = p.product_id
+      WHERE
+        c1.user_id = ${userId} OR (c1.token = ${cartToken} AND c1.user_id IS NULL)
+      GROUP BY c1.cart_id
+      ORDER BY c1.cart_id ASC
+      LIMIT 1;
+    `;
     if (!cart) {
       return emptyCart;
     }
 
-    return {
-      userId: cart.userId,
-      cartId: cart.cartId,
-      createdAt: cart.createdAt,
-      expiresAt: cart.expiresAt,
-      items: cart.items.map((item) => ({
-        ...item,
-        product: {
-          ...item.product,
-          price: item.product.price.toNumber(),
-        },
-      })),
-    };
+    return cart;
   }
 
   async mergeCarts(userId: number, cartToken: string) {
