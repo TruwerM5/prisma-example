@@ -3,7 +3,7 @@ import { Prisma } from "src/generated/prisma/client";
 import { PrismaService } from "src/prisma.service";
 import { compare } from "bcrypt";
 import { genSalt, hash } from "bcrypt";
-import { JwtService } from "@nestjs/jwt";
+import { JwtService, TokenExpiredError } from "@nestjs/jwt";
 import { LoginDto } from "./dto/login.dto";
 import { CartService } from "src/cart/cart.service";
 import {
@@ -30,11 +30,21 @@ export class AuthService {
   ) {}
 
   async getUser(jwtToken: string): Promise<UnknownUserResponse> {
-    const payload = await this.jwtService.verifyAsync<UnknownUserResponse>(jwtToken);
-    if (!payload) {
-      return { userId: null };
+    const notAuthenticatedResponse = {
+      userId: null,
+    };
+    try {
+      const payload = await this.jwtService.verifyAsync<UnknownUserResponse>(jwtToken);
+      if (!payload) {
+        return notAuthenticatedResponse;
+      }
+      return payload;
+    } catch (err) {
+      if (err instanceof TokenExpiredError) {
+        return notAuthenticatedResponse;
+      }
+      throw err;
     }
-    return payload;
   }
 
   async createUser(credentials: SignUpDto): Promise<AuthenticatedUserResponse> {
